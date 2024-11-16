@@ -1,4 +1,4 @@
-package com.kamw.backend;
+package ovh.wiktormalyska.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
