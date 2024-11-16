@@ -1,5 +1,24 @@
 # Technologia Cyborga
 
+## Dokumentacja projektu
+
+<div style="text-align: center; margin-top: 20px;">
+  <p style="font-size: 18px; font-weight: bold;">Dokumentacja projektu znajduje się tutaj:</p>
+  <a href="https://docusaurus.wiktormalyska.ovh/" target="_blank" style="
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 18px;
+    color: white;
+    background-color: #0078D4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+  ">
+    Przejdź do dokumentacji
+  </a>
+</div>
 
 
 ## Getting started
