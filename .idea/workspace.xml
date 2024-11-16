@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bb504da4-5bda-482a-afd6-85235339ceb3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/kamw/backend/BackendApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ovh/wiktormalyska/backend/BackendApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/kamw/backend/BackendApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/ovh/wiktormalyska/backend/BackendApplicationTests.java" afterDir="false" />
-    </list>
+    <list default="true" id="bb504da4-5bda-482a-afd6-85235339ceb3" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -80,6 +77,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.Backend.executor": "Run",
+    "git-widget-placeholder": "!4 on init-backend",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/wikmal/IdeaProjects/technologia-cyborga/frontend/package.json",
     "node.js.detected.package.eslint": "true",
@@ -98,7 +96,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="npm.Frontend">
+  <component name="RunManager" selected="Spring Boot.Backend">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
         <option name="Make" enabled="true" />
@@ -111,6 +109,7 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Compound.Run application" />
       <item itemvalue="npm.Frontend" />
       <item itemvalue="Spring Boot.Backend" />
     </list>
