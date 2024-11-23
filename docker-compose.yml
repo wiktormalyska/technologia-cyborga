@@ -1,0 +1,21 @@
+services:
+    backend:
+        container_name: technologia_cyborga_backend
+        networks:
+            - xcaddy
+        build:
+            context: ./backend/
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod
+    frontend:
+        container_name: technologia_cyborga_frontend
+        networks:
+            - xcaddy
+        build: 
+            context: ./frontend/
+        # depends_on:
+            # - backend
+
+networks:
+    xcaddy:
+        external: true
