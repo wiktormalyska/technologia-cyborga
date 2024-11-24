@@ -1,0 +1,75 @@
+pipeline {
+    agent any
+    options {
+        skipDefaultCheckout()
+    }
+    environment {
+        FRONTEND_IMAGE = 'technologia_cyborga_frontend:latest'
+        BACKEND_IMAGE = 'technologia_cyborga_backend:latest'
+    }
+
+    stages{
+        stage('Download main') {
+            steps {
+                git url: 'https://umcs.schneiderp.ovh/technologia-cyborga/technologia-cyborga',
+                    branch: 'master'
+            }
+        }
+
+        stage('Download backend') {
+            steps {
+                dir('backend') {
+                    git url: 'https://umcs.schneiderp.ovh/technologia-cyborga/technologia-cyborga/-/tree/master/backend?ref_type=heads',
+                        branch: 'master'
+                }
+            }
+        }
+
+        stage('Download frontend') {
+            steps {
+                dir('frontend') {
+                    git url: 'https://umcs.schneiderp.ovh/technologia-cyborga/technologia-cyborga/-/tree/master/frontend?ref_type=heads',
+                        branch: 'master'
+                }
+            }
+        }
+
+        stage('Verify Workspace') {
+            steps {
+                sh 'tree'
+            }
+        }
+
+
+        stage('Build backend') {
+            steps {
+                dir('backend') {
+                    sh 'docker build -t $BACKEND_IMAGE .'
+                }
+            }
+        }
+
+        stage('Build frontend') {
+            steps {
+                dir('frontend') {
+                    sh 'docker build -t $FRONTEND_IMAGE .'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'docker-compose down'
+                sh 'docker-compose up -d'
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                sh 'docker-compose logs'
+            }
+        }
+    }
+}
