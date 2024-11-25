@@ -16,23 +16,6 @@ pipeline {
             }
         }
 
-        stage('Download backend') {
-            steps {
-                dir('backend') {
-                    git url: 'https://umcs.schneiderp.ovh/technologia-cyborga/technologia-cyborga/-/tree/master/backend?ref_type=heads',
-                        branch: 'master'
-                }
-            }
-        }
-
-        stage('Download frontend') {
-            steps {
-                dir('frontend') {
-                    git url: 'https://umcs.schneiderp.ovh/technologia-cyborga/technologia-cyborga/-/tree/master/frontend?ref_type=heads',
-                        branch: 'master'
-                }
-            }
-        }
 
         stage('Verify Workspace') {
             steps {
