@@ -1,9 +1,11 @@
 import {createBrowserRouter} from "react-router-dom";
+import HomePage from "../pages/HomePage";
+
 
 const MainRouter = createBrowserRouter([
     {
         path: "/",
-        element: <h1>Home</h1>
+        element: <HomePage />
     },
     {
         path: "/games",
