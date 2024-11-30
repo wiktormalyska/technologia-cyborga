@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb504da4-5bda-482a-afd6-85235339ceb3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/BasePage.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,6 +39,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Dockerfile" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -60,13 +61,13 @@
     }
   }
 }</component>
-  <component name="GitLabMergeRequestsSettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;first&quot;: &quot;https://umcs.schneiderp.ovh/technologia-cyborga/technologia-cyborga.git&quot;,
-    &quot;second&quot;: &quot;43aa8563-9dd7-4883-bb1f-d05a527fa0b0&quot;
+  <component name="GitLabMergeRequestsSettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "first": "https://umcs.schneiderp.ovh/technologia-cyborga/technologia-cyborga.git",
+    "second": "4ba81b55-814b-4110-b2e7-886b4b9e955a"
   },
-  &quot;editorReviewEnabled&quot;: false
-}</component>
+  "editorReviewEnabled": false
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -88,7 +89,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.Backend.executor": "Run",
-    "git-widget-placeholder": "dockerfile-for-backend",
+    "git-widget-placeholder": "inherited-components",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/wikmal/IdeaProjects/technologia-cyborga/frontend/package.json",
@@ -100,15 +101,17 @@
     "npm.Frontend.executor": "Run",
     "npm.dev --host 0.0.0.0.executor": "Run",
     "npm.dev.executor": "Run",
+    "npm.install.executor": "Run",
     "npm.start.executor": "Run",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "terminal",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Spring Boot.Backend">
+  <component name="RunManager" selected="Compound.Run application">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
         <option name="Make" enabled="true" />
@@ -123,14 +126,12 @@
     <list>
       <item itemvalue="Compound.Run application" />
       <item itemvalue="npm.Frontend" />
-      <item itemvalue="Spring Boot.Backend" />
     </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
-        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-WS-243.21565.180" />
       </set>
     </attachedChunks>
   </component>
@@ -147,6 +148,7 @@
       <workItem from="1731797530914" duration="336000" />
       <workItem from="1732020179174" duration="2356000" />
       <workItem from="1732300114930" duration="2710000" />
+      <workItem from="1732983888462" duration="4133000" />
     </task>
     <task id="LOCAL-00001" summary="NIE TYKAC">
       <option name="closed" value="true" />
