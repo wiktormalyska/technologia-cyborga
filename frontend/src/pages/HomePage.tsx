@@ -1,5 +1,8 @@
 import { BasePage } from "../components/BasePage";
 import styled from "styled-components";
+import ListGames from "../Lists/ListGames";
+import ListFriends from "../Lists/ListFriends";
+import ListMarketplaceItems from "../Lists/ListMarketplaceItems";
 
 const HomePage = () => {
     return (
@@ -12,27 +15,19 @@ const HomePage = () => {
             <Column>
                 <Tile>
                     <h3>Friends List</h3>
-                    <p>Check out what your friends are up to!</p>
+                    <ListFriends />
                 </Tile>
-
             </Column>
             <Column>
                 <Tile>
                     <h3>Games List</h3>
-                    <p>Explore the available games here.</p>
+                    <ListGames />
                 </Tile>
             </Column>
             <Column>
                 <Tile>
                     <h3>Marketplace</h3>
-                    <p>Discover items and deals in the marketplace.</p>
-                </Tile>
-
-            </Column>
-            <Column>
-                <Tile>
-                    <h3>Lootboxes</h3>
-                    <p>Open lootboxes to win exciting rewards!</p>
+                    <ListMarketplaceItems />
                 </Tile>
             </Column>
         </BasePage>
