@@ -1,25 +1,38 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
-import './layout.css';
+import styled from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
-import Sidebar from './Sidebar';
 
 interface MainLayoutProps {
     children: ReactNode;
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-    return (
-        <div className="main-layout">
-            <Header />
-            <div className="main-content">
-                <Sidebar />
-                <div className="page-content">{children}</div>
-            </div>
-            <Footer />
-        </div>
-    );
-};
+const LayoutWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+`;
+
+const MainContent = styled.div`
+    display: flex;
+    flex: 1;
+`;
+
+const PageContent = styled.div`
+    flex: 1;
+    padding: 1rem;
+    background-color: #ffffff;
+`;
+
+const MainLayout = ({ children }: MainLayoutProps) => (
+    <LayoutWrapper>
+        <Header />
+        <MainContent>
+            <PageContent>{children}</PageContent>
+        </MainContent>
+        <Footer />
+    </LayoutWrapper>
+);
 
 export default MainLayout;
