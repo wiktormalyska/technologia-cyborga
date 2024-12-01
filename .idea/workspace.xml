@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bb504da4-5bda-482a-afd6-85235339ceb3" name="Changes" comment="Init of List components">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Lists/List.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Lists/List.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Lists/ListFriends.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Lists/ListFriends.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Lists/ListGames.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Lists/ListGames.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Lists/ListMarketplaceItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Lists/ListMarketplaceItems.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/HomePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/HomePage.tsx" afterDir="false" />
+    <list default="true" id="bb504da4-5bda-482a-afd6-85235339ceb3" name="Changes" comment="Testing List components">
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/HomePage.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/routers/MainRouter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/routers/MainRouter.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +149,7 @@
       <workItem from="1731797530914" duration="336000" />
       <workItem from="1732020179174" duration="2356000" />
       <workItem from="1732300114930" duration="2710000" />
-      <workItem from="1732983888462" duration="9783000" />
+      <workItem from="1732983888462" duration="9844000" />
     </task>
     <task id="LOCAL-00001" summary="NIE TYKAC">
       <option name="closed" value="true" />
@@ -195,7 +191,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732996400819</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Testing List components">
+      <option name="closed" value="true" />
+      <created>1733059309803</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1733059309803</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -207,6 +211,7 @@
     <MESSAGE value="Added pages section" />
     <MESSAGE value="Base page test with home page" />
     <MESSAGE value="Init of List components" />
-    <option name="LAST_COMMIT_MESSAGE" value="Init of List components" />
+    <MESSAGE value="Testing List components" />
+    <option name="LAST_COMMIT_MESSAGE" value="Testing List components" />
   </component>
 </project>
