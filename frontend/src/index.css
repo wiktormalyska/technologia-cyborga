@@ -2,3 +2,15 @@
 :root {
     font-family: Josefin Sans, sans-serif;
 }
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, #root {
+    width: 100%;
+    height: 100vh;
+
+}
