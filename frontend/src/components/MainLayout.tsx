@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
 import styled from 'styled-components';
-import Header from './Header';
 import Footer from './Footer';
 import Navbar from "./Navbar";
+import {Outlet} from "react-router-dom";
 
-interface MainLayoutProps {
-    children: ReactNode;
-}
+
 
 const LayoutWrapper = styled.div`
     display: flex;
@@ -25,13 +23,12 @@ const PageContent = styled.div`
     background-color: #ffffff;
 `;
 
-const MainLayout = ({ children }: MainLayoutProps) => (
+const MainLayout = () => (
     <LayoutWrapper>
-
         <MainContent>
             <Navbar />
             <PageContent>
-                {children}
+                <Outlet />
             </PageContent>
         </MainContent>
         <Footer />

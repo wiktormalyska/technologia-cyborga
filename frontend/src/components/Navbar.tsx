@@ -103,7 +103,7 @@ const MenuItem = styled.div`
 const Navbar = () => {
     const [navigateTo, setNavigateTo] = useState<string | null>(null);
     const menuOptions = [
-        { name: 'All chats', icon: chatsIcon , path: '/chats'},
+        { name: 'All chats', icon: chatsIcon , path: '/'},
         { name: 'Friends', icon: friendsIcon, path: '/friends'},
         { name: 'Games', icon: gamesIcon, path: '/games'},
         { name: 'Lootboxes', icon: lootboxesIcon, path: '/lootboxes'},
