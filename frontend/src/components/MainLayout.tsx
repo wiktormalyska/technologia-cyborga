@@ -12,26 +12,27 @@ interface MainLayoutProps {
 const LayoutWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    height: 100%;
 `;
 
 const MainContent = styled.div`
     display: flex;
-    flex: 1;
+    height: 100%;
 `;
 
 const PageContent = styled.div`
-    flex: 1;
     padding: 1rem;
     background-color: #ffffff;
 `;
 
 const MainLayout = ({ children }: MainLayoutProps) => (
     <LayoutWrapper>
-        <Header />
-        <Navbar />
+
         <MainContent>
-            <PageContent>{children}</PageContent>
+            <Navbar />
+            <PageContent>
+                {children}
+            </PageContent>
         </MainContent>
         <Footer />
     </LayoutWrapper>

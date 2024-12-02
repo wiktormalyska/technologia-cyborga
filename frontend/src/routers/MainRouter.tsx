@@ -4,7 +4,7 @@ import MainLayout from "../components/MainLayout";
 const MainRouter = createBrowserRouter([
     {
         path: "/",
-        element: <MainLayout> <h1>Home</h1> </MainLayout>
+        element:  <h1>Home</h1>
     },
     {
         path: "/games",

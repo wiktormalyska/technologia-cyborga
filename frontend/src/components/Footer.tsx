@@ -5,7 +5,7 @@ const FooterWrapper = styled.footer`
     background-color: #6200ea;
     color: white;
     text-align: center;
-    padding: 1rem;
+    padding: 0.5rem 0;
 `;
 
 const Footer = () => (

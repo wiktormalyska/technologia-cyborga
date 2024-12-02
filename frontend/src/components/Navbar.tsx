@@ -1,24 +1,32 @@
 import styled from 'styled-components';
 import * as React from "react";
-import robotIcon from '../assets/Icons/robot.svg';
-import chatsIcon from '../assets/Icons/chats-icon.svg';
-import friendsIcon from '../assets/Icons/friends-icon.svg';
-import gamesIcon from '../assets/Icons/games-icon.svg';
-import lootboxesIcon from '../assets/Icons/lootboxes-icon.svg';
-import rankingsIcon from '../assets/Icons/rankings-icon.svg';
-import accountIcon from '../assets/Icons/account-icon.svg';
-import settingsIcon from '../assets/Icons/settings-icon.svg';
+// @ts-ignore
+import robotIcon from '../assets/icons/robot.svg'
+// @ts-ignore
+import chatsIcon from '../assets/icons/chats-icon.svg'
+// @ts-ignore
+import friendsIcon from '../assets/icons/friends-icon.svg'
+// @ts-ignore
+import gamesIcon from '../assets/icons/games-icon.svg'
+// @ts-ignore
+import lootboxesIcon from '../assets/icons/lootboxes-icon.svg'
+// @ts-ignore
+import rankingsIcon from '../assets/icons/rankings-icon.svg'
+// @ts-ignore
+import accountIcon from '../assets/icons/account-icon.svg'
+// @ts-ignore
+import settingsIcon from '../assets/icons/settings-icon.svg'
 
 
 const NavbarContainer = styled.div`
-  border-radius: 0.5rem;
+  border-radius: 0 0.5rem 0.5rem 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   padding: 0.65rem 1rem;
   background-color: #1d1b20;
-  height: 100vh;
+  height: 100%;
   width: 250px;
 `;
 
@@ -83,7 +91,7 @@ const MenuItem = styled.div`
     }
 `;
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
     const menuOptions = [
         { name: 'All chats', icon: chatsIcon },
         { name: 'Friends', icon: friendsIcon },
