@@ -11,8 +11,9 @@ pipeline {
     stages{
         stage('Download main') {
             steps {
-                git url: 'https://github.com/wiktormalyska/technologia-cyborga',
-                    branch: 'master'
+                git url: 'https://umcs.schneiderp.ovh/technologia-cyborga/technologia-cyborga',
+                    branch: 'master',
+                    credentialsId: 'gitlab-umcs-wiktormalyska'
             }
         }
 
