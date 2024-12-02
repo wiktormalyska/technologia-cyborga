@@ -2,10 +2,10 @@ import styled from "styled-components";
 
 interface ListProps {
     children: React.ReactNode;
-    view: "grid" | "list";
+    view?: "grid" | "list";
 }
 
-const List = ({ children, view }: ListProps) => {
+const List = ({ children, view = "list" }: ListProps) => {
     return (
         <ListContainer view={view}>
             {children}

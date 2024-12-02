@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb504da4-5bda-482a-afd6-85235339ceb3" name="Changes" comment="Testing List components">
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/HomePage.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/routers/MainRouter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/routers/MainRouter.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Lists/List.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Lists/List.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Lists/ListGames.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Lists/ListGames.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,13 +62,13 @@
     }
   }
 }</component>
-  <component name="GitLabMergeRequestsSettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "first": "https://umcs.schneiderp.ovh/technologia-cyborga/technologia-cyborga.git",
-    "second": "4ba81b55-814b-4110-b2e7-886b4b9e955a"
+  <component name="GitLabMergeRequestsSettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;first&quot;: &quot;https://umcs.schneiderp.ovh/technologia-cyborga/technologia-cyborga.git&quot;,
+    &quot;second&quot;: &quot;4ba81b55-814b-4110-b2e7-886b4b9e955a&quot;
   },
-  "editorReviewEnabled": false
-}]]></component>
+  &quot;editorReviewEnabled&quot;: false
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -90,7 +90,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.Backend.executor": "Run",
-    "git-widget-placeholder": "inherited-components",
+    "git-widget-placeholder": "!13 on inherited-components",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/wikmal/IdeaProjects/technologia-cyborga/frontend/package.json",
@@ -150,6 +150,7 @@
       <workItem from="1732020179174" duration="2356000" />
       <workItem from="1732300114930" duration="2710000" />
       <workItem from="1732983888462" duration="9844000" />
+      <workItem from="1733146580067" duration="384000" />
     </task>
     <task id="LOCAL-00001" summary="NIE TYKAC">
       <option name="closed" value="true" />
