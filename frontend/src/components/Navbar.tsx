@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {Navigate} from "react-router-dom";
 import * as React from "react";
 // @ts-ignore
 import robotIcon from '../assets/icons/robot.svg'
@@ -33,7 +34,7 @@ const NavbarContainer = styled.div`
 const AppName = styled.div`
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-end;
     gap: 0.4rem;
     margin-bottom: 1rem;
 
@@ -44,10 +45,18 @@ const AppName = styled.div`
     }
 
     p {
-        font-size: 27px;
+        font-size: 30px;
         font-family: 'Josefin Sans', sans-serif;
         color: #ffffff;
     }
+`;
+
+const Divider = styled.div`
+    width: 100%;
+    height: 1px;
+    background-color: #ffffff;
+    opacity: 1;
+    margin: 0.5rem 0;
 `;
 
 const Menu = styled.div`
@@ -69,7 +78,6 @@ const MenuItem = styled.div`
         border-radius: 0.8rem;
         width: 100%;
         
-
         img {
             background-color: #2c2a2f; 
         }
@@ -80,7 +88,7 @@ const MenuItem = styled.div`
         width: 52px;
         background-color: #1d1b20;
         border-radius: 0.5rem;
-        transition: background-color; /* Smooth background change */
+        transition: background-color; 
         
     }
 
@@ -93,13 +101,13 @@ const MenuItem = styled.div`
 
 const Navbar = () => {
     const menuOptions = [
-        { name: 'All chats', icon: chatsIcon },
-        { name: 'Friends', icon: friendsIcon },
-        { name: 'Games', icon: gamesIcon },
-        { name: 'Lootboxes', icon: lootboxesIcon },
-        { name: 'Rankings', icon: rankingsIcon },
-        { name: 'Account', icon: accountIcon },
-        { name: 'Settings', icon: settingsIcon },
+        { name: 'All chats', icon: chatsIcon , path: '/chats'},
+        { name: 'Friends', icon: friendsIcon, path: '/friends'},
+        { name: 'Games', icon: gamesIcon, path: '/games'},
+        { name: 'Lootboxes', icon: lootboxesIcon, path: '/lootbox'},
+        { name: 'Rankings', icon: rankingsIcon, path: '/rankings'},
+        { name: 'Account', icon: accountIcon, path: '/account'},
+        { name: 'Settings', icon: settingsIcon, path: '/settings'},
     ];
 
     return (
@@ -108,6 +116,7 @@ const Navbar = () => {
                 <img src={robotIcon} alt="Robot"/>
                 <p>Cyborg App</p>
             </AppName>
+            <Divider/>
             <Menu>
                 {menuOptions.map((option, index) => (
                     <MenuItem key={index}>
