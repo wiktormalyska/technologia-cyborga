@@ -4,8 +4,8 @@ pipeline {
         skipDefaultCheckout()
     }
     environment {
-        FRONTEND_IMAGE = 'technologia_cyborga_frontend:latest'
-        BACKEND_IMAGE = 'technologia_cyborga_backend:latest'
+        FRONTEND_IMAGE = 'technologia-cyborga-frontend:latest'
+        BACKEND_IMAGE = 'technologia-cyborga-backend:latest'
     }
 
     stages{
