@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bb504da4-5bda-482a-afd6-85235339ceb3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="bb504da4-5bda-482a-afd6-85235339ceb3" name="Changes" comment="Testing List components">
+      <change beforePath="$PROJECT_DIR$/frontend/src/Lists/List.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Lists/List.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Lists/ListGames.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Lists/ListGames.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +39,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Dockerfile" />
+        <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -63,7 +65,7 @@
   <component name="GitLabMergeRequestsSettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;first&quot;: &quot;https://umcs.schneiderp.ovh/technologia-cyborga/technologia-cyborga.git&quot;,
-    &quot;second&quot;: &quot;43aa8563-9dd7-4883-bb1f-d05a527fa0b0&quot;
+    &quot;second&quot;: &quot;4ba81b55-814b-4110-b2e7-886b4b9e955a&quot;
   },
   &quot;editorReviewEnabled&quot;: false
 }</component>
@@ -75,40 +77,42 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Gradle./home/wikmal/IdeaProjects/technologia-cyborga/backend/build.gradle.executor": "Run",
-    "Gradle.Build backend.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.Backend.executor": "Run",
-    "git-widget-placeholder": "dockerfile-for-backend",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/wikmal/IdeaProjects/technologia-cyborga/frontend/package.json",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.Frontend.executor": "Run",
-    "npm.dev --host 0.0.0.0.executor": "Run",
-    "npm.dev.executor": "Run",
-    "npm.start.executor": "Run",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "terminal",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Gradle./home/wikmal/IdeaProjects/technologia-cyborga/backend/build.gradle.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build backend.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.Backend.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;!13 on inherited-components&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/wikmal/IdeaProjects/technologia-cyborga/frontend/package.json&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.Frontend.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev --host 0.0.0.0.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.install.executor&quot;: &quot;Run&quot;,
+    &quot;npm.start.executor&quot;: &quot;Run&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Spring Boot.Backend">
+}</component>
+  <component name="RunManager" selected="npm.Frontend">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
         <option name="Make" enabled="true" />
@@ -123,14 +127,12 @@
     <list>
       <item itemvalue="Compound.Run application" />
       <item itemvalue="npm.Frontend" />
-      <item itemvalue="Spring Boot.Backend" />
     </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
-        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-WS-243.21565.180" />
       </set>
     </attachedChunks>
   </component>
@@ -147,6 +149,8 @@
       <workItem from="1731797530914" duration="336000" />
       <workItem from="1732020179174" duration="2356000" />
       <workItem from="1732300114930" duration="2710000" />
+      <workItem from="1732983888462" duration="9844000" />
+      <workItem from="1733146580067" duration="384000" />
     </task>
     <task id="LOCAL-00001" summary="NIE TYKAC">
       <option name="closed" value="true" />
@@ -156,7 +160,47 @@
       <option name="project" value="LOCAL" />
       <updated>1732020323702</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added components section">
+      <option name="closed" value="true" />
+      <created>1732994085952</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1732994085952</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added pages section">
+      <option name="closed" value="true" />
+      <created>1732994231219</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1732994231219</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Base page test with home page">
+      <option name="closed" value="true" />
+      <created>1732996216910</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1732996216910</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Init of List components">
+      <option name="closed" value="true" />
+      <created>1732996400819</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1732996400819</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Testing List components">
+      <option name="closed" value="true" />
+      <created>1733059309803</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1733059309803</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -164,6 +208,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="NIE TYKAC" />
-    <option name="LAST_COMMIT_MESSAGE" value="NIE TYKAC" />
+    <MESSAGE value="Added components section" />
+    <MESSAGE value="Added pages section" />
+    <MESSAGE value="Base page test with home page" />
+    <MESSAGE value="Init of List components" />
+    <MESSAGE value="Testing List components" />
+    <option name="LAST_COMMIT_MESSAGE" value="Testing List components" />
   </component>
 </project>
