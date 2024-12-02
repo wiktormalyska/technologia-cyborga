@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import {Navigate} from "react-router-dom";
 import * as React from "react";
 // @ts-ignore
@@ -100,15 +101,20 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = () => {
+    const [navigateTo, setNavigateTo] = useState<string | null>(null);
     const menuOptions = [
         { name: 'All chats', icon: chatsIcon , path: '/chats'},
         { name: 'Friends', icon: friendsIcon, path: '/friends'},
         { name: 'Games', icon: gamesIcon, path: '/games'},
-        { name: 'Lootboxes', icon: lootboxesIcon, path: '/lootbox'},
+        { name: 'Lootboxes', icon: lootboxesIcon, path: '/lootboxes'},
         { name: 'Rankings', icon: rankingsIcon, path: '/rankings'},
         { name: 'Account', icon: accountIcon, path: '/account'},
         { name: 'Settings', icon: settingsIcon, path: '/settings'},
     ];
+
+    const handleNavigate = (path: string) => {
+        setNavigateTo(path);
+    };
 
     return (
         <NavbarContainer>
@@ -119,12 +125,13 @@ const Navbar = () => {
             <Divider/>
             <Menu>
                 {menuOptions.map((option, index) => (
-                    <MenuItem key={index}>
+                    <MenuItem key={index} onClick={() => handleNavigate(option.path)} >
                         <img src={option.icon} alt={option.name}/>
                         <p>{option.name}</p>
                     </MenuItem>
                 ))}
             </Menu>
+            {navigateTo && <Navigate to={navigateTo} replace /> }
         </NavbarContainer>
     );
 };
