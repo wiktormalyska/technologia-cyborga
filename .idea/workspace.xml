@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="bb504da4-5bda-482a-afd6-85235339ceb3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/MainLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/MainLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/routers/MainRouter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/routers/MainRouter.tsx" afterDir="false" />
@@ -90,7 +92,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.Backend.executor": "Run",
-    "git-widget-placeholder": "dockerfile-for-backend",
+    "git-widget-placeholder": "component-developement",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/wikmal/IdeaProjects/technologia-cyborga/frontend/package.json",
@@ -107,10 +109,11 @@
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "terminal",
+    "ts.external.directory.path": "C:\\Users\\wikim\\AppData\\Local\\Programs\\WebStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Spring Boot.Backend">
+  <component name="RunManager" selected="Compound.Run application">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
         <option name="Make" enabled="true" />
@@ -125,7 +128,6 @@
     <list>
       <item itemvalue="Compound.Run application" />
       <item itemvalue="npm.Frontend" />
-      <item itemvalue="Spring Boot.Backend" />
     </list>
   </component>
   <component name="SharedIndexes">
