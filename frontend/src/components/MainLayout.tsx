@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import styled from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
+import Navbar from "./Navbar";
 
 interface MainLayoutProps {
     children: ReactNode;
@@ -28,6 +29,7 @@ const PageContent = styled.div`
 const MainLayout = ({ children }: MainLayoutProps) => (
     <LayoutWrapper>
         <Header />
+        <Navbar />
         <MainContent>
             <PageContent>{children}</PageContent>
         </MainContent>
