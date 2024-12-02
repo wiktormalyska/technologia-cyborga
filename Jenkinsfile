@@ -1,23 +1,11 @@
 pipeline {
     agent any
-    options {
-        skipDefaultCheckout()
-    }
     environment {
         FRONTEND_IMAGE = 'technologia-cyborga-frontend:latest'
         BACKEND_IMAGE = 'technologia-cyborga-backend:latest'
     }
 
     stages{
-        stage('Download main') {
-            steps {
-                git url: 'https://umcs.schneiderp.ovh/technologia-cyborga/technologia-cyborga',
-                    branch: 'master',
-                    credentialsId: 'gitlab-umcs-wiktormalyska'
-            }
-        }
-
-
         stage('Verify Workspace') {
             steps {
                 sh 'tree'
