@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { ReactNode } from 'react';
 import styled from 'styled-components';
 import Footer from './Footer';
 import Navbar from "./Navbar";
@@ -26,7 +25,7 @@ const PageContent = styled.div`
 const MainLayout = () => (
     <LayoutWrapper>
         <MainContent>
-            <Navbar />
+                <Navbar />
             <PageContent>
                 <Outlet />
             </PageContent>

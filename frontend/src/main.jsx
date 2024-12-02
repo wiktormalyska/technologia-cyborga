@@ -7,7 +7,6 @@ import MainRouter from "./routers/MainRouter.tsx";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-        <RouterProvider router={MainRouter}>
-        </RouterProvider>
-  </StrictMode>,
+        <RouterProvider router={MainRouter} />
+  </StrictMode>
 )
