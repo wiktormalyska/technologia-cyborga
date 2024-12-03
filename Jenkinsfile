@@ -43,13 +43,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        always {
-            script {
-                // Tail logs from the backend and frontend services
-                sh 'docker-compose logs -f backend frontend'
-            }
-        }
-    }
 }
