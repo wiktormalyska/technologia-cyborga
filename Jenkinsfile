@@ -6,6 +6,17 @@ pipeline {
     }
 
     stages{
+        stage('Input .env to backend') {
+            withCredentials([file(credentialsId: 'technologia-cyborga-backend-.env', variable: 'BACKEND_ENV_FILE')]) {
+                steps {
+                    sh 'cp $BACKEND_ENV_FILE backend/scr/main/resources/.env'
+                }
+            }
+            steps {
+                sh 'cp .env backend/.env'
+            }
+        }
+
         stage('Verify Workspace') {
             steps {
                 sh 'tree'
