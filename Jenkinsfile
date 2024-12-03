@@ -7,13 +7,10 @@ pipeline {
 
     stages{
         stage('Input .env to backend') {
-            withCredentials([file(credentialsId: 'technologia-cyborga-backend-.env', variable: 'BACKEND_ENV_FILE')]) {
-                steps {
+            steps {
+                withCredentials([file(credentialsId: 'technologia-cyborga-backend-.env', variable: 'BACKEND_ENV_FILE')]) {
                     sh 'cp $BACKEND_ENV_FILE backend/scr/main/resources/.env'
                 }
-            }
-            steps {
-                sh 'cp .env backend/.env'
             }
         }
 
