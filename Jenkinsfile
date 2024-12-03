@@ -5,11 +5,11 @@ pipeline {
         BACKEND_IMAGE = 'technologia-cyborga-backend:latest'
     }
 
-    stages{
+    stages {
         stage('Input .env to backend') {
             steps {
                 withCredentials([file(credentialsId: 'technologia-cyborga-backend-.env', variable: 'BACKEND_ENV_FILE')]) {
-                    sh 'cp $BACKEND_ENV_FILE backend/scr/main/resources/.env'
+                    sh 'cp "$BACKEND_ENV_FILE" backend/src/main/resources/.env'
                 }
             }
         }
@@ -20,11 +20,10 @@ pipeline {
             }
         }
 
-
         stage('Build backend') {
             steps {
                 dir('backend') {
-                    sh 'docker build -t $BACKEND_IMAGE .'
+                    sh 'docker build -t "$BACKEND_IMAGE" .'
                 }
             }
         }
@@ -32,7 +31,7 @@ pipeline {
         stage('Build frontend') {
             steps {
                 dir('frontend') {
-                    sh 'docker build -t $FRONTEND_IMAGE .'
+                    sh 'docker build -t "$FRONTEND_IMAGE" .'
                 }
             }
         }
@@ -48,7 +47,8 @@ pipeline {
     post {
         always {
             script {
-                sh 'docker-compose logs'
+                // Tail logs from the backend and frontend services
+                sh 'docker-compose logs -f backend frontend'
             }
         }
     }
