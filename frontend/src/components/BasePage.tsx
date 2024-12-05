@@ -9,7 +9,9 @@ interface BasePageProps {
     side_spacing?: string;
 }
 
-export const BasePage = ({ children, title, description, maximum_width, maximum_height, side_spacing }: BasePageProps) => {
+export const BasePage =
+    ({ children, title, description, maximum_width, maximum_height, side_spacing, ...props }:
+                             BasePageProps & React.HTMLAttributes<HTMLDivElement>) => {
     const header = () => {
         if (!title) return null;
         return (
@@ -23,7 +25,7 @@ export const BasePage = ({ children, title, description, maximum_width, maximum_
     return (
         <PageBody maximum_width={maximum_width} maximum_height={maximum_height} side_spacing={side_spacing}>
             {header()}
-            <Body>{children}</Body>
+            <Body className={props.className}>{children}</Body>
         </PageBody>
     );
 };

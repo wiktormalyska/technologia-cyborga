@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../components/MainLayout';
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
+import {LoginPage} from "../pages/LoginPage";
 
 const MainRouter = createBrowserRouter([
     {
@@ -25,7 +26,7 @@ const MainRouter = createBrowserRouter([
         path: '/login',
         element: (
             <PublicRoute>
-                <h1>Login</h1>
+                <LoginPage />
             </PublicRoute>
         )
     },
