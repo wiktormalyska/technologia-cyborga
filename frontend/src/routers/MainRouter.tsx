@@ -1,10 +1,16 @@
 import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../components/MainLayout';
+import PrivateRoute from "./PrivateRoute";
+import PublicRoute from "./PublicRoute";
 
 const MainRouter = createBrowserRouter([
     {
         path: '/',
-        element: <MainLayout />,
+        element: (
+            <PrivateRoute>
+                <MainLayout />
+            </PrivateRoute>
+        ),
         children: [
             { index: true, element: <h1>Home</h1> },
             { path: 'friends', element: <h1>Friends</h1>},
@@ -15,6 +21,22 @@ const MainRouter = createBrowserRouter([
             { path: 'settings', element: <h1>Settings</h1>},
         ],
     },
+    {
+        path: '/login',
+        element: (
+            <PublicRoute>
+                <h1>Login</h1>
+            </PublicRoute>
+        )
+    },
+    {
+        path: '/register',
+        element: (
+            <PublicRoute>
+                <h1>Register</h1>
+            </PublicRoute>
+        )
+    }
 ]);
 
 export default MainRouter;
