@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb504da4-5bda-482a-afd6-85235339ceb3" name="Changes" comment="add .env to Jenkinsfile">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/backend.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +101,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.Backend.executor": "Run",
     "Spring Boot.BackendApplication.executor": "Run",
-    "git-widget-placeholder": "jenkinsfile-update",
+    "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/wikmal/IdeaProjects/technologia-cyborga/frontend/package.json",
@@ -127,7 +136,18 @@
       <recent name="$PROJECT_DIR$/backend/src/main/java/ovh/wiktormalyska/backend" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.BackendApplication">
+  <component name="RunManager" selected="npm.dev">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="backend [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -150,17 +170,6 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="BackendApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="backend.main" />
@@ -169,21 +178,29 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/frontend/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="$APPLICATION_CONFIG_DIR$/node/versions/22.11.0/bin/node" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <list>
-      <item itemvalue="Gradle.backend [dependencies]" />
-      <item itemvalue="Spring Boot.BackendApplication" />
+      <item itemvalue="npm.dev" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.backend [dependencies]" />
+        <item itemvalue="npm.dev" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-WS-243.21565.180" />
       </set>
     </attachedChunks>
   </component>
@@ -202,6 +219,7 @@
       <workItem from="1732300114930" duration="2710000" />
       <workItem from="1733226200853" duration="1352000" />
       <workItem from="1733227557095" duration="3877000" />
+      <workItem from="1733390503020" duration="83000" />
     </task>
     <task id="LOCAL-00001" summary="NIE TYKAC">
       <option name="closed" value="true" />
