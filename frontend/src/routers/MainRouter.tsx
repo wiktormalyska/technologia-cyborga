@@ -13,6 +13,7 @@ const MainRouter = createBrowserRouter([
             { path: 'rankings', element: <h1>Rankings</h1>},
             { path: 'account', element: <h1>Account</h1>},
             { path: 'settings', element: <h1>Settings</h1>},
+            { path: 'policy', element: <h1>Privacy Policy</h1>},
         ],
     },
 ]);
