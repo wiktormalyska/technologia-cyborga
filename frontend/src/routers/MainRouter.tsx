@@ -1,8 +1,23 @@
-import { createBrowserRouter } from 'react-router-dom';
+import {createBrowserRouter, Link, useNavigate} from 'react-router-dom';
 import MainLayout from '../components/MainLayout';
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import {LoginPage} from "../pages/LoginPage";
+import {useAuth} from "../auth/AuthContext";
+import {useEffect} from "react";
+
+
+const Logout = () => {
+    const { logout } = useAuth()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        logout()
+        navigate("/login")
+    }, [logout, navigate]);
+    return null;
+}
+
 
 const MainRouter = createBrowserRouter([
     {
@@ -37,6 +52,10 @@ const MainRouter = createBrowserRouter([
                 <h1>Register</h1>
             </PublicRoute>
         )
+    },
+    {
+        path: '/logout',
+        element: <Logout />
     }
 ]);
 
