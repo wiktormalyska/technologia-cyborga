@@ -71,7 +71,6 @@ const Logout = styled.div`
 `
 
 const NavbarContainer = styled.div`
-  border-radius: 0 0.5rem 0.5rem 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -88,15 +87,17 @@ const AppName = styled.div`
     align-items: flex-end;
     gap: 0.4rem;
     margin-bottom: 1rem;
+    margin-top: 1rem;
 
     img {
-        height: 52px;
-        width: 52px;
+        height: 40px;
+        width: 40px;
         background-color: #1d1b20;
     }
 
     p {
-        font-size: 30px;
+        padding-left: 10px;
+        font-size: 28px;
         color: white;
     }
 `;
@@ -104,9 +105,9 @@ const AppName = styled.div`
 const Divider = styled.div`
     width: 100%;
     height: 1px;
-    background-color: white;
+    background-color: grey;
     opacity: 1;
-    margin: 0.5rem 0;
+    margin: 1rem 0;
 `;
 
 const Menu = styled.div`
@@ -119,8 +120,8 @@ const MenuItem = styled(Link)`
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0.8rem;
-    gap: 1.5rem;
+    padding: 0.5rem;
+    gap: 1rem;
     cursor: pointer;
 
     &:hover {
@@ -134,8 +135,8 @@ const MenuItem = styled(Link)`
     }
 
     img {
-        height: 52px;
-        width: 52px;
+        height: 40px;
+        width: 40px;
         background-color: #1d1b20;
         border-radius: 0.5rem;
         transition: background-color; 
