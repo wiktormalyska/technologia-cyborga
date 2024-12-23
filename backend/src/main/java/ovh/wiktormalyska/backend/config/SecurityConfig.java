@@ -31,7 +31,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorizeRequests ->
                     authorizeRequests
                             .requestMatchers("/api/auth/**").permitAll()
-                            .requestMatchers("/api/**").hasAuthority("USER")
+                            .requestMatchers("/api/**").hasAuthority("ADMIN")
                             .anyRequest().denyAll()
             ).httpBasic(Customizer.withDefaults());
 
