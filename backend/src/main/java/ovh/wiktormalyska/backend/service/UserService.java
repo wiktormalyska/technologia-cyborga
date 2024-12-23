@@ -1,18 +1,24 @@
 package ovh.wiktormalyska.backend.service;
 
+import ovh.wiktormalyska.backend.model.Role;
 import ovh.wiktormalyska.backend.model.User;
+import ovh.wiktormalyska.backend.repository.RoleRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -26,6 +32,8 @@ public class UserService {
         if (userRepository.existsByUsername(user.getUsername()) || userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Username or e-mail already exists");
         }
+        Role userRole = roleRepository.findByName("USER").orElseThrow(() -> new IllegalArgumentException("Role not found"));
+        user.setRoles(Set.of(userRole));
         return userRepository.save(user);
     }
 
