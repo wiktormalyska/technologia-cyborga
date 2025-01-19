@@ -28,12 +28,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(authorizeRequests ->
-                    authorizeRequests
-                            .requestMatchers("/api/auth/**").permitAll()
-                            .requestMatchers("/api/**").hasAuthority("ADMIN")
-                            .anyRequest().denyAll()
-            ).httpBasic(Customizer.withDefaults());
+                .cors(Customizer.withDefaults())
+                .authorizeHttpRequests(authorizeRequests ->
+                        authorizeRequests
+                                .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/api/**").hasAuthority("ADMIN")
+                                .anyRequest().denyAll()
+                ).httpBasic(Customizer.withDefaults());
 
         http.exceptionHandling( exception -> exception
                 .authenticationEntryPoint(authenticationEntryPoint));
