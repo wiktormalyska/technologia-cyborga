@@ -24,7 +24,7 @@ public class AuthController {
         String token = authService.login(loginDto);
         AuthResponseDto authResponseDto = new AuthResponseDto();
         authResponseDto.setAccessToken(token);
-
+        System.out.println("User logged in:" + loginDto.getUsername());
         return new ResponseEntity<>(authResponseDto, HttpStatus.OK);
     }
 }
