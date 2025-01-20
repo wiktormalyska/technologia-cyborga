@@ -17,6 +17,9 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public String login(LoginDto loginDto) {
         Authentication authentication = authenticationManager.authenticate(
@@ -25,7 +28,9 @@ public class AuthServiceImpl implements AuthService {
                         loginDto.getPassword())
         );
 
+        Long userID = userService.getUserByUsername(loginDto.getUsername()).getId();
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return jwtTokenProvider.generateToken(authentication);
+        return jwtTokenProvider.generateToken(authentication, userID);
     }
 }

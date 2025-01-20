@@ -31,6 +31,10 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
     public User createUser(@Valid User user) {
         if (userRepository.existsByUsername(user.getUsername()) || userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Username or e-mail already exists");

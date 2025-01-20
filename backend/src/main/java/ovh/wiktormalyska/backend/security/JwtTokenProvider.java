@@ -27,11 +27,12 @@ public class JwtTokenProvider {
         jwtSecret = dotenv.get("JWT_SECRET");
     }
 
-    public String generateToken(Authentication authentication) {
+    public String generateToken(Authentication authentication, Long userID) {
         String username = authentication.getName();
         Collection<String> authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         Map<String, Object> info = new HashMap<>();
         info.put("authorities", authorities);
+        info.put("userID", userID);
 
         Date currentDate = new Date();
         long jwtExpirationDate = 3600000;//1h
