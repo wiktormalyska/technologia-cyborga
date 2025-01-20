@@ -3,6 +3,7 @@ package ovh.wiktormalyska.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ovh.wiktormalyska.backend.dto.ChatDto;
 import ovh.wiktormalyska.backend.model.Chat;
 import ovh.wiktormalyska.backend.service.ChatService;
 
@@ -27,17 +28,17 @@ public class ChatController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{user1Id}/{user2Id}")
-    public ResponseEntity<Chat> getChatBetweenUsers(@PathVariable Long user1Id, @PathVariable Long user2Id) {
-        return chatService.getChatBetweenUsers(user1Id, user2Id)
+    @GetMapping("/getChat")
+    public ResponseEntity<Chat> getChatBetweenUsers(@RequestBody ChatDto chatDto) {
+        return chatService.getChatBetweenUsers(chatDto.getUser1Id(), chatDto.getUser2Id())
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/createChat/{user1Id}/{user2Id}")
-    public ResponseEntity<Chat> createChat(@PathVariable Long user1Id, @PathVariable Long user2Id) {
+    @PostMapping("/createChat")
+    public ResponseEntity<Chat> createChat(@RequestBody ChatDto chatDto) {
         try {
-            Chat chat = chatService.createChat(user1Id, user2Id);
+            Chat chat = chatService.createChat(chatDto.getUser1Id(), chatDto.getUser2Id());
             return ResponseEntity.ok().body(chat);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);
