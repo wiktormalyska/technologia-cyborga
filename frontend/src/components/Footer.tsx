@@ -44,14 +44,16 @@ const ItemContent = styled.p`
 `
 
 const ExpandableContent = styled(ItemContent)<{$isOpen: boolean}>`
-    font-size: ${props => props.$isOpen ? '12px' : 0};
+    font-size: 12px;
     overflow: hidden;
     opacity: ${props => props.$isOpen ? 1 : 0};
+    transform: translateY(${props => props.$isOpen ? '0' : '-20px'});
+    max-height: ${props => props.$isOpen ? '100px' : '0'};
     transition: all 0.3s ease;
     padding-top: ${props => props.$isOpen ? '8px' : 0};
 `
 
-const authorLink = "https://docusaurus.wiktormalyska.ovh/docs/projekt-zespolowy-technologia-cyborga/intro#-contributors"
+const authorLink = "https://docusaurus.wiktormalyska.ovh/docs/it/projekt-zespolowy-technologia-cyborga/intro#-contributors"
 const docsLink = "https://docusaurus.wiktormalyska.ovh/docs/category/technologia-cyborga"
 
 const Footer = () => {
