@@ -37,6 +37,7 @@ export const APIEndpoints: {
         addFriend: Endpoint;
         deleteRequest: Endpoint;
         getAll: Endpoint;
+        rejectRequest: Endpoint;
     }
     messages: {
         getAll: Endpoint;
@@ -85,11 +86,11 @@ export const APIEndpoints: {
             method: HttpRequestMethods.GET,
         },
         getChatBetweenUsers: {
-            url: "api/chats/{user1Id}/{user2Id}",
+            url: "api/chats/getChat",
             method: HttpRequestMethods.GET,
         },
         createChat: {
-            url: "api/chats/createChat/{user1Id}/{user2Id}",
+            url: "api/chats/createChat/",
             method: HttpRequestMethods.POST,
         },
         deleteChat: {
@@ -99,11 +100,11 @@ export const APIEndpoints: {
     },
     friends: {
         acceptRequest: {
-            url: "api/friends/accept/{userId}/{friendRequestId}",
+            url: "api/friends/accept",
             method: HttpRequestMethods.PUT,
         },
         addFriend: {
-            url: "api/friends/{userId}/{friendId}",
+            url: "api/friends/add",
             method: HttpRequestMethods.POST,
         },
         deleteRequest: {
@@ -114,6 +115,10 @@ export const APIEndpoints: {
             url: "api/friends/{userId}",
             method: HttpRequestMethods.GET,
         },
+        rejectRequest: {
+            url: "api/friends/{userId}/{friendRequestId}",
+            method: HttpRequestMethods.PUT,
+        }
     },
     messages: {
         getAll: {
