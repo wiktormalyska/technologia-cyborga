@@ -17,6 +17,8 @@ import rankingsIcon from '../assets/icons/rankings-icon.svg'
 import accountIcon from '../assets/icons/account-icon.svg'
 // @ts-ignore
 import settingsIcon from '../assets/icons/settings-icon.svg'
+// @ts-ignore
+import logoutIcon from '../assets/icons/logout-icon.svg'
 
 const Navbar = () => {
     const menuOptions = [
@@ -44,11 +46,9 @@ const Navbar = () => {
                     </MenuItem>
                 ))}
             </Menu>
-            <Logout>
-                <MenuItem key={"logout"} to={"/logout"}>
-                    <img alt={"logout"}/>
+            <Logout key={"logout"} to={"/logout"}>
+                    <img src={logoutIcon} alt={"logout"}/>
                     <p>Logout</p>
-                </MenuItem>
             </Logout>
         </NavbarContainer>
     );
@@ -56,29 +56,55 @@ const Navbar = () => {
 
 export default Navbar;
 
-const Logout = styled.div`
-    height: 100%;
+const Logout = styled(Link)`
     display: flex;
     align-items: center;
     flex-direction: column;
     align-content: center;
     justify-content: flex-end;
     flex-wrap: nowrap;
-    padding-bottom: 1rem;
-    color: white;
     font-weight: 400;
-    font-size: 1.2rem;
+    margin-top: auto;
+    width: 50%;
+    padding: 10px;
+
+    &:hover {
+        background-color: #2c2a2f;
+        border-radius: 0.8rem;
+
+        img {
+            background-color: #2c2a2f;
+        }
+        
+    }
+
+    img {
+        height: 30px;
+        width: 30px;
+        background-color: #1d1b20;
+        border-radius: 0.5rem;
+        transition: background-color;
+    }
+
+    p {
+        font-size: 17px;
+        font-family: 'Josefin Sans', sans-serif;
+        color: #ffffff;
+    }
+
 `
 
 const NavbarContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 0.65rem 1rem;
-  background-color: #1d1b20;
-  height: 100%;
-  width: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 0.65rem 1rem;
+      background-color: #1d1b20;
+      height: 100%;
+      width: 250px;
+    
+    
 `;
 
 const AppName = styled.div`
