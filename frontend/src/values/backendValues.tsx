@@ -82,7 +82,7 @@ export const APIEndpoints: {
             method: HttpRequestMethods.GET,
         },
         getByUserId: {
-            url: "api/chats/{userId}",
+            url: "api/chats",
             method: HttpRequestMethods.GET,
         },
         getChatBetweenUsers: {
@@ -90,11 +90,11 @@ export const APIEndpoints: {
             method: HttpRequestMethods.GET,
         },
         createChat: {
-            url: "api/chats/createChat/",
+            url: "api/chats/createChat",
             method: HttpRequestMethods.POST,
         },
         deleteChat: {
-            url: "api/chats/{chatId}",
+            url: "api/chats",
             method: HttpRequestMethods.DELETE,
         },
     },
@@ -107,16 +107,16 @@ export const APIEndpoints: {
             url: "api/friends/add",
             method: HttpRequestMethods.POST,
         },
-        deleteRequest: {
-            url: "api/friends/{userId}/{friendRequestId}",
+        deleteFriend: {
+            url: "api/friends/delete",
             method: HttpRequestMethods.DELETE,
         },
         getAll: {
-            url: "api/friends/{userId}",
+            url: "api/friends",
             method: HttpRequestMethods.GET,
         },
         rejectRequest: {
-            url: "api/friends/{userId}/{friendRequestId}",
+            url: "api/friends",
             method: HttpRequestMethods.PUT,
         }
     },
@@ -126,15 +126,15 @@ export const APIEndpoints: {
             method: HttpRequestMethods.GET,
         },
         getById: {
-            url: "api/messages/{id}",
+            url: "api/messages",
             method: HttpRequestMethods.GET,
         },
         getSentBySenderId: {
-            url: "api/messages/sent/{senderId}",
+            url: "api/messages/sent",
             method: HttpRequestMethods.GET,
         },
         getReceivedByReceiverId: {
-            url: "api/messages/received/{receiverId}",
+            url: "api/messages/received",
             method: HttpRequestMethods.GET,
         },
         sendMessage: {
@@ -142,7 +142,7 @@ export const APIEndpoints: {
             method: HttpRequestMethods.POST,
         },
         deleteById: {
-            url: "api/messages/{id}",
+            url: "api/messages",
             method: HttpRequestMethods.DELETE,
         },
     },
