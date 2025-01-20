@@ -1,5 +1,6 @@
 package ovh.wiktormalyska.backend.service;
 
+import ovh.wiktormalyska.backend.dto.UserDto;
 import ovh.wiktormalyska.backend.model.Role;
 import ovh.wiktormalyska.backend.model.User;
 import ovh.wiktormalyska.backend.repository.RoleRepository;
@@ -31,8 +32,14 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public UserDto getUserByUsername(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return UserDto.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .roles(user.getRoles())
+                .build();
     }
 
     public User createUser(@Valid User user) {
