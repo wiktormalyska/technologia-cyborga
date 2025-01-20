@@ -45,10 +45,10 @@ public class FriendController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{userId}/{friendRequestId}")
-    public ResponseEntity<Void> deleteFriend(@PathVariable Long userId, @PathVariable Long friendRequestId) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteFriend(@RequestBody FriendDto acceptFriendDto) {
         try {
-            friendService.deleteFriend(userId, friendRequestId);
+            friendService.deleteFriend(acceptFriendDto.getUserId(), acceptFriendDto.getFriendId());
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
