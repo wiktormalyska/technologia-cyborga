@@ -11,17 +11,17 @@ export const useCreateUser = () => {
     return useMutate("create-users", endpoint)
 }
 
-export const useGetById = () => {
+export const useGetUserById = () => {
     const endpoint = APIEndpoints.users.getById
     return usePathParams("getById-users", endpoint)
 }
 
-export const useUpdateById = () => {
+export const useUpdateUserById = () => {
     const endpoint = APIEndpoints.users.updateById
     return usePathParams("updateById-users", endpoint)
 }
 
-export const useDeleteById = () => {
+export const useDeleteUserById = () => {
     const endpoint = APIEndpoints.users.deleteById
     return usePathParams("deleteById-users", endpoint)
 }

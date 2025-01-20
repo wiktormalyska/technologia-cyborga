@@ -7,6 +7,7 @@ interface DecodedTokenType {
     iat: number
     exp: number
     authorities: string[]
+    userID: number
 }
 
 interface AuthContextType {
