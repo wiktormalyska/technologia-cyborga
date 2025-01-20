@@ -1,5 +1,6 @@
 package ovh.wiktormalyska.backend.controller;
 
+import ovh.wiktormalyska.backend.dto.FriendDto;
 import ovh.wiktormalyska.backend.model.Friend;
 import ovh.wiktormalyska.backend.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,24 +21,28 @@ public class FriendController {
         return friendService.getAllFriends(userId);
     }
 
-    @PostMapping("/{userId}/{friendId}")
-    public ResponseEntity<Friend> addFriend(@PathVariable Long userId, @PathVariable Long friendId) {
+    @PostMapping("/add")
+    public ResponseEntity<Friend> addFriend(@RequestBody FriendDto addFriendDto) {
         try {
-            Friend newFriend = friendService.addFriend(userId, friendId);
+            Friend newFriend = friendService.addFriend(addFriendDto.getUserId(), addFriendDto.getFriendId());
             return ResponseEntity.ok(newFriend);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);
         }
     }
-
-    @PutMapping("/accept/{userId}/{friendRequestId}")
-    public ResponseEntity<Friend> acceptFriendRequest(@PathVariable Long userId, @PathVariable Long friendRequestId) {
+    @PutMapping("/accept")
+    public ResponseEntity<Friend> acceptFriendRequest(@RequestBody FriendDto acceptFriendDto) {
         try {
-            Friend acceptedFriend = friendService.acceptFriendRequest(userId, friendRequestId);
+            Friend acceptedFriend = friendService.acceptFriendRequest(acceptFriendDto.getUserId(), acceptFriendDto.getFriendId());
             return ResponseEntity.ok(acceptedFriend);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+    //TODO: Add Reject Friend Request endpoint
+    @PutMapping("/reject")
+    public ResponseEntity<Friend> rejectFriendRequest(@RequestBody FriendDto acceptFriendDto) {
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{userId}/{friendRequestId}")
