@@ -25,6 +25,27 @@ export const APIEndpoints: {
         updateById: Endpoint
         deleteById: Endpoint
     }
+    chats: {
+        getAll: Endpoint;
+        getByUserId: Endpoint;
+        getChatBetweenUsers: Endpoint;
+        createChat: Endpoint;
+        deleteChat: Endpoint;
+    }
+    friends: {
+        acceptRequest: Endpoint;
+        addFriend: Endpoint;
+        deleteRequest: Endpoint;
+        getAll: Endpoint;
+    }
+    messages: {
+        getAll: Endpoint;
+        getById: Endpoint;
+        getSentBySenderId: Endpoint;
+        getReceivedByReceiverId: Endpoint;
+        sendMessage: Endpoint;
+        deleteById: Endpoint;
+    }
 }={
     auth: {
         login: {
@@ -53,5 +74,71 @@ export const APIEndpoints: {
             url: "api/users",
             method: HttpRequestMethods.DELETE
        }
-    }
+    },
+    chats: {
+        getAll: {
+            url: "api/chats",
+            method: HttpRequestMethods.GET,
+        },
+        getByUserId: {
+            url: "api/chats/{userId}",
+            method: HttpRequestMethods.GET,
+        },
+        getChatBetweenUsers: {
+            url: "api/chats/{user1Id}/{user2Id}",
+            method: HttpRequestMethods.GET,
+        },
+        createChat: {
+            url: "api/chats/createChat/{user1Id}/{user2Id}",
+            method: HttpRequestMethods.POST,
+        },
+        deleteChat: {
+            url: "api/chats/{chatId}",
+            method: HttpRequestMethods.DELETE,
+        },
+    },
+    friends: {
+        acceptRequest: {
+            url: "api/friends/accept/{userId}/{friendRequestId}",
+            method: HttpRequestMethods.PUT,
+        },
+        addFriend: {
+            url: "api/friends/{userId}/{friendId}",
+            method: HttpRequestMethods.POST,
+        },
+        deleteRequest: {
+            url: "api/friends/{userId}/{friendRequestId}",
+            method: HttpRequestMethods.DELETE,
+        },
+        getAll: {
+            url: "api/friends/{userId}",
+            method: HttpRequestMethods.GET,
+        },
+    },
+    messages: {
+        getAll: {
+            url: "api/messages",
+            method: HttpRequestMethods.GET,
+        },
+        getById: {
+            url: "api/messages/{id}",
+            method: HttpRequestMethods.GET,
+        },
+        getSentBySenderId: {
+            url: "api/messages/sent/{senderId}",
+            method: HttpRequestMethods.GET,
+        },
+        getReceivedByReceiverId: {
+            url: "api/messages/received/{receiverId}",
+            method: HttpRequestMethods.GET,
+        },
+        sendMessage: {
+            url: "api/messages",
+            method: HttpRequestMethods.POST,
+        },
+        deleteById: {
+            url: "api/messages/{id}",
+            method: HttpRequestMethods.DELETE,
+        },
+    },
 }
