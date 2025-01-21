@@ -10,7 +10,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Set;
 
 @Component
@@ -28,11 +27,14 @@ public class DataInitializer implements ApplicationRunner {
     @Override
     @Transactional
     public void run(ApplicationArguments args) {
-        List<String> roles = List.of("USER", "ADMIN");
+        enum Roles{
+            USER,
+            ADMIN
+        }
 
-        for (String role : roles) {
-            if (roleRepository.findByName(role).isEmpty()) {
-                roleRepository.save(ovh.wiktormalyska.backend.model.Role.builder().name(role).build());
+        for (Roles role : Roles.values()) {
+            if (roleRepository.findByName(role.name()).isEmpty()) {
+                roleRepository.save(ovh.wiktormalyska.backend.model.Role.builder().name(role.name()).build());
             }
         }
 
@@ -42,7 +44,18 @@ public class DataInitializer implements ApplicationRunner {
                     .username("admin")
                     .password(passwordEncoder.encode("admin"))
                     .email("admin@admin.com")
-                    .roles(Set.of(roleRepository.findByName("ADMIN").orElseThrow()))
+                    .roles(Set.of(roleRepository.findByName(Roles.ADMIN.name()).orElseThrow()))
+                    .build();
+            userRepository.save(admin);
+        }
+
+        if (userRepository.findByUsername("user1").isEmpty()) {
+            User admin = User.builder()
+                    .id(0L)
+                    .username("user1")
+                    .password(passwordEncoder.encode("user1"))
+                    .email("user1@user1.com")
+                    .roles(Set.of(roleRepository.findByName(Roles.USER.name()).orElseThrow()))
                     .build();
             userRepository.save(admin);
         }

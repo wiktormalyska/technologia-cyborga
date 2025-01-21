@@ -1,8 +1,9 @@
 import {BasePage} from "../components/BasePage";
 import styled from "styled-components";
 import {useAuth} from "../auth/AuthContext";
-import {useState} from "react";
-// @ts-ignore
+import {useEffect, useState} from "react";
+import {loginUser} from "../hooks/useLogin";
+import {useCookies} from "react-cookie";
 import robotIcon from '../assets/icons/robot.svg'
 import colorPalette from "../values/colorPalette";
 
@@ -11,13 +12,30 @@ export const LoginPage = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
+    const {mutate: getToken} = loginUser()
+    const [cookies] = useCookies(["token"])
+
+    useEffect(() => {
+        cookies.token? login(cookies.token) : null
+    }, []);
 
     const handleLogin = () => {
-        if (username === "admin" && password === "admin") {
-            login()
-        } else {
-            setError("Invalid username or password.")
+        const body = {
+            username: username,
+            password: password
         }
+        interface response {
+            accessToken: string
+        }
+
+        getToken({body}, {
+            onSuccess: (data:response) => {
+                login(data.accessToken)
+            },
+            onError: (error) => {
+                setError(error.message)
+            }
+        })
     }
 
     return (

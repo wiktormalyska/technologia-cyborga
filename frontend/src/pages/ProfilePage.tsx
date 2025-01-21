@@ -1,14 +1,26 @@
 import styled from "styled-components";
+import {useGetUserById} from "../hooks/useUsers";
+import {useEffect} from "react";
+import {useAuth} from "../auth/AuthContext";
 
 export const ProfilePage = () => {
     const badges = ["🏆", "🎖️", "🎯"];
     const emojis = ["😳", "😜", "🤯", "🤤", "😩", "💀"];
+    const {mutate: getUserByID, isPending, data, error} = useGetUserById()
+    const {decodedToken} = useAuth()
 
+    useEffect(() => {
+        getUserByID({param: decodedToken.userID.toString()})
+    }, [decodedToken, getUserByID]);
+
+    if (isPending) return <h1>Loading...</h1>;
+    if (error) return <h1>Error loading user data!</h1>;
+    if (!data) return <h1>No user data found.</h1>;
     return (
         <ProfileContainer>
             <ProfileHeader>
                 <ProfilePicture />
-                <Nickname>Username</Nickname>
+                <Nickname>{data.username}</Nickname>
             </ProfileHeader>
 
             <Actions>
