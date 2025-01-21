@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Footer from './Footer';
 import Navbar from "./Navbar";
 import {Outlet} from "react-router-dom";
+import colorPalette from "../values/colorPalette";
 
 
 
@@ -15,11 +16,13 @@ const LayoutWrapper = styled.div`
 const MainContent = styled.div`
     display: flex;
     height: 100%;
+    background-color: ${colorPalette.pageBackground.hex};
 `;
 
 const PageContent = styled.div`
     padding: 1rem;
-    background-color: #ffffff;
+    background-color: ${colorPalette.pageBackground.hex};
+    width: 100%;
 `;
 
 const MainLayout = () => (

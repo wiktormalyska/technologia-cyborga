@@ -1,4 +1,4 @@
-import {createBrowserRouter, Link, useNavigate} from 'react-router-dom';
+import {createBrowserRouter, useNavigate} from 'react-router-dom';
 import MainLayout from '../components/MainLayout';
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
@@ -6,6 +6,12 @@ import {LoginPage} from "../pages/LoginPage";
 import { ProfilePage } from '../pages/ProfilePage';
 import {useAuth} from "../auth/AuthContext";
 import {useEffect} from "react";
+import {LootboxesPage} from "../pages/LootboxesPage";
+import {GamesPage} from "../pages/GamesPage";
+import {FriendsPage} from "../pages/FriendsPage";
+import {AllChatsPage} from "../pages/AllChatsPage";
+import {RankingsPage} from "../pages/RankingsPage";
+import {SettingsPage} from "../pages/SettingsPage";
 
 
 const Logout = () => {
@@ -29,13 +35,13 @@ const MainRouter = createBrowserRouter([
             </PrivateRoute>
         ),
         children: [
-            { index: true, element: <h1>Home</h1> },
-            { path: 'friends', element: <h1>Friends</h1>},
-            { path: 'games', element: <h1>Games</h1>},
-            { path: 'lootboxes', element: <h1>Lootboxes</h1>},
-            { path: 'rankings', element: <h1>Rankings</h1>},
+            { index: true, element: <AllChatsPage /> },
+            { path: 'friends', element: <FriendsPage />},
+            { path: 'games', element: <GamesPage />},
+            { path: 'lootboxes', element: <LootboxesPage />},
+            { path: 'rankings', element: <RankingsPage />},
             { path: 'account', element: <ProfilePage />},
-            { path: 'settings', element: <h1>Settings</h1>},
+            { path: 'settings', element: <SettingsPage />},
             { path: 'policy', element: <h1>Privacy Policy</h1>},
         ],
     },

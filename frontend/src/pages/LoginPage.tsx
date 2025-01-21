@@ -4,6 +4,7 @@ import {useAuth} from "../auth/AuthContext";
 import {useEffect, useState} from "react";
 import {loginUser} from "../hooks/useLogin";
 import {useCookies} from "react-cookie";
+// @ts-ignore
 import robotIcon from '../assets/icons/robot.svg'
 import colorPalette from "../values/colorPalette";
 
@@ -70,6 +71,7 @@ const LoginContainer = styled.div`
     align-content: center;
     align-items: center;
     overflow: hidden;
+    justify-content: center;
     background-color: ${colorPalette.pageBackground.hex};
 `
 

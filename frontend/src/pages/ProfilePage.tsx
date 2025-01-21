@@ -2,6 +2,8 @@ import styled from "styled-components";
 import {useGetUserById} from "../hooks/useUsers";
 import {useEffect} from "react";
 import {useAuth} from "../auth/AuthContext";
+import colorPalette from "../values/colorPalette";
+import {BasePage} from "../components/BasePage";
 
 export const ProfilePage = () => {
     const badges = ["🏆", "🎖️", "🎯"];
@@ -13,41 +15,49 @@ export const ProfilePage = () => {
         getUserByID({param: decodedToken.userID.toString()})
     }, [decodedToken, getUserByID]);
 
-    if (isPending) return <h1>Loading...</h1>;
-    if (error) return <h1>Error loading user data!</h1>;
-    if (!data) return <h1>No user data found.</h1>;
+    if (isPending) return (
+        <BasePage title={"Loading..."} justifyContent={"flex-start"}></BasePage>
+    );
+    if (error) return (
+        <BasePage title={"Error loading user data!"} justifyContent={"flex-start"}></BasePage>
+    );
+    if (!data) return (
+        <BasePage title={"No user data found."} justifyContent={"flex-start"}></BasePage>
+    );
     return (
-        <ProfileContainer>
-            <ProfileHeader>
-                <ProfilePicture />
-                <Nickname>{data.username}</Nickname>
-            </ProfileHeader>
+        <BasePage title={"Account Info"} justifyContent={"flex-start"}>
+            <ProfileContainer>
+                <ProfileHeader>
+                    <ProfilePicture />
+                    <Nickname>{data.username}</Nickname>
+                </ProfileHeader>
 
-            <Actions>
-                <ActionButton>Message</ActionButton>
-                <ActionButton>Invite to Friends</ActionButton>
-                <ActionButton>Trade</ActionButton>
-                <ActionButton>Invite to Play</ActionButton>
-            </Actions>
+                <Actions>
+                    <ActionButton>Message</ActionButton>
+                    <ActionButton>Invite to Friends</ActionButton>
+                    <ActionButton>Trade</ActionButton>
+                    <ActionButton>Invite to Play</ActionButton>
+                </Actions>
 
-            <Section>
-                <SectionTitle>Badges</SectionTitle>
-                <IconsContainer>
-                    {badges.map((badge, index) => (
-                        <Icon key={index}>{badge}</Icon>
-                    ))}
-                </IconsContainer>
-            </Section>
+                <Section>
+                    <SectionTitle>Badges</SectionTitle>
+                    <IconsContainer>
+                        {badges.map((badge, index) => (
+                            <Icon key={index}>{badge}</Icon>
+                        ))}
+                    </IconsContainer>
+                </Section>
 
-            <Section>
-                <SectionTitle>Unlocked emojis</SectionTitle>
-                <IconsContainer>
-                    {emojis.map((emoji, index) => (
-                        <Icon key={index}>{emoji}</Icon>
-                    ))}
-                </IconsContainer>
-            </Section>
-        </ProfileContainer>
+                <Section>
+                    <SectionTitle>Unlocked emojis</SectionTitle>
+                    <IconsContainer>
+                        {emojis.map((emoji, index) => (
+                            <Icon key={index}>{emoji}</Icon>
+                        ))}
+                    </IconsContainer>
+                </Section>
+            </ProfileContainer>
+        </BasePage>
     );
 };
 
@@ -62,6 +72,7 @@ const ProfileContainer = styled.div`
     overflow: hidden;
     align-items: center;
     justify-content: flex-start;
+    background-color: ${colorPalette.pageBackground.hex};
 `;
 
 
@@ -78,14 +89,14 @@ const ProfilePicture = styled.div`
     height: 120px;
     border-radius: 50%;
     background-color: #323232;
-    border: 3px solid #F5F5F5;
+    border: 3px solid ${colorPalette.primary.hex};
     margin-bottom: 1rem;
 `;
 
 
 const Nickname = styled.h2`
     font-size: 1.5rem;
-    color: #000000;
+    color: ${colorPalette.text.hex};
     text-align: center;
 `;
 
@@ -102,7 +113,7 @@ const Actions = styled.div`
 
 const ActionButton = styled.button`
     background-color: #780CC7;
-    color: #F5F5F5;
+    color: ${colorPalette.text.hex};
     border: none;
     padding: 1rem;
     border-radius: 15px;
@@ -119,7 +130,7 @@ const ActionButton = styled.button`
 const Section = styled.div`
     width: 100%;
     padding: 1rem;
-    background-color: #323232;
+    background-color: ${colorPalette.primary.hex};
     border-radius: 15px;
     box-sizing: border-box;
     margin-bottom: 2rem;

@@ -1,9 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import {Link} from "react-router-dom";
+import colorPalette from "../values/colorPalette";
 
 const FooterWrapper = styled.footer`
-    background-color: #6200ea;  // 2f2f2f
+    background-color: ${colorPalette.buttonBackground.hex};
     color: white;
     text-align: center;
     padding: 1rem 0;

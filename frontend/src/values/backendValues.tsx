@@ -10,8 +10,8 @@ export enum HttpRequestMethods {
     CONNECT = 'CONNECT',
 }
 export interface Endpoint {
-    url: string;
-    method: HttpRequestMethods;
+    url: string
+    method: HttpRequestMethods
 }
 
 export const APIEndpoints: {
@@ -26,26 +26,26 @@ export const APIEndpoints: {
         deleteById: Endpoint
     }
     chats: {
-        getAll: Endpoint;
-        getByUserId: Endpoint;
-        getChatBetweenUsers: Endpoint;
-        createChat: Endpoint;
-        deleteChat: Endpoint;
+        getAll: Endpoint
+        getByUserId: Endpoint
+        getChatBetweenUsers: Endpoint
+        createChat: Endpoint
+        deleteChat: Endpoint
     }
     friends: {
-        acceptRequest: Endpoint;
-        addFriend: Endpoint;
-        deleteRequest: Endpoint;
-        getAll: Endpoint;
-        rejectRequest: Endpoint;
+        acceptRequest: Endpoint
+        addFriend: Endpoint
+        getAll: Endpoint
+        rejectRequest: Endpoint
+        deleteFriend: Endpoint
     }
     messages: {
-        getAll: Endpoint;
-        getById: Endpoint;
-        getSentBySenderId: Endpoint;
-        getReceivedByReceiverId: Endpoint;
-        sendMessage: Endpoint;
-        deleteById: Endpoint;
+        getAll: Endpoint
+        getById: Endpoint
+        getSentBySenderId: Endpoint
+        getReceivedByReceiverId: Endpoint
+        sendMessage: Endpoint
+        deleteById: Endpoint
     }
 }={
     auth: {
