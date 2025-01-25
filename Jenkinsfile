@@ -16,7 +16,7 @@ pipeline {
 
         stage('Verify Workspace') {
             steps {
-                sh 'tree'
+                sh 'tree -a'
             }
         }
 
