@@ -1,0 +1,12 @@
+stages:
+  - mirror
+
+pull_mirror:
+  stage: mirror
+  script:
+    - git remote add upstream https://github.com/wiktormalyska/technologia-cyborga.git || true
+    - git fetch upstream
+    - git merge upstream/main
+    - git push origin main
+  only:
+    - schedules
