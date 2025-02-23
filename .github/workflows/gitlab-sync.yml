@@ -1,0 +1,26 @@
+name: Sync to GitLab
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  push_to_gitlab:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup SSH and Push to GitLab
+        env:
+          GITLAB_HOST: umcs.schneiderp.ovh
+          GITLAB_REPO: git@umcs.schneiderp.ovh:technologia-cyborga/technologia-cyborga.git
+          SSH_PRIVATE_KEY: ${{ secrets.GITLAB_SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan $GITLAB_HOST >> ~/.ssh/known_hosts
+          git remote add gitlab $GITLAB_REPO
+          git push --force gitlab main
