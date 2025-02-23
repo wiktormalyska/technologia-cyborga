@@ -12,6 +12,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Fetch full history
+        run: |
+          git fetch --unshallowł
+
       - name: Setup SSH and Push to GitLab
         env:
           GITLAB_HOST: umcs.schneiderp.ovh
