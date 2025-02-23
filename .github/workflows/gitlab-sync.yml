@@ -23,4 +23,4 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan $GITLAB_HOST >> ~/.ssh/known_hosts
           git remote add gitlab $GITLAB_REPO
-          git push --force gitlab main
+          git push --force gitlab master
