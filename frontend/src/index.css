@@ -1,21 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital');
+@import "tailwindcss";
+
 :root {
     font-family: Josefin Sans, sans-serif;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body, #root {
-    width: 100%;
-    height: 100vh;
-
-}
 
 a {
     text-decoration: none;
-    color: white;
+    color: var(--color-text);
+}
+
+@theme {
+  --color-primary: #2C2333;
+  --color-secondary: #383040;
+  --color-accent: #FFFFFF;
+  --color-text: #D0D0D0;
+  --color-secondaryText: #D0D0D0;
+  --color-pageBackground: #313142;
+  --color-inputBackground: #31293A;
+  --color-buttonBackground: #453651;
+  --color-border: #5C4D6A;
+  --color-highlight: #100F10;
 }

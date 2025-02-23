@@ -6,10 +6,9 @@ import {loginUser} from "../hooks/useLogin";
 import {useCookies} from "react-cookie";
 // @ts-ignore
 import robotIcon from '../assets/icons/robot.svg'
-import colorPalette from "../values/colorPalette";
 
 export const LoginPage = () => {
-    const { login } = useAuth()
+    const {login} = useAuth()
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
@@ -17,7 +16,7 @@ export const LoginPage = () => {
     const [cookies] = useCookies(["token"])
 
     useEffect(() => {
-        cookies.token? login(cookies.token) : null
+        cookies.token ? login(cookies.token) : null
     }, []);
 
     const handleLogin = () => {
@@ -25,12 +24,13 @@ export const LoginPage = () => {
             username: username,
             password: password
         }
+
         interface response {
             accessToken: string
         }
 
         getToken({body}, {
-            onSuccess: (data:response) => {
+            onSuccess: (data: response) => {
                 login(data.accessToken)
             },
             onError: (error) => {
@@ -40,134 +40,28 @@ export const LoginPage = () => {
     }
 
     return (
-        <LoginContainer>
-            <LoginComponent>
-                <LoginHeader>
-                    <Text>Login</Text>
-                </LoginHeader>
-                <LoginSection>
-                    <Input placeholder="Login" value={username} onChange={(e) => setUsername(e.target.value)}></Input>
-                    <Input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)}></Input>
-                    <LoginButton type="button" value="Login" onClick={handleLogin}/>
-                </LoginSection>
-                <ErrorSection>
-                    {error && <ErrorText>{error}</ErrorText>}
-                </ErrorSection>
-            </LoginComponent>
-            <LogoSection>
-                <img src={robotIcon} alt="Robot" />
-            </LogoSection>
-        </LoginContainer>
+        <div className={"w-full h-full flex justify-center items-center bg-pageBackground"}>
+            <div className={"flex flex-row items-center gap-20"}>
+                <div className={"flex flex-col w-full gap-4 items-center " +
+                    "bg-neutral-800 rounded-2xl p-10"}>
+                    <div className={"text-2xl"}>Login</div>
+                    <input placeholder="Login" value={username}
+                           className={"bg-neutral-950 p-2 pl-4 w-full rounded-xl"}
+                           onChange={(e) => setUsername(e.target.value)}></input>
+                    <input placeholder="Password" type="password" value={password}
+                           className={"bg-neutral-950 p-2 pl-4 w-full rounded-xl"}
+                           onChange={(e) => setPassword(e.target.value)}></input>
+                    <input type="button" value="Login"
+                           className={"bg-border p-2 w-full rounded-xl"}
+                           onClick={handleLogin}/>
+                    <div className={(error || "hidden")+"flex flex-col justify-center items-center w-full gap-4 h-5 text-red-500"}>
+                        {error && <div>{error}</div>}
+                    </div>
+                </div>
+                <div className={"w-[420px] h-[420px]"}>
+                    <img src={robotIcon} alt="Robot" className={"h-full w-full p-4"}/>
+                </div>
+            </div>
+        </div>
     )
 }
-
-const LoginContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: 100%;
-    padding: 5rem;
-    box-sizing: border-box;
-    align-content: center;
-    align-items: center;
-    overflow: hidden;
-    justify-content: center;
-    background-color: ${colorPalette.pageBackground.hex};
-`
-
-const LoginComponent = styled(BasePage)`
-    gap: 10px;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
-    background-color: #1d1b20;
-    width: 600px;
-    height: 360px;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    color: white;
-`
-
-const LoginHeader = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    margin-bottom: 2rem;
-    width: 100%;
-`
-
-const LoginSection = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    gap: 1rem;
-`
-
-const ErrorSection = styled(LoginSection)`
-    height: 20px;
-`
-
-const LogoSection = styled(LoginComponent)`
-    width: 420px;
-    height: 420px;
-    background-color: rgba(255,255,255,0);
-
-    img {
-        height: 100%;
-        width: 100%;
-        padding: 12px;
-    }
-`
-
-const Text = styled.span`
-    padding-left: 2rem;
-    text-align: left;
-    font-weight: 700;
-    font-size: 2rem;
-    width: 100%;
-`
-
-const Input = styled.input`
-    width: 80%;
-    height: 42px;
-    padding: 5px 5px 5px 1rem;
-    border-radius: 0.5rem;
-    border: none;
-    gap: 1rem;
-    font-size: 1rem;
-`
-
-const LoginButton = styled(Input)`
-    background-color: #6200ea;
-    padding: 0;
-    border: none;
-    color: white;
-
-    &:hover {
-        background-color: #5200c6;
-        cursor: pointer;
-    }
-`
-
-const ErrorText = styled.span`
-    color: red;
-    font-size: 0.9rem;
-    margin-top: 10px;
-    
-    animation: slideIn 0.3s ease;
-
-    @keyframes slideIn {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-        
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-`;
