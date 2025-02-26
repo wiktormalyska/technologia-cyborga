@@ -59,6 +59,7 @@ public class JwtTokenProvider {
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
+        cookie.setAttribute("SameSite", "Strict");
         cookie.setMaxAge(3600 * 12);     // 12h
         return cookie;
     }
