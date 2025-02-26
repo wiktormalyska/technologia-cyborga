@@ -53,20 +53,6 @@ public class JwtTokenProvider {
                 .signWith(key())
                 .compact();
     }
-//Na publikacje zmienic secure
-
-    public Cookie createJwtCookie(String token) {
-        Cookie cookie = new Cookie("token", token);
-        cookie.setHttpOnly(false);
-//        cookie.setSecure(true);
-        cookie.setSecure(false);
-        cookie.setPath("/");
-//        cookie.setAttribute("SameSite", "None");
-        cookie.setAttribute("SameSite", "Lax");
-//        cookie.setDomain("technologia-cyborga.wiktormalyska.ovh");
-        cookie.setMaxAge(3600 * 12);     // 12h
-        return cookie;
-    }
 
     private Key key() {
         byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);
