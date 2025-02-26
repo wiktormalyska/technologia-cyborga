@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import {useGetUserById} from "../hooks/useUsers";
 import {useEffect} from "react";
 import {useAuth} from "../auth/AuthContext";

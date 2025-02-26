@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { APIEndpoints, HttpRequestMethods } from "../values/backendValues";
+import { APIEndpoints } from "../values/backendValues";
 import { useAuth } from "../auth/AuthContext";
 import { LoginDto, RegisterDto } from "../auth/types";
 
@@ -59,7 +59,7 @@ export const useRegister = () => {
 
 // hook for authenticated user data
 export const useCurrentUser = () => {
-    const { token, isAuthenticated, decodedToken } = useAuth();
+    const {isAuthenticated, decodedToken } = useAuth();
 
     return {
         user: isAuthenticated ? {
