@@ -5,7 +5,7 @@
     <scripts>
       <script value="dev" />
     </scripts>
-    <node-interpreter value="$APPLICATION_CONFIG_DIR$/node/versions/22.11.0/bin/node" />
+    <node-interpreter value="project" />
     <envs />
     <method v="2" />
   </configuration>

@@ -1,5 +1,6 @@
 package ovh.wiktormalyska.backend.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import ovh.wiktormalyska.backend.model.Message;
 import ovh.wiktormalyska.backend.model.User;
 import ovh.wiktormalyska.backend.repository.MessageRepository;
@@ -15,6 +16,7 @@ public class MessageService {
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
 
+    @Autowired
     public MessageService(MessageRepository messageRepository, UserRepository userRepository) {
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;
