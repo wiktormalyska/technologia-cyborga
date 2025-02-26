@@ -2,7 +2,6 @@ package ovh.wiktormalyska.backend.security;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.Authentication;
@@ -35,7 +34,7 @@ public class JwtTokenProvider {
         info.put("userID", userID);
 
         Date currentDate = new Date();
-        long jwtExpirationDate = 3600000;//1h
+        long jwtExpirationDate = 3600000 * 8;//8h
         Date expirationDate = new Date(currentDate.getTime() + jwtExpirationDate);
         return Jwts.builder()
                 .claims(info)
