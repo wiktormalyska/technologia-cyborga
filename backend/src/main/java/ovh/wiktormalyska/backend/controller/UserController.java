@@ -1,5 +1,6 @@
 package ovh.wiktormalyska.backend.controller;
 
+import org.springframework.web.multipart.MultipartFile;
 import ovh.wiktormalyska.backend.model.User;
 import ovh.wiktormalyska.backend.service.UserService;
 import jakarta.validation.Valid;
@@ -12,8 +13,11 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
     public List<User> getAllUsers() {
@@ -57,6 +61,28 @@ public class UserController {
         }
         catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("{id}/profile-image")
+    public ResponseEntity<String> getProfileImage(@PathVariable Long id) {
+        try {
+            String imageUrl = userService.getProfileImage(id);
+            return ResponseEntity.ok(imageUrl);
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("{id}/profile-image")
+    public ResponseEntity<String> updateProfileImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        try {
+            String imageUrl = userService.updateProfileImage(file, id);
+            return ResponseEntity.ok(imageUrl);
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }

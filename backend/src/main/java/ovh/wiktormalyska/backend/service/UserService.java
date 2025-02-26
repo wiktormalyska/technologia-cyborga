@@ -1,5 +1,6 @@
 package ovh.wiktormalyska.backend.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import ovh.wiktormalyska.backend.dto.UserDto;
 import ovh.wiktormalyska.backend.model.Role;
 import ovh.wiktormalyska.backend.model.User;
@@ -19,9 +20,13 @@ public class UserService {
 
     private final RoleRepository roleRepository;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+    private final ImageService imageService;
+
+    @Autowired
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, ImageService imageService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.imageService = imageService;
     }
 
     public List<User> getAllUsers() {
@@ -65,5 +70,24 @@ public class UserService {
             throw new IllegalArgumentException("User not found");
         }
         userRepository.deleteById(id);
+    }
+
+    public String updateProfileImage(MultipartFile file, Long userId){
+        return userRepository.findById(userId).map(user -> {
+            try {
+                String imageUrl = imageService.storeImage(file, user);
+                user.setProfileImagePath(imageUrl);
+                userRepository.save(user);
+                return imageUrl;
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Error while updating profile image");
+            }
+        }).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    public String getProfileImage(Long userId) {
+        return userRepository.findById(userId)
+                .map(User::getProfileImagePath)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 }

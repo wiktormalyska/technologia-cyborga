@@ -1,5 +1,6 @@
 package ovh.wiktormalyska.backend.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ovh.wiktormalyska.backend.model.Chat;
 import ovh.wiktormalyska.backend.model.User;
@@ -17,6 +18,7 @@ public class ChatService {
     private final UserRepository userRepository;
 
 
+    @Autowired
     public ChatService(ChatRepository chatRepository, UserRepository userRepository) {
         this.chatRepository = chatRepository;
         this.userRepository = userRepository;
