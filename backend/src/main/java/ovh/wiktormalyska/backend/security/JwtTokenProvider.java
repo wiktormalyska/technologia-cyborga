@@ -53,14 +53,16 @@ public class JwtTokenProvider {
                 .signWith(key())
                 .compact();
     }
+//Na publikacje zmienic secure
 
     public Cookie createJwtCookie(String token) {
         Cookie cookie = new Cookie("token", token);
         cookie.setHttpOnly(false);
-        cookie.setSecure(true);
+//        cookie.setSecure(true);
+        cookie.setSecure(false);
         cookie.setPath("/");
-        cookie.setAttribute("SameSite", "None");
-        cookie.setDomain("technologia-cyborga.wiktormalyska.ovh");
+//        cookie.setAttribute("SameSite", "None");
+//        cookie.setDomain("technologia-cyborga.wiktormalyska.ovh");
         cookie.setMaxAge(3600 * 12);     // 12h
         return cookie;
     }
@@ -70,7 +72,7 @@ public class JwtTokenProvider {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String getUsername(String token){
+    public String getUsername(String token) {
         return Jwts.parser()
                 .verifyWith((SecretKey) key())
                 .build()
@@ -79,7 +81,7 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
-    public boolean validateToken(String token){
+    public boolean validateToken(String token) {
         Jwts.parser()
                 .verifyWith((SecretKey) key())
                 .build()
