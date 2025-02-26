@@ -1,9 +1,10 @@
-import {createBrowserRouter, useNavigate} from 'react-router-dom';
+import  {createBrowserRouter, useNavigate} from 'react-router-dom';
 import MainLayout from '../components/MainLayout';
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import {LoginPage} from "../pages/LoginPage";
-import { ProfilePage } from '../pages/ProfilePage';
+import {RegisterPage} from "../pages/RegisterPage";
+import {ProfilePage} from '../pages/ProfilePage';
 import {useAuth} from "../auth/AuthContext";
 import {useEffect} from "react";
 import {LootboxesPage} from "../pages/LootboxesPage";
@@ -57,7 +58,7 @@ const MainRouter = createBrowserRouter([
         path: '/register',
         element: (
             <PublicRoute>
-                <h1>Register</h1>
+                <RegisterPage />
             </PublicRoute>
         )
     },

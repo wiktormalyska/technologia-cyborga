@@ -1,5 +1,3 @@
-import styled from "styled-components"
-
 interface BasePageProps {
     children?: React.ReactNode;
     title?: string;

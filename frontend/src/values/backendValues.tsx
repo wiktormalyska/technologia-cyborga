@@ -17,6 +17,7 @@ export interface Endpoint {
 export const APIEndpoints: {
     auth: {
         login: Endpoint
+        register: Endpoint
     },
     users: {
         getAll: Endpoint
@@ -51,6 +52,10 @@ export const APIEndpoints: {
     auth: {
         login: {
             url: "api/auth/login",
+            method: HttpRequestMethods.POST
+        },
+        register: {
+            url: "api/auth/register",
             method: HttpRequestMethods.POST
         }
     },
