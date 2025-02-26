@@ -55,11 +55,11 @@ public class JwtTokenProvider {
     }
 
     public Cookie createJwtCookie(String token) {
-        Cookie cookie = new Cookie("jwt", token);
+        Cookie cookie = new Cookie("token", token);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
-        cookie.setMaxAge(3600);     // 1h
+        cookie.setMaxAge(3600 * 12);     // 12h
         return cookie;
     }
 
