@@ -60,6 +60,7 @@ public class JwtTokenProvider {
         cookie.setSecure(true);
         cookie.setPath("/");
         cookie.setAttribute("SameSite", "None");
+        cookie.setDomain("technologia-cyborga.wiktormalyska.ovh");
         cookie.setMaxAge(3600 * 12);     // 12h
         return cookie;
     }

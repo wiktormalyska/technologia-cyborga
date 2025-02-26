@@ -15,7 +15,6 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(
-            "http://localhost",
             "http://localhost:3000",
             "https://frontend.technologia-cyborga.wiktormalyska.ovh"
         ));
