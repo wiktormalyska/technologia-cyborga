@@ -60,6 +60,7 @@ public class UserService {
         }
         Role userRole = roleRepository.findByName("USER").orElseThrow(() -> new IllegalArgumentException("Role not found"));
         user.setRoles(Set.of(userRole));
+        user.setProfileImagePath("/defaultProfile.png");
         return userRepository.save(user);
     }
 
