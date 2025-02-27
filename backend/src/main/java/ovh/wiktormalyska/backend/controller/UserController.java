@@ -1,12 +1,13 @@
 package ovh.wiktormalyska.backend.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 import ovh.wiktormalyska.backend.model.User;
 import ovh.wiktormalyska.backend.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -36,8 +37,7 @@ public class UserController {
         try {
             User createdUser = userService.createUser(user);
             return ResponseEntity.ok(createdUser);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);
         }
     }
@@ -47,8 +47,7 @@ public class UserController {
         try {
             User updatedUser = userService.updateUser(id, user);
             return ResponseEntity.ok(updatedUser);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -58,8 +57,7 @@ public class UserController {
         try {
             userService.deleteUser(id);
             return ResponseEntity.noContent().build();
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -69,19 +67,22 @@ public class UserController {
         try {
             String imageUrl = userService.getProfileImage(id);
             return ResponseEntity.ok(imageUrl);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PutMapping("{id}/profile-image")
-    public ResponseEntity<String> updateProfileImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> updateProfileImage(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file,
+            Authentication authentication) {
         try {
+            System.out.println(authentication.getAuthorities());
+
             String imageUrl = userService.updateProfileImage(file, id);
             return ResponseEntity.ok(imageUrl);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);
         }
     }

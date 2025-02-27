@@ -85,7 +85,7 @@ public class UserService {
                 String imageUrl = imageService.storeImage(file, user);
                 user.setProfileImagePath(imageUrl);
                 userRepository.save(user);
-                return getBackendUrl()+imageUrl;
+                return getBackendUrl()+"/images"+imageUrl;
             } catch (Exception e) {
                 throw new IllegalArgumentException("Error while updating profile image");
             }
