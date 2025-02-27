@@ -1,5 +1,6 @@
 package ovh.wiktormalyska.backend.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +26,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto) {
         String token = authService.login(loginDto);
-
         AuthResponseDto authResponseDto = new AuthResponseDto();
         authResponseDto.setAccessToken(token);
-
         System.out.println("User logged in:" + loginDto.getUsername());
         return new ResponseEntity<>(authResponseDto, HttpStatus.OK);
     }
