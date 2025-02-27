@@ -51,6 +51,7 @@ public class UserService {
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .roles(user.getRoles())
+                .profileImagePath(user.getProfileImagePath())
                 .build();
     }
 
