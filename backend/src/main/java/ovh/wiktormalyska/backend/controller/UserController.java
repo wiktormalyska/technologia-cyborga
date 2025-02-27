@@ -1,5 +1,6 @@
 package ovh.wiktormalyska.backend.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 import ovh.wiktormalyska.backend.model.Role;
@@ -22,6 +23,7 @@ public class UserController {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
+    @Autowired
     public UserController(UserService userService, UserRepository userRepository, RoleRepository roleRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
@@ -34,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         return userService.getUserById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -51,7 +53,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @Valid @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @Valid @RequestBody User user) {
         try {
             User updatedUser = userService.updateUser(id, user);
             return ResponseEntity.ok(updatedUser);
@@ -61,7 +63,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
         try {
             userService.deleteUser(id);
             return ResponseEntity.noContent().build();
@@ -71,7 +73,7 @@ public class UserController {
     }
 
     @GetMapping("{id}/profile-image")
-    public ResponseEntity<String> getProfileImage(@PathVariable Long id) {
+    public ResponseEntity<String> getProfileImage(@PathVariable("id") Long id) {
         try {
             String imageUrl = userService.getProfileImage(id);
             return ResponseEntity.ok(imageUrl);
@@ -82,7 +84,7 @@ public class UserController {
 
     @PutMapping("{id}/profile-image")
     public ResponseEntity<String> updateProfileImage(
-            @PathVariable Long id,
+            @PathVariable("id") Long id,
             @RequestParam("file") MultipartFile file,
             Authentication authentication) {
         try {

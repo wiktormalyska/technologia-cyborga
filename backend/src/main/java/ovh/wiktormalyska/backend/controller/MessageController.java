@@ -11,8 +11,12 @@ import java.util.List;
 @RequestMapping("/api/messages")
 public class MessageController {
 
+    private final MessageService messageService;
+
     @Autowired
-    private MessageService messageService;
+    public MessageController(MessageService messageService) {
+        this.messageService = messageService;
+    }
 
     @GetMapping
     public List<Message> getAllMessages() {

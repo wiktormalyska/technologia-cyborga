@@ -93,7 +93,7 @@ public class UserService {
     }
 
     public String getProfileImage(Long userId) {
-        return getBackendUrl()+userRepository.findById(userId)
+        return getBackendUrl()+"/images"+userRepository.findById(userId)
                 .map(User::getProfileImagePath)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }

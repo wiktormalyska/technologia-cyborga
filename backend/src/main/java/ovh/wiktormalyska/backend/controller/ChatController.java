@@ -13,8 +13,13 @@ import java.util.List;
 @RequestMapping("/api/chats")
 public class ChatController {
 
-    @Autowired
+    final
     ChatService chatService;
+
+    @Autowired
+    public ChatController(ChatService chatService) {
+        this.chatService = chatService;
+    }
 
     @GetMapping
     List<Chat> getAllChats() {

@@ -13,8 +13,12 @@ import java.util.List;
 @RequestMapping("/api/friends")
 public class FriendController {
 
+    private final FriendService friendService;
+
     @Autowired
-    private FriendService friendService;
+    public FriendController(FriendService friendService) {
+        this.friendService = friendService;
+    }
 
     @GetMapping("/{userId}")
     public List<Friend> getAllFriends(@PathVariable Long userId) {
