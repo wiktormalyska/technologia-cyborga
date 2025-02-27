@@ -2,22 +2,30 @@ package ovh.wiktormalyska.backend.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
+import ovh.wiktormalyska.backend.model.Role;
 import ovh.wiktormalyska.backend.model.User;
+import ovh.wiktormalyska.backend.repository.RoleRepository;
+import ovh.wiktormalyska.backend.repository.UserRepository;
 import ovh.wiktormalyska.backend.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserRepository userRepository, RoleRepository roleRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @GetMapping
@@ -78,7 +86,12 @@ public class UserController {
             @RequestParam("file") MultipartFile file,
             Authentication authentication) {
         try {
-            System.out.println(authentication.getAuthorities());
+            User user = userRepository.findByUsername(authentication.getName()).orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+            Role adminRole = roleRepository.findByName("ADMIN").orElseThrow(() -> new IllegalArgumentException("Role not found"));
+            if (user.getRoles().contains(adminRole) || (!Objects.equals(user.getId(), id))){
+                return ResponseEntity.badRequest().body("You are not allowed to update this user's profile image");
+            }
 
             String imageUrl = userService.updateProfileImage(file, id);
             return ResponseEntity.ok(imageUrl);
