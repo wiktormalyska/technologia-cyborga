@@ -22,6 +22,8 @@ export const APIEndpoints: {
     },
     users: {
         getAll: Endpoint
+        getByUsername: Endpoint
+        findByUsername: Endpoint
         create: Endpoint
         getById: Endpoint
         updateById: Endpoint
@@ -65,6 +67,14 @@ export const APIEndpoints: {
     users: {
         getAll: {
             url: "api/users",
+            method: HttpRequestMethods.GET
+        },
+        getByUsername: {
+            url: "api/users/username",
+            method: HttpRequestMethods.GET
+        },
+        findByUsername: {
+          url:   "api/users/find",
             method: HttpRequestMethods.GET
         },
         create: {
