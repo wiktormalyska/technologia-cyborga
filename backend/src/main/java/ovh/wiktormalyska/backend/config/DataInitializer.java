@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import ovh.wiktormalyska.backend.repository.RoleRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
 import ovh.wiktormalyska.backend.service.UserService;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -69,17 +71,18 @@ public class DataInitializer implements ApplicationRunner {
         }
     }
 
-    private String getDefaultProfileImagePath() {
-        String filename = "defaultProfile.png";
-        Path filePath = Paths.get(imagePath, filename);
 
-        if (!Files.exists(filePath)) {
-            logger.error("Default profile image not found: {}", filePath);
-            throw new IllegalArgumentException("Default profile image not found");
-        }
-
-        return "/images/" + filename;
+private String getDefaultProfileImagePath() {
+    ClassPathResource resource = new ClassPathResource("static/images/defaultProfile.png"); // Usuń 'backend/src/main/resources/'
+    if (!resource.exists()) {
+        throw new IllegalArgumentException("Default profile image not found");
     }
+    try {
+        return resource.getURL().getPath();
+    } catch (IOException e) {
+        throw new IllegalArgumentException("Error reading default profile image path", e);
+    }
+}
 
     private enum Roles {
         USER,
