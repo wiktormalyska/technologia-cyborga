@@ -108,7 +108,7 @@ public class UserService {
                 String imageUrl = imageService.storeImage(file, user);
                 user.setProfileImagePath(imageUrl);
                 userRepository.save(user);
-                return getBackendUrl()+"/images"+imageUrl;
+                return imageUrl;
             } catch (Exception e) {
                 throw new IllegalArgumentException("Error while updating profile image");
             }
@@ -116,7 +116,7 @@ public class UserService {
     }
 
     public String getProfileImage(Long userId) {
-        return getBackendUrl()+"/images"+userRepository.findById(userId)
+        return userRepository.findById(userId)
                 .map(User::getProfileImagePath)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
