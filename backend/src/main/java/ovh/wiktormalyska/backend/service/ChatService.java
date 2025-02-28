@@ -49,7 +49,7 @@ public class ChatService {
 
         Chat chat = Chat.builder()
                 .user1(user1)
-                .user1(user2)
+                .user2(user2)
                 .createdAt(LocalDateTime.now())
                 .build();
 
