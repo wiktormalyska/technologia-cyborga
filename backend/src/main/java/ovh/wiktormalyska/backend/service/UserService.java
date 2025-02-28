@@ -107,6 +107,6 @@ public class UserService {
             return "http://localhost:8080";
         }
         Dotenv dotenv = Dotenv.configure().load();
-        return dotenv.get("BACKEND_URL");
+        return dotenv.get("DOMAIN_NAME");
     }
 }
