@@ -1,24 +1,28 @@
 package ovh.wiktormalyska.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ovh.wiktormalyska.backend.dto.ChatDto;
 import ovh.wiktormalyska.backend.model.Chat;
+import ovh.wiktormalyska.backend.model.Message;
 import ovh.wiktormalyska.backend.service.ChatService;
+import ovh.wiktormalyska.backend.service.MessageService;
+import ovh.wiktormalyska.backend.service.UserService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/chats")
 public class ChatController {
-
-    final
-    ChatService chatService;
+    private final ChatService chatService;
+    private final MessageService messageService;
 
     @Autowired
-    public ChatController(ChatService chatService) {
+    public ChatController(ChatService chatService, MessageService messageService) {
         this.chatService = chatService;
+        this.messageService = messageService;
     }
 
     @GetMapping
@@ -27,7 +31,7 @@ public class ChatController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Chat> getChatsByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<Chat>> getChatsByUserId(@PathVariable Long userId) {
         return chatService.getChatsByUserId(userId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -59,5 +63,17 @@ public class ChatController {
         catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/{chatId}/messages")
+    public ResponseEntity<List<Message>> getMessagesByChatId(@PathVariable Long chatId) {
+        List<Message> messages = messageService.getMessagesByChatId(chatId);
+        return ResponseEntity.ok(messages);
+    }
+
+    @PostMapping("/{chatId}/message")
+    public ResponseEntity<Message> sendMessage(@PathVariable Long chatId, @RequestParam Long senderId, @RequestParam Long receiverId, @RequestParam String content) {
+        Message message = messageService.createMessage(content, senderId, receiverId, chatId );
+        return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
 }

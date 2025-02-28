@@ -32,6 +32,10 @@ public class Message {
     @JoinColumn(name = "receiver_id", nullable = false)
     private User receiver;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chat_id", nullable = false)
+    private Chat chat;
+
     @Column(nullable = false)
     private LocalDateTime timestamp;
 }

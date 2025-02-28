@@ -1,8 +1,10 @@
 package ovh.wiktormalyska.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import ovh.wiktormalyska.backend.model.Chat;
 import ovh.wiktormalyska.backend.model.Message;
 import ovh.wiktormalyska.backend.model.User;
+import ovh.wiktormalyska.backend.repository.ChatRepository;
 import ovh.wiktormalyska.backend.repository.MessageRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -15,11 +17,13 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final ChatRepository chatRepository;
 
     @Autowired
-    public MessageService(MessageRepository messageRepository, UserRepository userRepository) {
+    public MessageService(MessageRepository messageRepository, UserRepository userRepository, ChatRepository chatRepository) {
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;
+        this.chatRepository = chatRepository;
     }
 
     public List<Message> getAllMessages() {
@@ -30,14 +34,16 @@ public class MessageService {
         return messageRepository.findById(id);
     }
 
-    public Message createMessage(String content, Long senderId, Long receiverId) {
+    public Message createMessage(String content, Long senderId, Long receiverId, Long chatId) {
         User sender = userRepository.findById(senderId).orElseThrow(() -> new IllegalArgumentException("Sender not found"));
         User receiver = userRepository.findById(receiverId).orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
+        Chat chat = chatRepository.findById(chatId).orElseThrow(() -> new IllegalArgumentException("Chat not found"));
 
         Message message = Message.builder()
                 .content(content)
                 .sender(sender)
                 .receiver(receiver)
+                .chat(chat)
                 .timestamp(LocalDateTime.now())
                 .build();
         return messageRepository.save(message);
@@ -57,5 +63,9 @@ public class MessageService {
 
     public List<Message> getMessagesByReceiverId(Long receiverId) {
         return messageRepository.findByReceiverId(receiverId);
+    }
+
+    public List<Message> getMessagesByChatId(Long chatId) {
+        return messageRepository.findByChatId(chatId);
     }
 }

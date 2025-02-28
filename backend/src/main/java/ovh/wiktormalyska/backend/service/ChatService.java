@@ -28,7 +28,7 @@ public class ChatService {
         return chatRepository.findAll();
     }
 
-    public Optional<Chat> getChatsByUserId(long userId) {
+    public Optional<List<Chat>> getChatsByUserId(long userId) {
             return chatRepository.findByUserId(userId);
     }
 
