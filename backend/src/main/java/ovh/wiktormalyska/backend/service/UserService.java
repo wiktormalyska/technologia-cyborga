@@ -41,7 +41,9 @@ public class UserService {
     }
 
     public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        user.setProfileImagePath(getBackendUrl()+user.getProfileImagePath());
+        return Optional.of(user);
     }
 
     public UserDto getUserByUsername(String username) {
@@ -51,7 +53,7 @@ public class UserService {
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .roles(user.getRoles())
-                .profileImagePath(user.getProfileImagePath())
+                .profileImagePath(getBackendUrl()+user.getProfileImagePath())
                 .build();
     }
 
