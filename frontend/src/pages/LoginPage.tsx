@@ -49,13 +49,13 @@ export const LoginPage = () => {
     };
 
     return (
-        <div className="w-full h-full flex justify-center items-center bg-pageBackground">
+        <div className="w-full h-full flex justify-center items-center bg-background">
             <div className="flex flex-row items-center gap-20">
-                <div className="flex flex-col w-[420px] gap-4 items-center bg-[#4b4b65] text-white rounded-2xl p-10">
+                <div className="flex flex-col w-[420px] gap-4 items-center bg-primary/10 text-text rounded-2xl p-10">
                     <div className="text-2xl">Login</div>
 
                     {successMessage && (
-                        <div className="bg-green-800 text-white p-3 rounded-xl w-full text-center">
+                        <div className="bg-green-800 text-text p-3 rounded-xl w-full text-center">
                             {successMessage}
                         </div>
                     )}
@@ -64,7 +64,7 @@ export const LoginPage = () => {
                         <input
                             placeholder="Username"
                             value={username}
-                            className="bg-[#e4e4eb] text-black p-2 pl-4 w-full rounded-xl"
+                            className="bg-primary/25 text-text p-2 pl-4 w-full rounded-xl"
                             onChange={(e) => setUsername(e.target.value)}
                         />
 
@@ -72,25 +72,25 @@ export const LoginPage = () => {
                             placeholder="Password"
                             type="password"
                             value={password}
-                            className="bg-[#e4e4eb] text-black p-2 pl-4 w-full rounded-xl"
+                            className="bg-primary/25 text-text p-2 pl-4 w-full rounded-xl"
                             onChange={(e) => setPassword(e.target.value)}
                         />
 
                         <button
                             type="submit"
                             disabled={isPending}
-                            className="bg-border text-white p-2 w-full rounded-xl hover:bg-opacity-80"
+                            className="bg-primary/75 text-text p-2 w-full rounded-xl hover:bg-opacity-80 "
                         >
                             {isPending ? "Logging in..." : "Login"}
                         </button>
                     </form>
 
                     {error && (
-                        <div className="text-white text-sm mt-2">{error}</div>
+                        <div className="text-text text-sm mt-2">{error}</div>
                     )}
 
                     <div className="mt-4 text-sm">
-                        Don't have an account? <Link to="/register" className="text-white hover:underline">Register</Link>
+                        Don't have an account? <Link to="/register" className="text-text hover:underline">Register</Link>
                     </div>
                 </div>
 

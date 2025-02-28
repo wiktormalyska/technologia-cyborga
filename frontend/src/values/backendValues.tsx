@@ -9,6 +9,7 @@ export enum HttpRequestMethods {
     TRACE = 'TRACE',
     CONNECT = 'CONNECT',
 }
+
 export interface Endpoint {
     url: string
     method: HttpRequestMethods
@@ -25,6 +26,8 @@ export const APIEndpoints: {
         getById: Endpoint
         updateById: Endpoint
         deleteById: Endpoint
+        getProfileImage: Endpoint
+        updateProfilePicture: Endpoint
     }
     chats: {
         getAll: Endpoint
@@ -48,7 +51,7 @@ export const APIEndpoints: {
         sendMessage: Endpoint
         deleteById: Endpoint
     }
-}={
+} = {
     auth: {
         login: {
             url: "api/auth/login",
@@ -68,18 +71,26 @@ export const APIEndpoints: {
             url: "api/users",
             method: HttpRequestMethods.POST
         },
-       getById: {
+        getById: {
             url: "api/users",
             method: HttpRequestMethods.GET
-       },
-       updateById: {
+        },
+        updateById: {
             url: "api/users",
             method: HttpRequestMethods.PUT
-       },
-       deleteById: {
+        },
+        deleteById: {
             url: "api/users",
             method: HttpRequestMethods.DELETE
-       }
+        },
+        getProfileImage: {
+            url: "api/users",
+            method: HttpRequestMethods.GET
+        },
+        updateProfilePicture: {
+            url: "api/users",
+            method: HttpRequestMethods.PUT
+        }
     },
     chats: {
         getAll: {
