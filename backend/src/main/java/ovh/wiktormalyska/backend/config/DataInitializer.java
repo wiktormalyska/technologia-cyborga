@@ -13,6 +13,8 @@ import ovh.wiktormalyska.backend.model.Role;
 import ovh.wiktormalyska.backend.model.User;
 import ovh.wiktormalyska.backend.repository.RoleRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
+import ovh.wiktormalyska.backend.service.UserService;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,15 +28,17 @@ public class DataInitializer implements ApplicationRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final UserService userService;
 
     @Value("${image.upload.directory}")
     private String imagePath;
 
     @Autowired
-    public DataInitializer(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+    public DataInitializer(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, UserService userService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -59,7 +63,7 @@ public class DataInitializer implements ApplicationRunner {
                     .password(passwordEncoder.encode("admin"))
                     .email("admin@admin.com")
                     .roles(Set.of(roleRepository.findByName(Roles.ADMIN.name()).orElseThrow()))
-                    .profileImagePath(getDefaultProfileImagePath())
+                    .profileImagePath(userService.getBackendUrl()+getDefaultProfileImagePath())
                     .build();
             userRepository.save(admin);
         }
@@ -70,7 +74,7 @@ public class DataInitializer implements ApplicationRunner {
         Path filePath = Paths.get(imagePath, filename);
 
         if (!Files.exists(filePath)) {
-            logger.error("Default profile image not found: {}", filePath.toString());
+            logger.error("Default profile image not found: {}", filePath);
             throw new IllegalArgumentException("Default profile image not found");
         }
 

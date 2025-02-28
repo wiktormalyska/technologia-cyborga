@@ -64,6 +64,8 @@ public class AuthServiceImpl implements AuthService {
         userService.createUser(user);
 
         User user1 = userRepository.findByUsername(registerDto.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        user1.setProfileImagePath(userService.getBackendUrl()+"/images"+user1.getProfileImagePath());
+        userRepository.save(user1);
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
