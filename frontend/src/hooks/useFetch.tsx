@@ -26,7 +26,7 @@ export const useMutate = (key: string, apiEndpoint: Endpoint) => {
     });
 };
 
-export const usePathParams = (key: string, apiEndpoint: Endpoint) => {
+export const usePathParams = (key: string, apiEndpoint: Endpoint, postParamUrl?:string | null) => {
     const { token } = useAuth();
     interface mutationParams {
         param: string,
@@ -34,7 +34,7 @@ export const usePathParams = (key: string, apiEndpoint: Endpoint) => {
     }
 
     return useMutation({
-        mutationKey: [key, apiEndpoint.url, apiEndpoint.method],
+        mutationKey: [key, apiEndpoint.url+postParamUrl, apiEndpoint.method],
         mutationFn: ({param, body}: mutationParams) => fetchData(apiEndpoint.url+"/"+param, apiEndpoint.method, token || "", body),
     });
 };

@@ -31,39 +31,48 @@ const Navbar = () => {
     ];
 
     return (
-        <div className={"flex flex-col justify-start items-center " +
-            "pt-3 pb-3 pl-4 pr-4 bg-neutral-900 h-full w-[250px]"}>
-            <div className={"flex flex-row items-center text-center gap-2 mb-4 mt-4"}>
-                <img className={"h-[40px] w-[40px] bg-neutral-900"}
-                     src={robotIcon} alt="Robot"/>
-                <p className={"pl-2 text-text text-2xl tracking-wide"}>Cyborg App</p>
+        <div className={"flex flex-col justify-start items-center bg-primary/5 p-5" +
+            "h-full w-[250px]"}>
+            <div className={"flex w-full justify-center text-center gap-2 pb-4 pt-4"}>
+                <div className={"flex flex-row items-center"}>
+                    <img className={"h-[40px] w-[40px]"}
+                         src={robotIcon} alt="Robot"/>
+                    <p className={"pl-2 text-text text-xl tracking-wide"}>Cyborg App</p>
+                </div>
             </div>
-            <div className={"w-full h-[1px] bg-neutral-600 mt-4 mb-4 m-0"}/>
-            <div className={"flex flex-col gap-5"}>
+            <div className={"w-full flex flex-col gap-5 p-5 justify-center "}>
                 {menuOptions.map((option, index) => (
-                    <Link className={"flex flex-row items-center p-2 gap-4 cursor-pointer " +
-                        "hover:bg-neutral-800 bg-neutral-900 duration-200 " +
-                        "w-full rounded-lg"}
+                    <Link className={"flex flex-row w-full items-center gap-4"}
                           key={index} to={option.path}>
-                        <img className={"h-[40px] w-[40px]" +
-                            "transition-all duration-300"}
-                             src={option.icon} alt={option.name}/>
-                        <p>{option.name}</p>
+                        <div className={"flex flex-row items-center justify-center " +
+                            "w-full h-full rounded-2xl " +
+                            "bg-primary/10 hover:bg-primary/20 transition-all duration-200 " +
+                            "pt-2 pb-2"}>
+                            <img className={"h-[40px] w-[40px]" +
+                                "transition-all duration-300"}
+                                 src={option.icon} alt={option.name}/>
+                            <p>{option.name}</p>
+                        </div>
+
                     </Link>
                 ))}
             </div>
-            <Link className={"flex items-center flex-col content-center " +
-                "justify-end flex-nowrap font-bold mt-auto w-[50%] p-4 " +
-                " bg-neutral-900 hover:bg-neutral-800 duration-200 rounded-lg" +
-                " transition-all"}
-                  key={"logout"} to={"/logout"}>
-                <img
-                    className={"h-[30px] w-[30px] "}
-                    src={logoutIcon}
-                    alt="logout"
-                />
-                <p className={"text-lg text-text"}>Logout</p>
-            </Link>
+            <div className={"flex items-center flex-col content-center " +
+                "justify-end flex-nowrap font-bold h-full w-full " +
+                "p-5"}>
+                <Link className={"w-full flex flex-col justify-center items-center " +
+                    "bg-primary/10 hover:bg-primary/20 duration-200 transition-all " +
+                    "rounded-lg " +
+                    "p-5"}
+                      key={"logout"} to={"/logout"}>
+                    <img
+                        className={"h-[30px] w-[30px] "}
+                        src={logoutIcon}
+                        alt="logout"
+                    />
+                    <p className={"text-lg text-text"}>Logout</p>
+                </Link>
+            </div>
         </div>
     );
 };

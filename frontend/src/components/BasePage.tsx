@@ -1,3 +1,6 @@
+import * as React from "react";
+import { motion } from "motion/react"
+
 interface BasePageProps {
     children?: React.ReactNode;
     title?: string;
@@ -14,7 +17,7 @@ export const BasePage =
         const header = () => {
             if (!title) return null;
             return (
-                <div className={"w-full p-1 text-center bg-primary rounded-xl mb-1"}>
+                <div className={"w-full text-center bg-secondary/50 rounded-full mb-1 p-3 pl-10 pr-10"}>
                     <div className={"text-2xl text-center font-bold text-text"}
                     >
                         {title}
@@ -29,13 +32,17 @@ export const BasePage =
         };
 
         return (
-            <div className={"w-full h-full flex flex-col items-center " +
+            <motion.div
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 1}}
+                className={"h-full flex flex-col items-center" +
                     justifyContent || "center" +
                     side_spacing || "0"
                 }
             >
                 {header()}
                 <div className={props.className+ " flex flex-wrap gap-1 w-full justify-center"}>{children}</div>
-            </div>
+            </motion.div>
         );
     };

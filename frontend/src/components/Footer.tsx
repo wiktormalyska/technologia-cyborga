@@ -9,8 +9,8 @@ const Footer = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className={" bg-neutral-900 text-text text-center p-0 pt-4 pb-4"}>
-            <div className={"flex flex-row justify-center gap-5"}>
+        <div className={"bg-background  text-text text-center"}>
+            <div className={"flex bg-primary/5 flex-row justify-center gap-5 pt-4 pb-4"}>
                 <div className={"flex flex-col"}
                      onClick={() => {
                          isOpen ? setIsOpen(false) : setIsOpen(true)
@@ -18,7 +18,7 @@ const Footer = () => {
                     <div className={"text-xl font-bold text-text"}>
                         Contact Information
                     </div>
-                    <div className={`text-xl text-left text-text overflow-hidden` +
+                    <div className={`text-xl text-left text-text overflow-hidden ` +
                         `transition-all duration-300 ease-in-out ${
                             isOpen
                                 ? 'opacity-100 translate-y-0 max-h-[100px] pt-2'

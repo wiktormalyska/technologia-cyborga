@@ -25,3 +25,15 @@ export const useDeleteUserById = () => {
     const endpoint = APIEndpoints.users.deleteById
     return usePathParams("deleteById-users", endpoint)
 }
+
+export const useGetUserProfileImage = () => {
+    const endpoint = APIEndpoints.users.getProfileImage
+    const postPathParamUrl = "/profile-image"
+    return usePathParams("getProfileImage-users", endpoint, postPathParamUrl)
+}
+
+export const usePutUserProfileImage = () => {
+    const endpoint = APIEndpoints.users.updateProfilePicture
+    const postPathParamUrl = "/profile-image"
+    return usePathParams("putProfileImage-users", endpoint, postPathParamUrl)
+}
