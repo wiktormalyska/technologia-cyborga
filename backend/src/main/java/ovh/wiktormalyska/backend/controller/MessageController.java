@@ -31,9 +31,9 @@ public class MessageController {
     }
 
     @PostMapping
-    public ResponseEntity<Message> createMessage(@RequestParam String content, @RequestParam Long senderId, @RequestParam Long receiverId) {
+    public ResponseEntity<Message> createMessage(@RequestParam String content, @RequestParam Long senderId, @RequestParam Long receiverId, @RequestParam Long chatId) {
         try {
-            Message message = messageService.createMessage(content, senderId, receiverId);
+            Message message = messageService.createMessage(content, senderId, receiverId, chatId);
             return ResponseEntity.ok(message);
         }
         catch (IllegalArgumentException e) {
