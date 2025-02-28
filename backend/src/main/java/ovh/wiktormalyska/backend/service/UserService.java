@@ -63,7 +63,7 @@ public class UserService {
             return Optional.empty();
         }
         List<UserDto> userDtos = users.stream().map(user -> {
-            user.setProfileImagePath(getBackendUrl()+user.getProfileImagePath());
+            user.setProfileImagePath(user.getProfileImagePath());
             return UserDto.builder()
                     .id(user.getId())
                     .username(user.getUsername())
@@ -121,7 +121,7 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 
-    private String getBackendUrl() {
+    public String getBackendUrl() {
         if (Arrays.asList(env.getActiveProfiles()).contains("dev")) {
             return "http://localhost:8080";
         }
