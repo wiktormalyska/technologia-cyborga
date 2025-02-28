@@ -57,6 +57,25 @@ public class UserService {
                 .build();
     }
 
+    public Optional<List<UserDto>> findUserByUsername(String username) {
+        List<User> users = userRepository.findByUsernameContaining(username);
+        if (users.isEmpty()) {
+            return Optional.empty();
+        }
+        List<UserDto> userDtos = users.stream().map(user -> {
+            user.setProfileImagePath(getBackendUrl()+user.getProfileImagePath());
+            return UserDto.builder()
+                    .id(user.getId())
+                    .username(user.getUsername())
+                    .email(user.getEmail())
+                    .roles(user.getRoles())
+                    .profileImagePath(user.getProfileImagePath())
+                    .build();
+        }).toList();
+
+        return Optional.of(userDtos);
+    }
+
     public User createUser(@Valid User user) {
         if (userRepository.existsByUsername(user.getUsername()) || userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Username or e-mail already exists");
