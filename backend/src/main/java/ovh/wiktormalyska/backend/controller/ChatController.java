@@ -9,7 +9,6 @@ import ovh.wiktormalyska.backend.model.Chat;
 import ovh.wiktormalyska.backend.model.Message;
 import ovh.wiktormalyska.backend.service.ChatService;
 import ovh.wiktormalyska.backend.service.MessageService;
-import ovh.wiktormalyska.backend.service.UserService;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class ChatController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<Chat>> getChatsByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<Chat>> getChatsByUserId(@PathVariable("userId") Long userId) {
         return chatService.getChatsByUserId(userId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -55,7 +54,7 @@ public class ChatController {
     }
 
     @DeleteMapping("/{chatId}")
-    public ResponseEntity<Void> deleteChat(@PathVariable Long chatId) {
+    public ResponseEntity<Void> deleteChat(@PathVariable("chatId") Long chatId) {
         try {
             chatService.deleteChat(chatId);
             return ResponseEntity.noContent().build();
@@ -66,13 +65,13 @@ public class ChatController {
     }
 
     @GetMapping("/{chatId}/messages")
-    public ResponseEntity<List<Message>> getMessagesByChatId(@PathVariable Long chatId) {
+    public ResponseEntity<List<Message>> getMessagesByChatId(@PathVariable("chatId") Long chatId) {
         List<Message> messages = messageService.getMessagesByChatId(chatId);
         return ResponseEntity.ok(messages);
     }
 
     @PostMapping("/{chatId}/message")
-    public ResponseEntity<Message> sendMessage(@PathVariable Long chatId, @RequestParam Long senderId, @RequestParam Long receiverId, @RequestParam String content) {
+    public ResponseEntity<Message> sendMessage(@PathVariable("chatId") Long chatId, @RequestParam Long senderId, @RequestParam Long receiverId, @RequestParam String content) {
         Message message = messageService.createMessage(content, senderId, receiverId, chatId );
         return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
