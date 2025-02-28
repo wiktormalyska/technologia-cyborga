@@ -6,6 +6,16 @@ export const useGetAllUsers = () => {
     return useFetch("getAll-users", endpoint)
 }
 
+export const useGetUserByUsername = () => {
+    const endpoint = APIEndpoints.users.getByUsername
+    return usePathParams("getByUsername-users", endpoint)
+}
+
+export const useFindUserByUsername = () => {
+    const endpoint = APIEndpoints.users.findByUsername
+    return usePathParams("findUserByUsername-users", endpoint)
+}
+
 export const useCreateUser = () => {
     const endpoint = APIEndpoints.users.create
     return useMutate("create-users", endpoint)
