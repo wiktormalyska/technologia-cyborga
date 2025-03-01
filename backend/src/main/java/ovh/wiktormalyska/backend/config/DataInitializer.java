@@ -65,24 +65,24 @@ public class DataInitializer implements ApplicationRunner {
                     .password(passwordEncoder.encode("admin"))
                     .email("admin@admin.com")
                     .roles(Set.of(roleRepository.findByName(Roles.ADMIN.name()).orElseThrow()))
-                    .profileImagePath(userService.getBackendUrl()+getDefaultProfileImagePath())
+                    .profileImagePath(userService.getBackendUrl() + getDefaultProfileImagePath())
                     .build();
             userRepository.save(admin);
         }
     }
 
 
-private String getDefaultProfileImagePath() {
-    ClassPathResource resource = new ClassPathResource("static/images/defaultProfile.png"); // Usuń 'backend/src/main/resources/'
-    if (!resource.exists()) {
-        throw new IllegalArgumentException("Default profile image not found");
+    private String getDefaultProfileImagePath() {
+        String filename = "defaultProfile.png";
+        Path filePath = Paths.get(imagePath, filename);
+
+        if (!Files.exists(filePath)) {
+            logger.error("Default profile image not found: {}", filePath);
+            throw new IllegalArgumentException("Default profile image not found");
+        }
+
+        return "/images/" + filename;
     }
-    try {
-        return resource.getURL().getPath();
-    } catch (IOException e) {
-        throw new IllegalArgumentException("Error reading default profile image path", e);
-    }
-}
 
     private enum Roles {
         USER,
