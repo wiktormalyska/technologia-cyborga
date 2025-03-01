@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ovh.wiktormalyska.backend.dto.ChatDto;
+import ovh.wiktormalyska.backend.dto.MessageDto;
 import ovh.wiktormalyska.backend.model.Chat;
 import ovh.wiktormalyska.backend.model.Message;
 import ovh.wiktormalyska.backend.service.ChatService;
@@ -71,8 +72,8 @@ public class ChatController {
     }
 
     @PostMapping("/{chatId}/message")
-    public ResponseEntity<Message> sendMessage(@PathVariable("chatId") Long chatId, @RequestParam Long senderId, @RequestParam Long receiverId, @RequestParam String content) {
-        Message message = messageService.createMessage(content, senderId, receiverId, chatId );
+    public ResponseEntity<Message> sendMessage(@PathVariable("chatId") Long chatId, @RequestBody MessageDto messageDto) {
+        Message message = messageService.createMessage(messageDto.getContent(), messageDto.getSenderId(), messageDto.getReceiverId(), chatId );
         return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
 }
