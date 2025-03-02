@@ -30,6 +30,13 @@ public class ChatController {
         return chatService.getAllChats();
     }
 
+    @GetMapping("/{chatId}")
+    public ResponseEntity<Chat> getChatById(@PathVariable Long chatId) {
+        return chatService.getChatById(chatId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @GetMapping("/{userId}")
     public ResponseEntity<List<Chat>> getChatsByUserId(@PathVariable("userId") Long userId) {
         return chatService.getChatsByUserId(userId)
@@ -54,7 +61,7 @@ public class ChatController {
         }
     }
 
-    @DeleteMapping("/{chatId}")
+    @DeleteMapping("/delete/{chatId}")
     public ResponseEntity<Void> deleteChat(@PathVariable("chatId") Long chatId) {
         try {
             chatService.deleteChat(chatId);
