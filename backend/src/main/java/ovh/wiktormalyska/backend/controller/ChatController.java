@@ -37,19 +37,12 @@ public class ChatController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/getChat")
-    public ResponseEntity<List<Chat>> getChatsByUserId(@PathVariable("userId") Long userId) {
-        return chatService.getChatsByUserId(userId)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    /*@GetMapping("/getChat")
+    @PostMapping("/getUserChat")
     public ResponseEntity<Chat> getChatBetweenUsers(@RequestBody ChatDto chatDto) {
         return chatService.getChatBetweenUsers(chatDto.getUser1Id(), chatDto.getUser2Id())
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }*/
+    }
 
     @PostMapping("/createChat")
     public ResponseEntity<Chat> createChat(@RequestBody ChatDto chatDto) {
@@ -80,7 +73,7 @@ public class ChatController {
 
     @PostMapping("/{chatId}/message")
     public ResponseEntity<Message> sendMessage(@PathVariable("chatId") Long chatId, @RequestBody MessageDto messageDto) {
-        Message message = messageService.createMessage(messageDto.getContent(), messageDto.getSenderId(), messageDto.getReceiverId(), chatId );
+        Message message = messageService.createMessage(messageDto.getContent(), messageDto.getSenderId(), chatId );
         return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
 }

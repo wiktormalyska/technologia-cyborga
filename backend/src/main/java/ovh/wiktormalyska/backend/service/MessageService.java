@@ -34,15 +34,13 @@ public class MessageService {
         return messageRepository.findById(id);
     }
 
-    public Message createMessage(String content, Long senderId, Long receiverId, Long chatId) {
+    public Message createMessage(String content, Long senderId, Long chatId) {
         User sender = userRepository.findById(senderId).orElseThrow(() -> new IllegalArgumentException("Sender not found"));
-        User receiver = userRepository.findById(receiverId).orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
         Chat chat = chatRepository.findById(chatId).orElseThrow(() -> new IllegalArgumentException("Chat not found"));
 
         Message message = Message.builder()
                 .content(content)
                 .sender(sender)
-                .receiver(receiver)
                 .chat(chat)
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -61,9 +59,6 @@ public class MessageService {
         return messageRepository.findBySenderId(senderId);
     }
 
-    public List<Message> getMessagesByReceiverId(Long receiverId) {
-        return messageRepository.findByReceiverId(receiverId);
-    }
 
     public List<Message> getMessagesByChatId(Long chatId) {
         return messageRepository.findByChatId(chatId);
