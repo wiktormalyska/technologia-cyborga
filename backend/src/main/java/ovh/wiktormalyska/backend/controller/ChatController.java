@@ -31,25 +31,25 @@ public class ChatController {
     }
 
     @GetMapping("/{chatId}")
-    public ResponseEntity<Chat> getChatById(@PathVariable Long chatId) {
+    public ResponseEntity<Chat> getChatById(@PathVariable("chatId") Long chatId) {
         return chatService.getChatById(chatId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/getChat")
     public ResponseEntity<List<Chat>> getChatsByUserId(@PathVariable("userId") Long userId) {
         return chatService.getChatsByUserId(userId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/getChat")
+    /*@GetMapping("/getChat")
     public ResponseEntity<Chat> getChatBetweenUsers(@RequestBody ChatDto chatDto) {
         return chatService.getChatBetweenUsers(chatDto.getUser1Id(), chatDto.getUser2Id())
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }
+    }*/
 
     @PostMapping("/createChat")
     public ResponseEntity<Chat> createChat(@RequestBody ChatDto chatDto) {
