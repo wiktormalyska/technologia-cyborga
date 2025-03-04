@@ -36,7 +36,9 @@ class UserControllerTest {
 
     @Test
     void getAllUsers_ShouldReturnListOfUsers() throws Exception {
-        List<User> users = List.of(new User(1L, "John Doe", "john@example.com"));
+        List<User> users = List.of(
+                User.builder().id(1L).name("John Doe").email("john@example.com").build()
+        );
 
         when(userService.getAllUsers()).thenReturn(users);
 
@@ -50,7 +52,7 @@ class UserControllerTest {
 
     @Test
     void getUserById_ShouldReturnUser_WhenUserExists() throws Exception {
-        User user = new User(1L, "John Doe", "john@example.com");
+        User user = User.builder().id(1L).name("John Doe").email("john@example.com").build();
         when(userService.getUserById(1L)).thenReturn(Optional.of(user));
 
         mockMvc.perform(get("/api/users/1"))
@@ -70,7 +72,7 @@ class UserControllerTest {
 
     @Test
     void createUser_ShouldReturnCreatedUser_WhenValidInput() throws Exception {
-        User user = new User(1L, "John Doe", "john@example.com");
+        User user = User.builder().id(1L).name("John Doe").email("john@example.com").build();
         when(userService.createUser(any(User.class))).thenReturn(user);
 
         mockMvc.perform(post("/api/users")
@@ -84,7 +86,7 @@ class UserControllerTest {
 
     @Test
     void updateUser_ShouldReturnUpdatedUser_WhenValidInput() throws Exception {
-        User updatedUser = new User(1L, "John Updated", "john.updated@example.com");
+        User updatedUser = User.builder().id(1L).name("John Updated").email("john.updated@example.com").build();
         when(userService.updateUser(eq(1L), any(User.class))).thenReturn(updatedUser);
 
         mockMvc.perform(put("/api/users/1")

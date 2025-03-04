@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -40,8 +39,8 @@ class MessageControllerTest {
     @Test
     void getAllMessages_ShouldReturnListOfMessages() throws Exception {
         List<Message> messages = Arrays.asList(
-                new Message(1L, "Hello", 101L, 102L),
-                new Message(2L, "How are you?", 102L, 101L)
+                Message.builder().id(1L).content("Hello").senderId(101L).receiverId(102L).build(),
+                Message.builder().id(2L).content("How are you?").senderId(102L).receiverId(101L).build()
         );
 
         when(messageService.getAllMessages()).thenReturn(messages);
@@ -55,7 +54,7 @@ class MessageControllerTest {
 
     @Test
     void getMessageById_ExistingId_ShouldReturnMessage() throws Exception {
-        Message message = new Message(1L, "Hello", 101L, 102L);
+        Message message = Message.builder().id(1L).content("Hello").senderId(101L).receiverId(102L).build();
 
         when(messageService.getMessageById(1L)).thenReturn(Optional.of(message));
 
@@ -74,7 +73,7 @@ class MessageControllerTest {
 
     @Test
     void createMessage_ShouldReturnCreatedMessage() throws Exception {
-        Message message = new Message(1L, "Hello", 101L, 102L);
+        Message message = Message.builder().id(1L).content("Hello").senderId(101L).receiverId(102L).build();
 
         when(messageService.createMessage("Hello", 101L, 102L)).thenReturn(message);
 

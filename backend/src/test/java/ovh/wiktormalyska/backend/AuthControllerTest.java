@@ -39,7 +39,11 @@ class AuthControllerTest {
 
     @Test
     void login_ValidCredentials_ShouldReturnToken() throws Exception {
-        LoginDto loginDto = new LoginDto("user123", "password");
+        LoginDto loginDto = LoginDto.builder()
+                .username("user123")
+                .password("password")
+                .build();
+
         String fakeToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
 
         when(authService.login(loginDto)).thenReturn(fakeToken);

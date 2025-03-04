@@ -41,19 +41,23 @@ class FriendControllerTest {
     @Test
     void getAllFriends_shouldReturnList() throws Exception {
         Long userId = 1L;
-        List<Friend> friends = Arrays.asList(new Friend(), new Friend());
+        List<Friend> friends = Arrays.asList(
+                Friend.builder().userId(1L).friendId(2L).build(),
+                Friend.builder().userId(1L).friendId(3L).build()
+        );
 
         when(friendService.getAllFriends(userId)).thenReturn(friends);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/friends/{userId}", userId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$" ).isArray());
+                .andExpect(jsonPath("$").isArray());
     }
 
     @Test
     void addFriend_shouldReturnFriend() throws Exception {
-        FriendDto friendDto = new FriendDto(1L, 2L);
-        Friend friend = new Friend();
+        FriendDto friendDto = FriendDto.builder().userId(1L).friendId(2L).build();
+        Friend friend = Friend.builder().userId(1L).friendId(2L).build();
+
         when(friendService.addFriend(friendDto.getUserId(), friendDto.getFriendId())).thenReturn(friend);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/friends/add")
@@ -64,8 +68,9 @@ class FriendControllerTest {
 
     @Test
     void acceptFriendRequest_shouldReturnAcceptedFriend() throws Exception {
-        FriendDto friendDto = new FriendDto(1L, 2L);
-        Friend friend = new Friend();
+        FriendDto friendDto = FriendDto.builder().userId(1L).friendId(2L).build();
+        Friend friend = Friend.builder().userId(1L).friendId(2L).build();
+
         when(friendService.acceptFriendRequest(friendDto.getUserId(), friendDto.getFriendId())).thenReturn(friend);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/friends/accept")
@@ -76,7 +81,7 @@ class FriendControllerTest {
 
     @Test
     void deleteFriend_shouldReturnNoContent() throws Exception {
-        FriendDto friendDto = new FriendDto(1L, 2L);
+        FriendDto friendDto = FriendDto.builder().userId(1L).friendId(2L).build();
         doNothing().when(friendService).deleteFriend(friendDto.getUserId(), friendDto.getFriendId());
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/friends/delete")

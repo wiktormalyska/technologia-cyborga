@@ -44,8 +44,8 @@ class ChatControllerTest {
     @Test
     void getAllChats_ShouldReturnListOfChats() throws Exception {
         List<Chat> chats = Arrays.asList(
-                new Chat(1L, 101L, 102L),
-                new Chat(2L, 103L, 104L)
+                Chat.builder().id(1L).user1Id(101L).user2Id(102L).build(),
+                Chat.builder().id(2L).user1Id(103L).user2Id(104L).build()
         );
 
         when(chatService.getAllChats()).thenReturn(chats);
@@ -59,7 +59,7 @@ class ChatControllerTest {
 
     @Test
     void getChatsByUserId_ExistingUser_ShouldReturnChat() throws Exception {
-        Chat chat = new Chat(1L, 101L, 102L);
+        Chat chat = Chat.builder().id(1L).user1Id(101L).user2Id(102L).build();
 
         when(chatService.getChatsByUserId(101L)).thenReturn(Optional.of(chat));
 
@@ -78,8 +78,8 @@ class ChatControllerTest {
 
     @Test
     void getChatBetweenUsers_ShouldReturnChat() throws Exception {
-        Chat chat = new Chat(1L, 101L, 102L);
-        ChatDto chatDto = new ChatDto(101L, 102L);
+        Chat chat = Chat.builder().id(1L).user1Id(101L).user2Id(102L).build();
+        ChatDto chatDto = ChatDto.builder().user1Id(101L).user2Id(102L).build();
 
         when(chatService.getChatBetweenUsers(101L, 102L)).thenReturn(Optional.of(chat));
 
@@ -105,8 +105,8 @@ class ChatControllerTest {
 
     @Test
     void createChat_ShouldReturnCreatedChat() throws Exception {
-        Chat chat = new Chat(1L, 101L, 102L);
-        ChatDto chatDto = new ChatDto(101L, 102L);
+        Chat chat = Chat.builder().id(1L).user1Id(101L).user2Id(102L).build();
+        ChatDto chatDto = ChatDto.builder().user1Id(101L).user2Id(102L).build();
 
         when(chatService.createChat(101L, 102L)).thenReturn(chat);
 
