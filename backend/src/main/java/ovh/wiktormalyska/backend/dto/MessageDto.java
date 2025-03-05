@@ -7,7 +7,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChatDto {
-    Long user1Id;
-    Long user2Id;
+public class MessageDto {
+    private Long senderId;
+    private String content;
 }

@@ -1,24 +1,28 @@
 package ovh.wiktormalyska.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ovh.wiktormalyska.backend.dto.ChatDto;
+import ovh.wiktormalyska.backend.dto.MessageDto;
 import ovh.wiktormalyska.backend.model.Chat;
+import ovh.wiktormalyska.backend.model.Message;
 import ovh.wiktormalyska.backend.service.ChatService;
+import ovh.wiktormalyska.backend.service.MessageService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/chats")
 public class ChatController {
-
-    final
-    ChatService chatService;
+    private final ChatService chatService;
+    private final MessageService messageService;
 
     @Autowired
-    public ChatController(ChatService chatService) {
+    public ChatController(ChatService chatService, MessageService messageService) {
         this.chatService = chatService;
+        this.messageService = messageService;
     }
 
     @GetMapping
@@ -26,14 +30,14 @@ public class ChatController {
         return chatService.getAllChats();
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<Chat> getChatsByUserId(@PathVariable Long userId) {
-        return chatService.getChatsByUserId(userId)
+    @GetMapping("/{chatId}")
+    public ResponseEntity<Chat> getChatById(@PathVariable("chatId") Long chatId) {
+        return chatService.getChatById(chatId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/getChat")
+    @PostMapping("/getUserChat")
     public ResponseEntity<Chat> getChatBetweenUsers(@RequestBody ChatDto chatDto) {
         return chatService.getChatBetweenUsers(chatDto.getUser1Id(), chatDto.getUser2Id())
                 .map(ResponseEntity::ok)
@@ -50,8 +54,8 @@ public class ChatController {
         }
     }
 
-    @DeleteMapping("/{chatId}")
-    public ResponseEntity<Void> deleteChat(@PathVariable Long chatId) {
+    @DeleteMapping("/delete/{chatId}")
+    public ResponseEntity<Void> deleteChat(@PathVariable("chatId") Long chatId) {
         try {
             chatService.deleteChat(chatId);
             return ResponseEntity.noContent().build();
@@ -59,5 +63,17 @@ public class ChatController {
         catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/{chatId}/messages")
+    public ResponseEntity<List<Message>> getMessagesByChatId(@PathVariable("chatId") Long chatId) {
+        List<Message> messages = messageService.getMessagesByChatId(chatId);
+        return ResponseEntity.ok(messages);
+    }
+
+    @PostMapping("/{chatId}/message")
+    public ResponseEntity<Message> sendMessage(@PathVariable("chatId") Long chatId, @RequestBody MessageDto messageDto) {
+        Message message = messageService.createMessage(messageDto.getContent(), messageDto.getSenderId(), chatId );
+        return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
 }
