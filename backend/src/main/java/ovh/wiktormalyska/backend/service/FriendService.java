@@ -54,6 +54,16 @@ public class FriendService {
         return friendRepository.save(friendRequest.get());
     }
 
+    public void rejectFriendRequest(Long userId, Long friendRequestId) {
+        Optional<Friend> friendRequest = friendRepository.findById(friendRequestId);
+
+        if (friendRequest.isEmpty() || !friendRequest.get().getFriend().getId().equals(userId)) {
+            throw new IllegalArgumentException("Friend request not found or invalid");
+        }
+        friendRepository.delete(friendRequest.get());
+    }
+
+
     public void deleteFriend(Long userId, Long friendRequestId) {
         Optional<Friend> friendRequest = friendRepository.findById(friendRequestId);
 

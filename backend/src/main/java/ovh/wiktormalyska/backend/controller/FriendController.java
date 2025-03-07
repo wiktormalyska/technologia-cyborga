@@ -43,10 +43,15 @@ public class FriendController {
             return ResponseEntity.notFound().build();
         }
     }
-    //TODO: Add Reject Friend Request endpoint
-    @PutMapping("/reject")
-    public ResponseEntity<Friend> rejectFriendRequest(@RequestBody FriendDto acceptFriendDto) {
-        return ResponseEntity.notFound().build();
+
+    @DeleteMapping("/reject")
+    public ResponseEntity<Void> rejectFriendRequest(@RequestBody FriendDto rejectFriendDto) {
+        try {
+            friendService.rejectFriendRequest(rejectFriendDto.getUserId(), rejectFriendDto.getFriendId());
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @DeleteMapping("/delete")
