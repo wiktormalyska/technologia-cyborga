@@ -47,6 +47,11 @@ public class FriendService {
             throw new IllegalArgumentException("User or friend not found");
         }
 
+
+        if(friendRepository.findExistingFriendRequest(userId, friendId).isPresent()) {
+            throw new IllegalArgumentException("Friend request already exists");
+        }
+
         Friend friendRequest = Friend.builder()
                 .user(user.get())
                 .friend(friend.get())
@@ -56,8 +61,8 @@ public class FriendService {
         return friendRepository.save(friendRequest);
     }
 
-    public Friend acceptFriendRequest(Long userId, Long friendRequestId) {
-        Optional<Friend> friendRequest = friendRepository.findById(friendRequestId);
+    public Friend acceptFriendRequest(Long userId, Long friendId) {
+        Optional<Friend> friendRequest = friendRepository.findExistingFriendRequest(userId, friendId);
 
         if (friendRequest.isEmpty() || !friendRequest.get().getFriend().getId().equals(userId)) {
             throw new IllegalArgumentException("Friend request not found or invalid");
@@ -67,14 +72,34 @@ public class FriendService {
         return friendRepository.save(friendRequest.get());
     }
 
-    public void deleteFriend(Long userId, Long friendRequestId) {
-        Optional<Friend> friendRequest = friendRepository.findById(friendRequestId);
+    public void rejectFriendRequest(Long userId, Long friendId) {
+        Optional<Friend> friendRequest = friendRepository.findExistingFriendRequest(userId, friendId);
 
-        if (friendRequest.isEmpty() || (!friendRequest.get().getUser().getId().equals(userId)
-                && !friendRequest.get().getFriend().getId().equals(userId))) {
+        if (friendRequest.isEmpty() || !friendRequest.get().getFriend().getId().equals(userId)) {
             throw new IllegalArgumentException("Friend request not found or invalid");
         }
 
+        if (friendRequest.get().isAccepted()) {
+            throw new IllegalArgumentException("Cannot reject an already accepted friend request");
+        }
+
         friendRepository.delete(friendRequest.get());
+    }
+
+
+    public void deleteFriend(Long userId, Long friendId) {
+        Optional<Friend> friendship = friendRepository.findExistingFriendRequest(userId, friendId)
+                .or(() -> friendRepository.findExistingFriendRequest(friendId, userId));
+
+        if (friendship .isEmpty() || (!friendship .get().getUser().getId().equals(userId)
+                && !friendship .get().getFriend().getId().equals(userId))) {
+            throw new IllegalArgumentException("Friendship not found or invalid");
+        }
+
+        if (!friendship.get().isAccepted()) {
+            throw new IllegalArgumentException("Cannot delete an unaccepted friend request");
+        }
+
+        friendRepository.delete(friendship.get());
     }
 }
