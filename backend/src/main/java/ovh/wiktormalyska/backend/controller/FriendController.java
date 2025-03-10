@@ -35,9 +35,9 @@ public class FriendController {
         }
     }
     @PutMapping("/accept")
-    public ResponseEntity<Friend> acceptFriendRequest(@RequestParam Long userId, @RequestParam Long friendRequestId) {
+    public ResponseEntity<Friend> acceptFriendRequest(@RequestBody FriendDto addFriendDto) {
         try {
-            Friend acceptedFriend = friendService.acceptFriendRequest(userId, friendRequestId);
+            Friend acceptedFriend = friendService.acceptFriendRequest(addFriendDto.getUserId(), addFriendDto.getFriendId());
             return ResponseEntity.ok(acceptedFriend);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
@@ -45,9 +45,9 @@ public class FriendController {
     }
 
     @DeleteMapping("/reject")
-    public ResponseEntity<Void> rejectFriendRequest(@RequestParam Long userId, @RequestParam Long friendRequestId) {
+    public ResponseEntity<Void> rejectFriendRequest(@RequestBody FriendDto addFriendDto) {
         try {
-            friendService.rejectFriendRequest(userId, friendRequestId);
+            friendService.rejectFriendRequest(addFriendDto.getUserId(), addFriendDto.getFriendId());
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().build();
@@ -55,9 +55,9 @@ public class FriendController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteFriend(@RequestParam Long userId, @RequestParam Long friendRequestId) {
+    public ResponseEntity<Void> deleteFriend(@RequestBody FriendDto addFriendDto) {
         try {
-            friendService.deleteFriend(userId, friendRequestId);
+            friendService.deleteFriend(addFriendDto.getUserId(), addFriendDto.getFriendId());
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
