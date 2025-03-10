@@ -34,6 +34,10 @@ public class FriendService {
             throw new IllegalArgumentException("User or friend not found");
         }
 
+        if(friendRepository.findExistingFriendRequest(userId, friendId).isPresent()) {
+            throw new IllegalArgumentException("Friend request already exists");
+        }
+
         Friend friendRequest = Friend.builder()
                 .user(user.get())
                 .friend(friend.get())
@@ -65,13 +69,13 @@ public class FriendService {
 
 
     public void deleteFriend(Long userId, Long friendRequestId) {
-        Optional<Friend> friendRequest = friendRepository.findById(friendRequestId);
+        Optional<Friend> friendship = friendRepository.findById(friendRequestId);
 
-        if (friendRequest.isEmpty() || (!friendRequest.get().getUser().getId().equals(userId)
-                && !friendRequest.get().getFriend().getId().equals(userId))) {
-            throw new IllegalArgumentException("Friend request not found or invalid");
+        if (friendship .isEmpty() || (!friendship .get().getUser().getId().equals(userId)
+                && !friendship .get().getFriend().getId().equals(userId))) {
+            throw new IllegalArgumentException("Friendship not found or invalid");
         }
 
-        friendRepository.delete(friendRequest.get());
+        friendRepository.delete(friendship.get());
     }
 }
