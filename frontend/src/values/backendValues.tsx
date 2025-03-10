@@ -30,6 +30,7 @@ export const APIEndpoints: {
         deleteById: Endpoint
         getProfileImage: Endpoint
         updateProfilePicture: Endpoint
+        getAllUserFriends: Endpoint
     }
     chats: {
         getAll: Endpoint
@@ -41,7 +42,6 @@ export const APIEndpoints: {
     friends: {
         acceptRequest: Endpoint
         addFriend: Endpoint
-        getAll: Endpoint
         rejectRequest: Endpoint
         deleteFriend: Endpoint
     }
@@ -100,6 +100,10 @@ export const APIEndpoints: {
         updateProfilePicture: {
             url: "api/users",
             method: HttpRequestMethods.PUT
+        },
+        getAllUserFriends: {
+            url: "api/friends",
+            method: HttpRequestMethods.GET
         }
     },
     chats: {
@@ -136,10 +140,6 @@ export const APIEndpoints: {
         deleteFriend: {
             url: "api/friends/delete",
             method: HttpRequestMethods.DELETE,
-        },
-        getAll: {
-            url: "api/friends",
-            method: HttpRequestMethods.GET,
         },
         rejectRequest: {
             url: "api/friends",

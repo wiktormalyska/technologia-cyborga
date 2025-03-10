@@ -1,11 +1,13 @@
 import {BasePage} from "../components/BasePage";
 import {FaSearch} from "react-icons/fa";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {userDto} from "../values/dto/userDto";
-import {useFindUserByUsername} from "../hooks/useUsers";
+import {useFindUserByUsername, useGetAllUserFriends} from "../hooks/useUsers";
+import {useAuth} from "../auth/AuthContext";
 
 export const FriendsPage = () => {
     const [findValue, setFindValue] = useState("")
+    const {decodedToken} = useAuth()
 
     const {
         mutate: findUsers,
@@ -14,17 +16,29 @@ export const FriendsPage = () => {
         error: findingUsersError
     } = useFindUserByUsername()
 
+    const {
+        mutate: getAllUserFriends,
+        data: allUserFriends,
+        isPending: isUserFriendsPending,
+        error: userError
+    } = useGetAllUserFriends()
+
     const onFindUser = () => {
         if (!findValue) return
         findUsers({param: findValue})
     }
 
+    useEffect(() => {
+        getAllUserFriends({param: decodedToken.userID.toString()})
+    }, [decodedToken]);
+
     const showFoundUsers = () => {
         if (!foundUsers) return null;
-        if (findingUsers) return "Searching...";
-        if (findingUsersError) return findingUsersError;
+        if (findingUsers || isUserFriendsPending) return "Searching...";
+        if (findingUsersError || userError) return findingUsersError+"\n"+userError;
 
         const users: userDto[] = foundUsers;
+        const userFriends = allUserFriends;
         console.log(users);
 
         return users.map(user => (
@@ -37,7 +51,10 @@ export const FriendsPage = () => {
     };
 
     return (
-        <BasePage title={"Friends"} justifyContent={"flex-start"}>
+        <BasePage title={"Friends"} justifyContent={"flex-start flex flex-row"}>
+            <div>
+
+            </div>
             <div className={"flex flex-col"}>
                 <div className={"text-text flex flex-row gap-1"}>
                     <input type={"text"}

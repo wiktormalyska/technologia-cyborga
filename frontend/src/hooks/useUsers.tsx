@@ -47,3 +47,8 @@ export const usePutUserProfileImage = () => {
     const postPathParamUrl = "/profile-image"
     return usePathParams("putProfileImage-users", endpoint, postPathParamUrl)
 }
+
+export const useGetAllUserFriends = () => {
+    const endpoint = APIEndpoints.users.getAllUserFriends
+    return usePathParams("getAllUserFriends", endpoint)
+}
