@@ -47,6 +47,7 @@ public class FriendService {
             throw new IllegalArgumentException("User or friend not found");
         }
 
+
         if(friendRepository.findExistingFriendRequest(userId, friendId).isPresent()) {
             throw new IllegalArgumentException("Friend request already exists");
         }
@@ -60,8 +61,8 @@ public class FriendService {
         return friendRepository.save(friendRequest);
     }
 
-    public Friend acceptFriendRequest(Long userId, Long friendRequestId) {
-        Optional<Friend> friendRequest = friendRepository.findById(friendRequestId);
+    public Friend acceptFriendRequest(Long userId, Long friendId) {
+        Optional<Friend> friendRequest = friendRepository.findExistingFriendRequest(userId, friendId);
 
         if (friendRequest.isEmpty() || !friendRequest.get().getFriend().getId().equals(userId)) {
             throw new IllegalArgumentException("Friend request not found or invalid");
@@ -71,8 +72,8 @@ public class FriendService {
         return friendRepository.save(friendRequest.get());
     }
 
-    public void rejectFriendRequest(Long userId, Long friendRequestId) {
-        Optional<Friend> friendRequest = friendRepository.findById(friendRequestId);
+    public void rejectFriendRequest(Long userId, Long friendId) {
+        Optional<Friend> friendRequest = friendRepository.findExistingFriendRequest(userId, friendId);
 
         if (friendRequest.isEmpty() || !friendRequest.get().getFriend().getId().equals(userId)) {
             throw new IllegalArgumentException("Friend request not found or invalid");
@@ -86,8 +87,9 @@ public class FriendService {
     }
 
 
-    public void deleteFriend(Long userId, Long friendRequestId) {
-        Optional<Friend> friendship = friendRepository.findById(friendRequestId);
+    public void deleteFriend(Long userId, Long friendId) {
+        Optional<Friend> friendship = friendRepository.findExistingFriendRequest(userId, friendId)
+                .or(() -> friendRepository.findExistingFriendRequest(friendId, userId));
 
         if (friendship .isEmpty() || (!friendship .get().getUser().getId().equals(userId)
                 && !friendship .get().getFriend().getId().equals(userId))) {
