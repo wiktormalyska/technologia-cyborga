@@ -55,9 +55,9 @@ public class FriendController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteFriend(@RequestBody FriendDto acceptFriendDto) {
+    public ResponseEntity<Void> deleteFriend(@RequestParam Long userId, @RequestParam Long friendRequestId) {
         try {
-            friendService.deleteFriend(acceptFriendDto.getUserId(), acceptFriendDto.getFriendId());
+            friendService.deleteFriend(userId, friendRequestId);
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();

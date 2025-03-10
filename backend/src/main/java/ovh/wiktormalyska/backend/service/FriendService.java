@@ -64,6 +64,11 @@ public class FriendService {
         if (friendRequest.isEmpty() || !friendRequest.get().getFriend().getId().equals(userId)) {
             throw new IllegalArgumentException("Friend request not found or invalid");
         }
+
+        if (friendRequest.get().isAccepted()) {
+            throw new IllegalArgumentException("Cannot reject an already accepted friend request");
+        }
+
         friendRepository.delete(friendRequest.get());
     }
 
@@ -74,6 +79,10 @@ public class FriendService {
         if (friendship .isEmpty() || (!friendship .get().getUser().getId().equals(userId)
                 && !friendship .get().getFriend().getId().equals(userId))) {
             throw new IllegalArgumentException("Friendship not found or invalid");
+        }
+
+        if (!friendship.get().isAccepted()) {
+            throw new IllegalArgumentException("Cannot delete an unaccepted friend request");
         }
 
         friendRepository.delete(friendship.get());
