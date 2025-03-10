@@ -2,9 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { APIEndpoints } from "../values/backendValues";
 import { useAuth } from "../auth/AuthContext";
 import { LoginDto, RegisterDto } from "../auth/types";
-
-const API_URL = "https://backend.technologia-cyborga.wiktormalyska.ovh/";
-
+import {getUrl} from "./useFetch";
 // login hook
 export const useLogin = () => {
     const { login } = useAuth();
@@ -12,7 +10,7 @@ export const useLogin = () => {
     return useMutation({
         mutationKey: ["login"],
         mutationFn: async (credentials: LoginDto) => {
-            const response = await fetch(`${API_URL}${APIEndpoints.auth.login.url}`, {
+            const response = await fetch(`${getUrl()}${APIEndpoints.auth.login.url}`, {
                 method: APIEndpoints.auth.login.method,
                 headers: {
                     "Content-Type": "application/json",
@@ -38,7 +36,7 @@ export const useRegister = () => {
     return useMutation({
         mutationKey: ["register"],
         mutationFn: async (userData: RegisterDto) => {
-            const response = await fetch(`${API_URL}${APIEndpoints.auth.register.url}`, {
+            const response = await fetch(`${getUrl()}${APIEndpoints.auth.register.url}`, {
                 method: APIEndpoints.auth.register.method,
                 headers: {
                     "Content-Type": "application/json",
