@@ -42,7 +42,7 @@ export const BasePage =
                 }
             >
                 {header()}
-                <div className={props.className+ " flex flex-wrap gap-1 w-full justify-center"}>{children}</div>
+                <div className={props.className+" "+ "flex flex-wrap gap-1 w-full h-full justify-center bg-secondary/10 rounded-3xl mt-5"}>{children}</div>
             </motion.div>
         );
     };

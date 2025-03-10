@@ -5,6 +5,7 @@ import lombok.*;
 
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -27,6 +28,9 @@ public class Chat {
     @ManyToOne
     @JoinColumn(name = "user2_id", nullable = false)
     private User user2;
+
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Message> messages;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

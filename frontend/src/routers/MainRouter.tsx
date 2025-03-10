@@ -3,7 +3,6 @@ import MainLayout from '../components/MainLayout';
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import {LoginPage} from "../pages/LoginPage";
-import {RegisterPage} from "../pages/RegisterPage";
 import {ProfilePage} from '../pages/ProfilePage';
 import {useAuth} from "../auth/AuthContext";
 import {useEffect} from "react";
@@ -13,6 +12,7 @@ import {FriendsPage} from "../pages/FriendsPage";
 import {AllChatsPage} from "../pages/AllChatsPage";
 import {RankingsPage} from "../pages/RankingsPage";
 import {SettingsPage} from "../pages/SettingsPage";
+import {RegisterPage} from "../pages/RegisterPage";
 
 
 const Logout = () => {

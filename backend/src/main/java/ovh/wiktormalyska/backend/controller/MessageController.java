@@ -31,9 +31,9 @@ public class MessageController {
     }
 
     @PostMapping
-    public ResponseEntity<Message> createMessage(@RequestParam String content, @RequestParam Long senderId, @RequestParam Long receiverId) {
+    public ResponseEntity<Message> createMessage(@RequestParam String content, @RequestParam Long senderId, @RequestParam Long chatId) {
         try {
-            Message message = messageService.createMessage(content, senderId, receiverId);
+            Message message = messageService.createMessage(content, senderId, chatId);
             return ResponseEntity.ok(message);
         }
         catch (IllegalArgumentException e) {
@@ -44,11 +44,6 @@ public class MessageController {
     @GetMapping("/sent/{senderId}")
     public List<Message> getMessagesBySenderId(@PathVariable Long senderId) {
         return messageService.getMessagesBySenderId(senderId);
-    }
-
-    @GetMapping("/received/{receiverId}")
-    public List<Message> getMessagesByReceiverId(@PathVariable Long receiverId) {
-        return messageService.getMessagesByReceiverId(receiverId);
     }
 
     @DeleteMapping("/{id}")
