@@ -1,5 +1,7 @@
 package ovh.wiktormalyska.backend.service;
 
+import ovh.wiktormalyska.backend.dto.FriendListDto;
+import ovh.wiktormalyska.backend.dto.FriendListValueDto;
 import ovh.wiktormalyska.backend.model.Friend;
 import ovh.wiktormalyska.backend.model.User;
 import ovh.wiktormalyska.backend.repository.FriendRepository;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 //:)
 @Service
 public class FriendService {
@@ -22,8 +25,18 @@ public class FriendService {
         this.userRepository = userRepository;
     }
 
-    public List<Friend> getAllFriends(Long userId) {
-        return friendRepository.findByUserId(userId);
+    public FriendListDto getAllFriends(Long userId) {
+        List<Friend> friends = friendRepository.findByUserId(userId);
+        return FriendListDto.builder()
+                .userId(userId)
+                .friends(friends.stream()
+                        .map(friend -> FriendListValueDto.builder()
+                                .friendId(friend.getFriend().getId())
+                                .username(friend.getFriend().getUsername())
+                                .profileImagePath(friend.getFriend().getProfileImagePath())
+                                .build())
+                        .toList())
+                .build();
     }
 
     public Friend addFriend(Long userId, Long friendId) {
