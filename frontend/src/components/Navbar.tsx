@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import {Link} from "react-router-dom";
 import * as React from "react";
 // @ts-ignore
@@ -22,156 +21,60 @@ import logoutIcon from '../assets/icons/logout-icon.svg'
 
 const Navbar = () => {
     const menuOptions = [
-        { name: 'All chats', icon: chatsIcon , path: '/'},
-        { name: 'Friends', icon: friendsIcon, path: '/friends'},
-        { name: 'Games', icon: gamesIcon, path: '/games'},
-        { name: 'Lootboxes', icon: lootboxesIcon, path: '/lootboxes'},
-        { name: 'Rankings', icon: rankingsIcon, path: '/rankings'},
-        { name: 'Account', icon: accountIcon, path: '/account'},
-        { name: 'Settings', icon: settingsIcon, path: '/settings'},
+        {name: 'All chats', icon: chatsIcon, path: '/'},
+        {name: 'Friends', icon: friendsIcon, path: '/friends'},
+        {name: 'Games', icon: gamesIcon, path: '/games'},
+        {name: 'Lootboxes', icon: lootboxesIcon, path: '/lootboxes'},
+        {name: 'Rankings', icon: rankingsIcon, path: '/rankings'},
+        {name: 'Account', icon: accountIcon, path: '/account'},
+        {name: 'Settings', icon: settingsIcon, path: '/settings'},
     ];
 
     return (
-        <NavbarContainer>
-            <AppName>
-                <img src={robotIcon} alt="Robot"/>
-                <p>Cyborg App</p>
-            </AppName>
-            <Divider/>
-            <Menu>
+        <div className={"flex flex-col justify-start items-center bg-primary/5 p-5" +
+            "h-full w-[250px]"}>
+            <div className={"flex w-full justify-center text-center gap-2 pb-4 pt-4"}>
+                <div className={"flex flex-row items-center"}>
+                    <img className={"h-[40px] w-[40px]"}
+                         src={robotIcon} alt="Robot"/>
+                    <p className={"pl-2 text-text text-xl tracking-wide"}>Cyborg App</p>
+                </div>
+            </div>
+            <div className={"w-full flex flex-col gap-5 p-5 justify-center "}>
                 {menuOptions.map((option, index) => (
-                    <MenuItem key={index} to={option.path}>
-                        <img src={option.icon} alt={option.name}/>
-                        <p>{option.name}</p>
-                    </MenuItem>
+                    <Link className={"flex flex-row w-full items-center gap-4"}
+                          key={index} to={option.path}>
+                        <div className={"flex flex-row items-center justify-center " +
+                            "w-full h-full rounded-2xl " +
+                            "bg-primary/10 hover:bg-primary/20 transition-all duration-200 " +
+                            "pt-2 pb-2"}>
+                            <img className={"h-[40px] w-[40px]" +
+                                "transition-all duration-300"}
+                                 src={option.icon} alt={option.name}/>
+                            <p>{option.name}</p>
+                        </div>
+
+                    </Link>
                 ))}
-            </Menu>
-            <Logout key={"logout"} to={"/logout"}>
-                    <img src={logoutIcon} alt={"logout"}/>
-                    <p>Logout</p>
-            </Logout>
-        </NavbarContainer>
+            </div>
+            <div className={"flex items-center flex-col content-center " +
+                "justify-end flex-nowrap font-bold h-full w-full " +
+                "p-5"}>
+                <Link className={"w-full flex flex-col justify-center items-center " +
+                    "bg-primary/10 hover:bg-primary/20 duration-200 transition-all " +
+                    "rounded-lg " +
+                    "p-5"}
+                      key={"logout"} to={"/logout"}>
+                    <img
+                        className={"h-[30px] w-[30px] "}
+                        src={logoutIcon}
+                        alt="logout"
+                    />
+                    <p className={"text-lg text-text"}>Logout</p>
+                </Link>
+            </div>
+        </div>
     );
 };
 
 export default Navbar;
-
-const Logout = styled(Link)`
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    align-content: center;
-    justify-content: flex-end;
-    flex-wrap: nowrap;
-    font-weight: 400;
-    margin-top: auto;
-    width: 50%;
-    padding: 10px;
-
-    &:hover {
-        background-color: #2c2a2f;
-        border-radius: 0.8rem;
-
-        img {
-            background-color: #2c2a2f;
-        }
-        
-    }
-
-    img {
-        height: 30px;
-        width: 30px;
-        background-color: #1d1b20;
-        border-radius: 0.5rem;
-        transition: background-color;
-    }
-
-    p {
-        font-size: 17px;
-        font-family: 'Josefin Sans', sans-serif;
-        color: #ffffff;
-    }
-
-`
-
-const NavbarContainer = styled.div`
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      padding: 0.65rem 1rem;
-      background-color: #1d1b20;
-      height: 100%;
-      width: 250px;
-    
-    
-`;
-
-const AppName = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    gap: 0.4rem;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-
-    img {
-        height: 40px;
-        width: 40px;
-        background-color: #1d1b20;
-    }
-
-    p {
-        padding-left: 10px;
-        font-size: 28px;
-        color: white;
-    }
-`;
-
-const Divider = styled.div`
-    width: 100%;
-    height: 1px;
-    background-color: grey;
-    opacity: 1;
-    margin: 1rem 0;
-`;
-
-const Menu = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-`;
-
-const MenuItem = styled(Link)`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0.5rem;
-    gap: 1rem;
-    cursor: pointer;
-
-    &:hover {
-        background-color: #2c2a2f; 
-        border-radius: 0.8rem;
-        width: 100%;
-        
-        img {
-            background-color: #2c2a2f; 
-        }
-    }
-
-    img {
-        height: 40px;
-        width: 40px;
-        background-color: #1d1b20;
-        border-radius: 0.5rem;
-        transition: background-color; 
-        
-    }
-
-    p {
-        font-size: 18px;
-        font-family: 'Josefin Sans', sans-serif;
-        color: #ffffff;
-    }
-`;

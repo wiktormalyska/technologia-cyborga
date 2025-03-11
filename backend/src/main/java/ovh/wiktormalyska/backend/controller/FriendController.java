@@ -1,23 +1,26 @@
 package ovh.wiktormalyska.backend.controller;
 
 import ovh.wiktormalyska.backend.dto.FriendDto;
+import ovh.wiktormalyska.backend.dto.FriendListDto;
 import ovh.wiktormalyska.backend.model.Friend;
 import ovh.wiktormalyska.backend.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-//:)
 @RestController
 @RequestMapping("/api/friends")
 public class FriendController {
 
+    private final FriendService friendService;
+
     @Autowired
-    private FriendService friendService;
+    public FriendController(FriendService friendService) {
+        this.friendService = friendService;
+    }
 
     @GetMapping("/{userId}")
-    public List<Friend> getAllFriends(@PathVariable Long userId) {
+    public FriendListDto getAllFriends(@PathVariable Long userId) {
         return friendService.getAllFriends(userId);
     }
 

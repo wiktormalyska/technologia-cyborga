@@ -1,63 +1,91 @@
 package ovh.wiktormalyska.backend.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import ovh.wiktormalyska.backend.model.Role;
 import ovh.wiktormalyska.backend.model.User;
 import ovh.wiktormalyska.backend.repository.RoleRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
+import ovh.wiktormalyska.backend.service.UserService;
 
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Set;
 
 @Component
 public class DataInitializer implements ApplicationRunner {
+
+    private static final Logger logger = LoggerFactory.getLogger(DataInitializer.class);
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final UserService userService;
 
-    public DataInitializer(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+    @Value("${image.upload.directory}")
+    private String imagePath;
+
+    @Autowired
+    public DataInitializer(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, UserService userService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
+        this.userService = userService;
     }
 
     @Override
     @Transactional
     public void run(ApplicationArguments args) {
-        enum Roles{
-            USER,
-            ADMIN
-        }
+        initializeRoles();
+        initializeAdminUser();
+    }
 
+    private void initializeRoles() {
         for (Roles role : Roles.values()) {
             if (roleRepository.findByName(role.name()).isEmpty()) {
-                roleRepository.save(ovh.wiktormalyska.backend.model.Role.builder().name(role.name()).build());
+                roleRepository.save(Role.builder().name(role.name()).build());
             }
         }
+    }
 
+    private void initializeAdminUser() {
         if (userRepository.findByUsername("admin").isEmpty()) {
             User admin = User.builder()
-                    .id(0L)
                     .username("admin")
                     .password(passwordEncoder.encode("admin"))
                     .email("admin@admin.com")
                     .roles(Set.of(roleRepository.findByName(Roles.ADMIN.name()).orElseThrow()))
+                    .profileImagePath(userService.getBackendUrl() + getDefaultProfileImagePath())
                     .build();
             userRepository.save(admin);
+        }
+    }
+
+
+    private String getDefaultProfileImagePath() {
+        String filename = "defaultProfile.png";
+        Path filePath = Paths.get(imagePath, filename);
+
+        if (!Files.exists(filePath)) {
+            logger.error("Default profile image not found: {}", filePath);
+            throw new IllegalArgumentException("Default profile image not found");
         }
 
-        if (userRepository.findByUsername("user1").isEmpty()) {
-            User admin = User.builder()
-                    .id(0L)
-                    .username("user1")
-                    .password(passwordEncoder.encode("user1"))
-                    .email("user1@user1.com")
-                    .roles(Set.of(roleRepository.findByName(Roles.USER.name()).orElseThrow()))
-                    .build();
-            userRepository.save(admin);
-        }
+        return "/images/" + filename;
+    }
+
+    private enum Roles {
+        USER,
+        ADMIN
     }
 }

@@ -9,6 +9,7 @@ export enum HttpRequestMethods {
     TRACE = 'TRACE',
     CONNECT = 'CONNECT',
 }
+
 export interface Endpoint {
     url: string
     method: HttpRequestMethods
@@ -17,13 +18,18 @@ export interface Endpoint {
 export const APIEndpoints: {
     auth: {
         login: Endpoint
+        register: Endpoint
     },
     users: {
         getAll: Endpoint
+        getByUsername: Endpoint
+        findByUsername: Endpoint
         create: Endpoint
         getById: Endpoint
         updateById: Endpoint
         deleteById: Endpoint
+        getProfileImage: Endpoint
+        updateProfilePicture: Endpoint
     }
     chats: {
         getAll: Endpoint
@@ -47,10 +53,14 @@ export const APIEndpoints: {
         sendMessage: Endpoint
         deleteById: Endpoint
     }
-}={
+} = {
     auth: {
         login: {
             url: "api/auth/login",
+            method: HttpRequestMethods.POST
+        },
+        register: {
+            url: "api/auth/register",
             method: HttpRequestMethods.POST
         }
     },
@@ -59,22 +69,38 @@ export const APIEndpoints: {
             url: "api/users",
             method: HttpRequestMethods.GET
         },
+        getByUsername: {
+            url: "api/users/username",
+            method: HttpRequestMethods.GET
+        },
+        findByUsername: {
+          url:   "api/users/find",
+            method: HttpRequestMethods.GET
+        },
         create: {
             url: "api/users",
             method: HttpRequestMethods.POST
         },
-       getById: {
+        getById: {
             url: "api/users",
             method: HttpRequestMethods.GET
-       },
-       updateById: {
+        },
+        updateById: {
             url: "api/users",
             method: HttpRequestMethods.PUT
-       },
-       deleteById: {
+        },
+        deleteById: {
             url: "api/users",
             method: HttpRequestMethods.DELETE
-       }
+        },
+        getProfileImage: {
+            url: "api/users",
+            method: HttpRequestMethods.GET
+        },
+        updateProfilePicture: {
+            url: "api/users",
+            method: HttpRequestMethods.PUT
+        }
     },
     chats: {
         getAll: {

@@ -1,5 +1,8 @@
 package ovh.wiktormalyska.backend.service;
 
+import io.github.cdimascio.dotenv.Dotenv;
+import org.springframework.core.env.Environment;
+import org.springframework.web.multipart.MultipartFile;
 import ovh.wiktormalyska.backend.dto.UserDto;
 import ovh.wiktormalyska.backend.model.Role;
 import ovh.wiktormalyska.backend.model.User;
@@ -8,6 +11,8 @@ import ovh.wiktormalyska.backend.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -19,9 +24,16 @@ public class UserService {
 
     private final RoleRepository roleRepository;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+    private final ImageService imageService;
+
+    Environment env;
+
+    @Autowired
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, ImageService imageService, Environment env) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.imageService = imageService;
+        this.env = env;
     }
 
     public List<User> getAllUsers() {
@@ -29,7 +41,9 @@ public class UserService {
     }
 
     public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        user.setProfileImagePath(user.getProfileImagePath());
+        return Optional.of(user);
     }
 
     public UserDto getUserByUsername(String username) {
@@ -39,7 +53,27 @@ public class UserService {
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .roles(user.getRoles())
+                .profileImagePath(user.getProfileImagePath())
                 .build();
+    }
+
+    public Optional<List<UserDto>> findUserByUsername(String username) {
+        List<User> users = userRepository.findByUsernameContaining(username);
+        if (users.isEmpty()) {
+            return Optional.empty();
+        }
+        List<UserDto> userDtos = users.stream().map(user -> {
+            user.setProfileImagePath(user.getProfileImagePath());
+            return UserDto.builder()
+                    .id(user.getId())
+                    .username(user.getUsername())
+                    .email(user.getEmail())
+                    .roles(user.getRoles())
+                    .profileImagePath(user.getProfileImagePath())
+                    .build();
+        }).toList();
+
+        return Optional.of(userDtos);
     }
 
     public User createUser(@Valid User user) {
@@ -48,6 +82,7 @@ public class UserService {
         }
         Role userRole = roleRepository.findByName("USER").orElseThrow(() -> new IllegalArgumentException("Role not found"));
         user.setRoles(Set.of(userRole));
+        user.setProfileImagePath("/defaultProfile.png");
         return userRepository.save(user);
     }
 
@@ -65,5 +100,32 @@ public class UserService {
             throw new IllegalArgumentException("User not found");
         }
         userRepository.deleteById(id);
+    }
+
+    public String updateProfileImage(MultipartFile file, Long userId){
+        return userRepository.findById(userId).map(user -> {
+            try {
+                String imageUrl = imageService.storeImage(file, user);
+                user.setProfileImagePath(imageUrl);
+                userRepository.save(user);
+                return imageUrl;
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Error while updating profile image");
+            }
+        }).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    public String getProfileImage(Long userId) {
+        return userRepository.findById(userId)
+                .map(User::getProfileImagePath)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    public String getBackendUrl() {
+        if (Arrays.asList(env.getActiveProfiles()).contains("dev")) {
+            return "http://localhost:8080";
+        }
+        Dotenv dotenv = Dotenv.configure().load();
+        return dotenv.get("DOMAIN_NAME");
     }
 }

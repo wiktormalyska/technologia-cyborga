@@ -34,7 +34,8 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/actuator/health").permitAll()
                                 .requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/**").hasAuthority("ADMIN")
+                                .requestMatchers("/images/**").permitAll()
+                                .requestMatchers("/api/**").authenticated()
                                 .anyRequest().denyAll()
                 ).httpBasic(Customizer.withDefaults());
 

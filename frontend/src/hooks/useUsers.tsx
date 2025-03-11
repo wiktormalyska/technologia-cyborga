@@ -6,6 +6,16 @@ export const useGetAllUsers = () => {
     return useFetch("getAll-users", endpoint)
 }
 
+export const useGetUserByUsername = () => {
+    const endpoint = APIEndpoints.users.getByUsername
+    return usePathParams("getByUsername-users", endpoint)
+}
+
+export const useFindUserByUsername = () => {
+    const endpoint = APIEndpoints.users.findByUsername
+    return usePathParams("findUserByUsername-users", endpoint)
+}
+
 export const useCreateUser = () => {
     const endpoint = APIEndpoints.users.create
     return useMutate("create-users", endpoint)
@@ -24,4 +34,16 @@ export const useUpdateUserById = () => {
 export const useDeleteUserById = () => {
     const endpoint = APIEndpoints.users.deleteById
     return usePathParams("deleteById-users", endpoint)
+}
+
+export const useGetUserProfileImage = () => {
+    const endpoint = APIEndpoints.users.getProfileImage
+    const postPathParamUrl = "/profile-image"
+    return usePathParams("getProfileImage-users", endpoint, postPathParamUrl)
+}
+
+export const usePutUserProfileImage = () => {
+    const endpoint = APIEndpoints.users.updateProfilePicture
+    const postPathParamUrl = "/profile-image"
+    return usePathParams("putProfileImage-users", endpoint, postPathParamUrl)
 }

@@ -12,14 +12,9 @@ a {
 }
 
 @theme {
-  --color-primary: #2C2333;
-  --color-secondary: #383040;
-  --color-accent: #FFFFFF;
-  --color-text: #D0D0D0;
-  --color-secondaryText: #D0D0D0;
-  --color-pageBackground: #313142;
-  --color-inputBackground: #31293A;
-  --color-buttonBackground: #453651;
-  --color-border: #5C4D6A;
-  --color-highlight: #100F10;
+    --color-text: #e7e7f9;
+    --color-background: #040411;
+    --color-primary: #9392e3;
+    --color-secondary: #591f7a;
+    --color-accent: #bc47d1;
 }

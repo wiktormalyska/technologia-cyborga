@@ -1,9 +1,12 @@
 package ovh.wiktormalyska.backend.service;
 
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ovh.wiktormalyska.backend.model.Chat;
 import ovh.wiktormalyska.backend.model.User;
 import ovh.wiktormalyska.backend.repository.ChatRepository;
+import ovh.wiktormalyska.backend.repository.MessageRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
 
 import java.time.LocalDateTime;
@@ -15,18 +18,25 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
     private final UserRepository userRepository;
+    private final MessageRepository messageRepository;
 
 
-    public ChatService(ChatRepository chatRepository, UserRepository userRepository) {
+    @Autowired
+    public ChatService(ChatRepository chatRepository, UserRepository userRepository, MessageRepository messageRepository) {
         this.chatRepository = chatRepository;
         this.userRepository = userRepository;
+        this.messageRepository = messageRepository;
     }
 
     public List<Chat> getAllChats() {
         return chatRepository.findAll();
     }
 
-    public Optional<Chat> getChatsByUserId(long userId) {
+    public Optional<Chat> getChatById(Long id) {
+        return chatRepository.findById(id);
+    }
+
+    public Optional<List<Chat>> getChatsByUserId(long userId) {
             return chatRepository.findByUserId(userId);
     }
 
@@ -47,18 +57,19 @@ public class ChatService {
 
         Chat chat = Chat.builder()
                 .user1(user1)
-                .user1(user2)
+                .user2(user2)
                 .createdAt(LocalDateTime.now())
                 .build();
 
         return chatRepository.save(chat);
     }
 
+    @Transactional
     public void deleteChat(Long chatId) {
-        if(!chatRepository.existsById(chatId)) {
-            throw new IllegalArgumentException("Chat with ID " + chatId + " not found");
-        }
-        chatRepository.deleteById(chatId);
+        Chat chat = chatRepository.findById(chatId)
+                .orElseThrow(() -> new IllegalArgumentException("Chat with ID " + chatId + " not found"));
+        messageRepository.deleteByChatId(chatId);
+        chatRepository.delete(chat);
     }
 
     public List<Chat> getChatsAfterDate(LocalDateTime date) {

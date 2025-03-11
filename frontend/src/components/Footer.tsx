@@ -1,98 +1,52 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import {Link} from "react-router-dom";
-
-const FooterWrapper = styled.footer`
-    background-color: #100F10;
-    color: white;
-    text-align: center;
-    padding: 1rem 0;
-`;
-
-const Grid = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 160px;
-`
-
-const GridItem = styled.div`
-    display: flex;
-    flex-direction: column;
-`
-
-const ItemTitle = styled.p`
-    font-size: 18px;
-    font-family: 'Josefin Sans', sans-serif;
-    font-weight: bold;
-    color: white;
-`
-
-const ItemTitleLink = styled(ItemTitle)`
-    cursor: pointer;
-    
-    &:hover {
-        text-decoration: underline;
-    }
-`
-
-const ItemContent = styled.p`
-    font-size: 12px;
-    font-family: 'Josefin Sans', sans-serif;
-    text-align: left;
-    color: white;
-`
-
-const ExpandableContent = styled(ItemContent)<{$isOpen: boolean}>`
-    font-size: 12px;
-    overflow: hidden;
-    opacity: ${props => props.$isOpen ? 1 : 0};
-    transform: translateY(${props => props.$isOpen ? '0' : '-20px'});
-    max-height: ${props => props.$isOpen ? '100px' : '0'};
-    transition: all 0.3s ease;
-    padding-top: ${props => props.$isOpen ? '8px' : 0};
-`
+import {useState} from "react";
 
 const authorLink = "https://docusaurus.wiktormalyska.ovh/docs/it/projekt-zespolowy-technologia-cyborga/intro#-contributors"
 const docsLink = "https://docusaurus.wiktormalyska.ovh/docs/category/technologia-cyborga"
 
 const Footer = () => {
-    const [openSection, setOpenSection] = React.useState<string | null>(null);
-
-    const toggleSection = (sectionName: string) => {
-        setOpenSection(current =>
-            current === sectionName ? null : sectionName
-        );
-    };
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <FooterWrapper>
-            <Grid>
-                <GridItem>
-                    <ItemTitleLink onClick={() => toggleSection('details')}>
+        <div className={"bg-background  text-text text-center"}>
+            <div className={"flex bg-primary/5 flex-row justify-center gap-5 pt-4 pb-4"}>
+                <div className={"flex flex-col"}
+                     onClick={() => {
+                         isOpen ? setIsOpen(false) : setIsOpen(true)
+                     }}>
+                    <div className={"text-xl font-bold text-text"}>
                         Contact Information
-                    </ItemTitleLink>
-                    <ExpandableContent $isOpen={openSection === 'details'}>
+                    </div>
+                    <div className={`text-xl text-left text-text overflow-hidden ` +
+                        `transition-all duration-300 ease-in-out ${
+                            isOpen
+                                ? 'opacity-100 translate-y-0 max-h-[100px] pt-2'
+                                : 'opacity-0 -translate-y-5 max-h-0 pt-0'
+                        }`}
+                    >
                         Tel.: 123 456 789<br/>
                         E-mail: cyborg@sigma.com
-                    </ExpandableContent>
-                </GridItem>
-                <GridItem>
-                    <ItemTitleLink><Link to={"/policy"}>Privacy Policy</Link></ItemTitleLink>
-                </GridItem>
-                <GridItem>
-                    <ItemTitleLink>
+                    </div>
+                </div>
+                <div className={"flex flex-col"}>
+                    <div className={"text-xl font-bold text-text"}>
+                        <Link to={"/policy"}>Privacy Policy</Link>
+                    </div>
+                </div>
+                <div className={"flex flex-col"}>
+                    <div className={"text-xl font-bold text-text"}>
                         <Link to={authorLink} target={"_blank"} rel={"noopener noreferrer"}>Authors</Link>
-                    </ItemTitleLink>
-                </GridItem>
-                <GridItem>
-                    <ItemTitleLink>
+                    </div>
+                </div>
+                <div className={"flex flex-col"}>
+                    <div className={"text-xl font-bold text-text"}>
                         <Link to={docsLink} target={"_blank"} rel={"noopener noreferrer"}>Documentation</Link>
-                    </ItemTitleLink>
-                </GridItem>
-                <GridItem><p>&copy; Cyborg 2024 | All rights reserved</p></GridItem>
-            </Grid>
-        </FooterWrapper>
+                    </div>
+                </div>
+                <div className={"flex flex-col"}><p>&copy; Cyborg 2024 | All rights reserved</p></div>
+            </div>
+        </div>
     )
 };
 
