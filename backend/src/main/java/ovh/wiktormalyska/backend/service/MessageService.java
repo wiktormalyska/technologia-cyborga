@@ -8,6 +8,7 @@ import ovh.wiktormalyska.backend.repository.ChatRepository;
 import ovh.wiktormalyska.backend.repository.MessageRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -26,8 +27,8 @@ public class MessageService {
         this.chatRepository = chatRepository;
     }
 
-    public List<Message> getAllMessages() {
-        return messageRepository.findAll();
+    public List<Message> getAllMessages(Pageable pageable) {
+        return messageRepository.findAll(pageable).getContent();
     }
 
     public Optional<Message> getMessageById(Long id) {

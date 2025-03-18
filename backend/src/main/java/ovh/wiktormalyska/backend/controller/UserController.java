@@ -8,6 +8,8 @@ import ovh.wiktormalyska.backend.model.Role;
 import ovh.wiktormalyska.backend.model.User;
 import ovh.wiktormalyska.backend.repository.RoleRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import ovh.wiktormalyska.backend.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +34,10 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public List<User> getAllUsers(@RequestParam(defaultValue = "100") int limit) {
+        int finalLimit = Math.min(limit, 100);
+        Pageable pageable = PageRequest.of(0, finalLimit);
+        return userService.getAllUsers(pageable);
     }
 
     @GetMapping("/{id}")
