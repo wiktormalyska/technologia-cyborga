@@ -1,6 +1,8 @@
 package ovh.wiktormalyska.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +28,10 @@ public class ChatController {
     }
 
     @GetMapping
-    List<Chat> getAllChats() {
-        return chatService.getAllChats();
+    public List<Chat> getAllChats(@RequestParam(defaultValue = "100") int limit) {
+        int finalLimit = Math.min(limit, 100);
+        Pageable pageable = PageRequest.of(0, finalLimit);
+        return chatService.getAllChats(pageable);
     }
 
     @GetMapping("/{chatId}")

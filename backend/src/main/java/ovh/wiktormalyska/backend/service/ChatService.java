@@ -3,6 +3,7 @@ package ovh.wiktormalyska.backend.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 import ovh.wiktormalyska.backend.model.Chat;
 import ovh.wiktormalyska.backend.model.User;
 import ovh.wiktormalyska.backend.repository.ChatRepository;
@@ -28,8 +29,8 @@ public class ChatService {
         this.messageRepository = messageRepository;
     }
 
-    public List<Chat> getAllChats() {
-        return chatRepository.findAll();
+    public List<Chat> getAllChats(Pageable pageable) {
+        return chatRepository.findAll(pageable).getContent();
     }
 
     public Optional<Chat> getChatById(Long id) {

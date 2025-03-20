@@ -4,6 +4,8 @@ import ovh.wiktormalyska.backend.model.Message;
 import ovh.wiktormalyska.backend.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -19,8 +21,10 @@ public class MessageController {
     }
 
     @GetMapping
-    public List<Message> getAllMessages() {
-        return messageService.getAllMessages();
+    public List<Message> getAllMessages(@RequestParam(defaultValue = "100") int limit) {
+        int finalLimit = Math.min(limit, 100);
+        Pageable pageable = PageRequest.of(0, finalLimit);
+        return messageService.getAllMessages(pageable);
     }
 
     @GetMapping("/{id}")

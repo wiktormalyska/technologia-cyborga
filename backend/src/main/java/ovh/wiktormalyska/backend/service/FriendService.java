@@ -1,9 +1,12 @@
 package ovh.wiktormalyska.backend.service;
 
+import org.springframework.data.domain.Page;
 import ovh.wiktormalyska.backend.dto.FriendListDto;
 import ovh.wiktormalyska.backend.dto.FriendListValueDto;
 import ovh.wiktormalyska.backend.model.Friend;
 import ovh.wiktormalyska.backend.model.User;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import ovh.wiktormalyska.backend.repository.FriendRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +29,11 @@ public class FriendService {
     }
 
     public FriendListDto getAllFriends(Long userId) {
-        List<Friend> friends = friendRepository.findByUserId(userId);
+        Pageable pageable = PageRequest.of(0, 100);
+        Page<Friend> friendsPage = friendRepository.findByUserId(userId, pageable);
         return FriendListDto.builder()
                 .userId(userId)
-                .friends(friends.stream()
+                .friends(friendsPage.stream()
                         .map(friend -> FriendListValueDto.builder()
                                 .friendId(friend.getFriend().getId())
                                 .username(friend.getFriend().getUsername())

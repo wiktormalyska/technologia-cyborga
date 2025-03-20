@@ -8,6 +8,7 @@ import ovh.wiktormalyska.backend.model.Role;
 import ovh.wiktormalyska.backend.model.User;
 import ovh.wiktormalyska.backend.repository.RoleRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
+import org.springframework.data.domain.Pageable;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,8 +37,8 @@ public class UserService {
         this.env = env;
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<User> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable).getContent();
     }
 
     public Optional<User> getUserById(Long id) {
