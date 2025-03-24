@@ -3,6 +3,7 @@ import {FaSearch} from "react-icons/fa";
 import {useState} from "react";
 import {userDto} from "../values/dto/userDto";
 import {useFindUserByUsername} from "../hooks/useUsers";
+import {useGetFriends} from "../hooks/useFriends";
 
 export const FriendsPage = () => {
     const [findValue, setFindValue] = useState("")
@@ -14,10 +15,18 @@ export const FriendsPage = () => {
         error: findingUsersError
     } = useFindUserByUsername()
 
+    const {
+        //mutate: findFriends,
+        data: foundFriends,
+        isPending: loadingFriends,
+        error: friendsError
+    } = useGetFriends()
+
     const onFindUser = () => {
         if (!findValue) return
         findUsers({param: findValue})
     }
+
 
     const showFoundUsers = () => {
         if (!foundUsers) return null;
@@ -32,6 +41,21 @@ export const FriendsPage = () => {
                 <img alt={user.username} src={user.profileImagePath}
                      className="w-10 h-10 rounded-full"/>
                 <div className={"text-text"}>{user.username}</div>
+            </div>
+        ));
+    };
+
+    const showFriendList = () => {
+        console.log("Friends Data:", foundFriends)
+        if (loadingFriends) return "Loading friends...";
+        if (friendsError) return "Error loading friends.";
+        if (!foundFriends || foundFriends.length === 0) return "No friends added.";
+
+
+        return friends.map((friend) => (
+            <div key={friend.id} className="flex items-center gap-2 bg-secondary/40 rounded-full p-2">
+                <img alt={friend.username} src={friend.profileImagePath} className="w-10 h-10 rounded-full" />
+                <div className={"text-text"}>{friend.username}</div>
             </div>
         ));
     };
@@ -52,6 +76,12 @@ export const FriendsPage = () => {
                         <FaSearch/>
                     </button>
                 </div>
+
+                <div className={"pt-5"}>
+                    <h2 className="text-lg font-bold text-text">Your Friends</h2>
+                    {showFriendList()}
+                </div>
+
                 <div className={"pt-5"}>
                     {showFoundUsers()}
                 </div>
