@@ -7,6 +7,7 @@ import {userDto} from "../values/dto/userDto";
 import {FaArrowsRotate, FaMessage} from "react-icons/fa6";
 import {IconType} from "react-icons";
 import {FaPlayCircle, FaPlusCircle} from "react-icons/fa";
+import { Chat } from "../components/Chat";
 
 export const ProfilePage = () => {
     const badges = ["🏆", "🎖️", "🎯"];
@@ -15,6 +16,8 @@ export const ProfilePage = () => {
     const {decodedToken} = useAuth()
 
     const [user, setUser] = useState<userDto>()
+
+    const [isChatOpen, setIsChatOpen] = useState(false);
 
     useEffect(() => {
         getUserByID({param: decodedToken.userID.toString()})
@@ -39,12 +42,14 @@ export const ProfilePage = () => {
     interface actionInterface {
         name: string,
         icon: IconType
+        onClick?: () => void
     }
 
     const actions: actionInterface[] = [
         {
             name: "Message",
-            icon: FaMessage
+            icon: FaMessage,
+            onClick: () => setIsChatOpen(true),
         },
         {
             name: "Invite",
@@ -75,7 +80,7 @@ export const ProfilePage = () => {
                         actions.map(action => {
                             return (
                                 <div key={action.name}
-                                     className={"p-1 cursor-pointer text-text flex flex-col items-center text-center "}>
+                                     className={"p-1 cursor-pointer text-text flex flex-col items-center text-center"} onClick={action.onClick}>
                                     <div
                                         className={"text-lg bg-secondary w-[40px] h-[40px] rounded-full items-center justify-center flex"}>
                                         {React.createElement(action.icon)}
@@ -122,6 +127,7 @@ export const ProfilePage = () => {
                     </div>
                 </div>
             </div>
+            {isChatOpen && <Chat onClose={() => setIsChatOpen(false)} />}
         </BasePage>
     );
 };
