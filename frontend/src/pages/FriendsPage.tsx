@@ -1,13 +1,18 @@
 import {BasePage} from "../components/BasePage";
-import {FaSearch} from "react-icons/fa";
+import {FaCheck, FaPlusCircle, FaSearch} from "react-icons/fa";
 import {useState} from "react";
 import {userDto} from "../values/dto/userDto";
 import {useFindUserByUsername} from "../hooks/useUsers";
+import {useAuth} from "../auth/AuthContext";
+import {useAddFriend} from "../hooks/useFriends";
 import {useGetFriends} from "../hooks/useFriends";
 
 export const FriendsPage = () => {
     const [findValue, setFindValue] = useState("");
     const [isSearching, setIsSearching] = useState(false);
+    const [addedFriendIds, setAddedFriendIds] = useState<number[]>([]);
+    const { decodedToken } = useAuth();
+    const currentUserID = decodedToken.userID;
 
     const {
         mutate: findUsers,
@@ -22,10 +27,25 @@ export const FriendsPage = () => {
         error: friendsError
     } = useGetFriends()
 
+    const { mutate: addFriend } = useAddFriend();
+
     const onFindUser = () => {
         if (!findValue) return;
         setIsSearching(true);
         findUsers({param: findValue});
+    }
+
+    const handleAddFriend = (friendId: number) => {
+        addFriend({
+            body: {
+                userId: currentUserID,
+                friendId: friendId
+            }
+        }, {
+            onSuccess: () => {
+                setAddedFriendIds(prev => [...prev, friendId]);
+            }
+        });
     }
 
 
@@ -34,13 +54,33 @@ export const FriendsPage = () => {
         if (findingUsers) return <p className="text-primary/70">Searching...</p>;
         if (findingUsersError) return <p className="text-red-600">Error searching for an user.</p>;
 
-        const users: userDto[] = foundUsers;
+        let users: userDto[] = foundUsers;
+        users = users.filter(user => user.id !== currentUserID);
+
         console.log(users);
 
         return users.map(user => (
             <div key={user.id} className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200 mb-4">
                 <img alt={user.username} src={user.profileImagePath} className="w-12 h-12 rounded-full" />
                 <div className="text-white text-sm">{user.username}</div>
+                {!friends.some(friend => friend.friendId === user.id) &&
+                    (addedFriendIds.indexOf(user.id) !== -1 ? (
+                        <button type="button" className={"bg-primary/20 text-text " +
+                            "h-10 w-10 flex ml-auto " +
+                            "justify-center items-center rounded-full"}
+                                disabled>
+                            <FaCheck/>
+                        </button>
+                    ) : (
+                        <button type={"button"} className={"bg-primary/20 hover:bg-primary/30 text-text " +
+                            "h-10 w-10 flex ml-auto hover:cursor-pointer " +
+                            "justify-center items-center rounded-full " +
+                            "transition-all duration-200"}
+                                onClick={() => handleAddFriend(user.id)}>
+                            <FaPlusCircle/>
+                        </button>
+                    ))
+                }
             </div>
         ));
     };
