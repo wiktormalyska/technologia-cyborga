@@ -1,6 +1,5 @@
 import { APIEndpoints } from "../values/backendValues";
-import { useFetch, useMutate, usePathParams } from "./useFetch";
-import {useCurrentUser} from "./useAuth";
+import {useMutate, usePathParams } from "./useFetch";
 import {useAuth} from "../auth/AuthContext";
 import {useEffect} from "react";
 

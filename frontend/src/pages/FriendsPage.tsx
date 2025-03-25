@@ -30,18 +30,17 @@ export const FriendsPage = () => {
 
 
     const showFoundUsers = () => {
-        if (!foundUsers) return null;
-        if (findingUsers) return "Searching...";
-        if (findingUsersError) return findingUsersError;
+        if (!foundUsers) return <p className="text-gray-400">No user found.</p>;
+        if (findingUsers) return <p className="text-primary/70">Searching...</p>;
+        if (findingUsersError) return <p className="text-red-600">Error searching for an user.</p>;
 
         const users: userDto[] = foundUsers;
         console.log(users);
 
         return users.map(user => (
-            <div key={user.id} className="flex items-center gap-2 bg-secondary/40 rounded-full p-2">
-                <img alt={user.username} src={user.profileImagePath}
-                     className="w-10 h-10 rounded-full"/>
-                <div className={"text-text"}>{user.username}</div>
+            <div key={user.id} className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200 mb-4">
+                <img alt={user.username} src={user.profileImagePath} className="w-12 h-12 rounded-full" />
+                <div className="text-white text-sm">{user.username}</div>
             </div>
         ));
     };
@@ -51,39 +50,42 @@ export const FriendsPage = () => {
 
 
         console.log("Friends Data:", friends)
-        if (loadingFriends) return <p className="text-blue-500">Loading friends...</p>;
-        if (friendsError) return <p className="text-red-500">Error loading friends.</p>;
-        if (!friends || friends.length === 0) return <p className="text-gray-500">No friends added.</p>;
+        if (loadingFriends) return <p className="text-primary/70">Loading friends...</p>;
+        if (friendsError) return <p className="text-red-600">Error loading friends.</p>;
+        if (!friends || friends.length === 0) return <p className="text-gray-400">No friends added.</p>;
 
 
         return friends.map((friend) => (
-            <div key={friend.id} className="flex items-center gap-2 bg-secondary/40 rounded-full p-2">
-                <img alt={friend.username} src={friend.profileImagePath} className="w-10 h-10 rounded-full" />
-                <div className={"text-text"}>{friend.username}</div>
+            <div key={friend.id} className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200 mb-4">
+                <img alt={friend.username} src={friend.profileImagePath} className="w-12 h-12 rounded-full" />
+                <div className="text-white text-sm">{friend.username}</div>
             </div>
         ));
     };
 
     return (
         <BasePage title={"Friends"} justifyContent={"flex-start"}>
-            <div className={"flex flex-col"}>
-                <div className={"text-text flex flex-row gap-1"}>
-                    <input type={"text"}
-                           onChange={(e) => setFindValue(e.target.value)}
-                           className={"bg-primary/20 hover:bg-primary/30 p-2 pl-4 pr-4 rounded-full " +
-                               "transition-all duration-200"}/>
-                    <button type={"button"} className={"bg-primary/20 hover:bg-primary/30 " +
-                        "h-full w-10 flex " +
-                        "justify-center items-center rounded-full " +
-                        "transition-all duration-200"}
-                            onClick={onFindUser}>
-                        <FaSearch/>
+            <div className="flex flex-col space-y-6">
+
+                <div className="flex flex-row gap-2 items-center">
+                    <input
+                        type="text"
+                        onChange={(e) => setFindValue(e.target.value)}
+                        className="bg-primary/20 text-white p-3 pl-4 pr-4 rounded-full focus:ring-2 focus:ring-primary/50 transition-all duration-200"
+                        placeholder="Search for a friend"
+                    />
+                    <button
+                        type="button"
+                        className="bg-primary/20 text-white hover:bg-primary/30 h-full w-12 flex justify-center items-center rounded-full transition-all duration-200"
+                        onClick={onFindUser}
+                    >
+                        <FaSearch size={20} />
                     </button>
                 </div>
 
                 {!isSearching && (
-                    <div className="pt-5">
-                        <h2 className="text-xl font-bold text-text mb-3">Your Friends</h2>
+                    <div className="pt-3">
+                        <h2 className="text-2xl font-semibold text-white mb-3">Your Friends</h2>
                         {showFriendList()}
                     </div>
                 )}
@@ -91,12 +93,12 @@ export const FriendsPage = () => {
                 <div className="pt-5">
                     {isSearching && (
                         <>
-                            <h2 className="text-xl font-bold text-text mb-3">Search Results</h2>
+                            <h2 className="text-2xl font-semibold text-white mb-3">Search Results</h2>
                             {showFoundUsers()}
                         </>
                     )}
                 </div>
             </div>
         </BasePage>
-    )
+    );
 };
