@@ -6,7 +6,8 @@ import {useFindUserByUsername} from "../hooks/useUsers";
 import {useGetFriends} from "../hooks/useFriends";
 
 export const FriendsPage = () => {
-    const [findValue, setFindValue] = useState("")
+    const [findValue, setFindValue] = useState("");
+    const [isSearching, setIsSearching] = useState(false);
 
     const {
         mutate: findUsers,
@@ -16,15 +17,15 @@ export const FriendsPage = () => {
     } = useFindUserByUsername()
 
     const {
-        //mutate: findFriends,
-        data: foundFriends,
-        isPending: loadingFriends,
+        data: friends,
+        isLoading: loadingFriends,
         error: friendsError
     } = useGetFriends()
 
     const onFindUser = () => {
-        if (!findValue) return
-        findUsers({param: findValue})
+        if (!findValue) return;
+        setIsSearching(true);
+        findUsers({param: findValue});
     }
 
 
@@ -46,10 +47,13 @@ export const FriendsPage = () => {
     };
 
     const showFriendList = () => {
-        console.log("Friends Data:", foundFriends)
-        if (loadingFriends) return "Loading friends...";
-        if (friendsError) return "Error loading friends.";
-        if (!foundFriends || foundFriends.length === 0) return "No friends added.";
+        if (isSearching) return null;
+
+
+        console.log("Friends Data:", friends)
+        if (loadingFriends) return <p className="text-blue-500">Loading friends...</p>;
+        if (friendsError) return <p className="text-red-500">Error loading friends.</p>;
+        if (!friends || friends.length === 0) return <p className="text-gray-500">No friends added.</p>;
 
 
         return friends.map((friend) => (
@@ -77,13 +81,20 @@ export const FriendsPage = () => {
                     </button>
                 </div>
 
-                <div className={"pt-5"}>
-                    <h2 className="text-lg font-bold text-text">Your Friends</h2>
-                    {showFriendList()}
-                </div>
+                {!isSearching && (
+                    <div className="pt-5">
+                        <h2 className="text-xl font-bold text-text mb-3">Your Friends</h2>
+                        {showFriendList()}
+                    </div>
+                )}
 
-                <div className={"pt-5"}>
-                    {showFoundUsers()}
+                <div className="pt-5">
+                    {isSearching && (
+                        <>
+                            <h2 className="text-xl font-bold text-text mb-3">Search Results</h2>
+                            {showFoundUsers()}
+                        </>
+                    )}
                 </div>
             </div>
         </BasePage>

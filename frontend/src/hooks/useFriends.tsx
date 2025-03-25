@@ -1,12 +1,29 @@
 import { APIEndpoints } from "../values/backendValues";
 import { useFetch, useMutate, usePathParams } from "./useFetch";
 import {useCurrentUser} from "./useAuth";
+import {useAuth} from "../auth/AuthContext";
+import {useEffect} from "react";
 
 
 export const useGetFriends = () => {
-    const { user } = useCurrentUser();
-    const endpoint = APIEndpoints.friends.getAll;
-    return usePathParams("getAll-friend", endpoint);
+    const { decodedToken } = useAuth();
+    const currentUserID = decodedToken.userID;
+
+    const result = usePathParams('getAll-friends', APIEndpoints.friends.getAll);
+
+
+    useEffect(() => {
+        if (currentUserID) {
+            result.mutate({ param: currentUserID.toString() }); // Manually trigger the request
+        }
+    }, [currentUserID]);
+
+    console.log("useGetFriends Result:", result);
+    return {
+        data: Array.isArray(result?.data?.friends) ? result.data.friends : [],
+        isLoading: result?.isPending ?? true,
+        error: result?.error ?? null,
+    };
 };
 
 
