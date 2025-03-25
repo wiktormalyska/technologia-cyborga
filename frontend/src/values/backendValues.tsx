@@ -142,7 +142,7 @@ export const APIEndpoints: {
             method: HttpRequestMethods.GET,
         },
         rejectRequest: {
-            url: "api/friends",
+            url: "api/friends/reject",
             method: HttpRequestMethods.PUT,
         }
     },
