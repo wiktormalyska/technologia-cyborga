@@ -51,4 +51,6 @@ public class User {
 
     @Column(nullable = false)
     private String profileImagePath;
+
+    private Integer points;
 }

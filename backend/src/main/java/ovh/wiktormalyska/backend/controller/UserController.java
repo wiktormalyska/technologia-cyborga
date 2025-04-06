@@ -118,4 +118,36 @@ public class UserController {
             return ResponseEntity.badRequest().body(null);
         }
     }
+
+    @GetMapping("{id}/points")
+    public ResponseEntity<Integer> getUserPoints(@PathVariable("id") Long id) {
+        try {
+            int points = userService.getUserPoints(id);
+            return ResponseEntity.ok(points);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("{id}/points")
+    public ResponseEntity<Void> updateUserPoints(@PathVariable("id") Long id, @RequestParam("points") int points) {
+        try {
+            userService.updateUserPoints(id, points);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/{id}/points")
+    public ResponseEntity<Void> addUserPoints(@PathVariable("id") Long id, @RequestParam("points") int points) {
+        try {
+            userService.addUserPoints(id, points);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 }

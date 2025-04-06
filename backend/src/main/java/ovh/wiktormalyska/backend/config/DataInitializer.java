@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,6 @@ import ovh.wiktormalyska.backend.repository.RoleRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
 import ovh.wiktormalyska.backend.service.UserService;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -66,6 +64,7 @@ public class DataInitializer implements ApplicationRunner {
                     .email("admin@admin.com")
                     .roles(Set.of(roleRepository.findByName(Roles.ADMIN.name()).orElseThrow()))
                     .profileImagePath(userService.getBackendUrl() + getDefaultProfileImagePath())
+                    .points(0)
                     .build();
             userRepository.save(admin);
         }
