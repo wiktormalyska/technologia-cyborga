@@ -18,6 +18,9 @@ import accountIcon from '../assets/icons/account-icon.svg'
 import settingsIcon from '../assets/icons/settings-icon.svg'
 // @ts-ignore
 import logoutIcon from '../assets/icons/logout-icon.svg'
+// @ts-ignore
+import adminIcon from '../assets/icons/admin-icon.svg'
+import {useCurrentUser} from "../hooks/useAuth";
 
 const Navbar = () => {
     const menuOptions = [
@@ -28,7 +31,10 @@ const Navbar = () => {
         {name: 'Rankings', icon: rankingsIcon, path: '/rankings'},
         {name: 'Account', icon: accountIcon, path: '/account'},
         {name: 'Settings', icon: settingsIcon, path: '/settings'},
+        {name: 'Admin Panel', icon: adminIcon, path: '/admin'},
     ];
+
+    const showAdmin = useCurrentUser().isAdmin  // TODO: poprawić role w tokenie
 
     return (
         <div className={"flex flex-col justify-start items-center bg-primary/5 p-5" +
@@ -41,7 +47,9 @@ const Navbar = () => {
                 </div>
             </div>
             <div className={"w-full flex flex-col gap-5 p-5 justify-center "}>
-                {menuOptions.map((option, index) => (
+                {menuOptions.filter(option => {
+                    return option.name !== 'Admin Panel' || showAdmin}
+                ).map((option, index) => (
                     <Link className={"flex flex-row w-full items-center gap-4"}
                           key={index} to={option.path}>
                         <div className={"flex flex-row items-center justify-center " +

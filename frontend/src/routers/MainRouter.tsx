@@ -13,6 +13,8 @@ import {AllChatsPage} from "../pages/AllChatsPage";
 import {RankingsPage} from "../pages/RankingsPage";
 import {SettingsPage} from "../pages/SettingsPage";
 import {RegisterPage} from "../pages/RegisterPage";
+import {AdminPage} from "../pages/AdminPage";
+import AdminRoute from "./AdminRoute";
 
 
 const Logout = () => {
@@ -44,6 +46,14 @@ const MainRouter = createBrowserRouter([
             { path: 'account', element: <ProfilePage />},
             { path: 'settings', element: <SettingsPage />},
             { path: 'policy', element: <h1>Privacy Policy</h1>},
+            {
+                path: 'admin',
+                element: (
+                    <AdminRoute>
+                        <AdminPage />
+                    </AdminRoute>
+                )
+            },
         ],
     },
     {
