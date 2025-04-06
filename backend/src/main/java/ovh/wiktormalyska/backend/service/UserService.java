@@ -84,6 +84,7 @@ public class UserService {
         Role userRole = roleRepository.findByName("USER").orElseThrow(() -> new IllegalArgumentException("Role not found"));
         user.setRoles(Set.of(userRole));
         user.setProfileImagePath("/defaultProfile.png");
+        user.setPoints(0);
         return userRepository.save(user);
     }
 
@@ -128,5 +129,24 @@ public class UserService {
         }
         Dotenv dotenv = Dotenv.configure().load();
         return dotenv.get("DOMAIN_NAME");
+    }
+
+    public Integer getUserPoints(Long id) {
+        return userRepository.findById(id).map(User::getPoints)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    public void updateUserPoints(Long id, Integer points) {
+        userRepository.findById(id).map(user -> {
+            user.setPoints(points);
+            return userRepository.save(user);
+        }).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    public void addUserPoints(Long id, Integer points) {
+        userRepository.findById(id).map(user -> {
+            user.setPoints(user.getPoints() + points);
+            return userRepository.save(user);
+        }).orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 }
