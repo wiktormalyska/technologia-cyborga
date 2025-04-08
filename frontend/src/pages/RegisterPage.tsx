@@ -15,7 +15,6 @@ export const RegisterPage = () => {
     const [successMessage, setSuccessMessage] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
-    const [isHovered, setIsHovered] = useState(false);
 
     const { mutate: register, isPending } = useRegister();
 
@@ -119,21 +118,13 @@ export const RegisterPage = () => {
                     )}
 
                     <div className="mt-4 text-sm">
-                        Already have an account? <Link
-                            to="/login"
-                            style={{
-                                color: isHovered ? "#a855f7" : "#9333ea", // jaśniejszy fiolet na hover
-                                transition: "color 0.2s ease-in-out"
-                            }}
-                            onMouseEnter={() => setIsHovered(true)}
-                            onMouseLeave={() => setIsHovered(false)}
-                        >Login</Link>
+                        Already have an account? <Link to="/login"><span className="text-purple-600 hover:text-purple-400 hover:underline transition-colors duration-200">Login</span></Link>
                     </div>
                 </div>
 
-                <Link to="https://www.youtube.com/watch?v=xvFZjo5PgG0" className="w-[300px] h-[300px] block">
-                    <img src={robotIcon} alt="Robot" className="h-full w-full object-cover" />
-                </Link>
+                <div className="w-[300px] h-[300px]">
+                    <img src={robotIcon} alt="Robot" className="h-full w-full"/>
+                </div>
             </div>
         </div>
     );
