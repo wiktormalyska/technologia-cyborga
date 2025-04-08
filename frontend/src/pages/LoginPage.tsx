@@ -13,6 +13,7 @@ export const LoginPage = () => {
     const [successMessage, setSuccessMessage] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
+    const [isHovered, setIsHovered] = useState(false);
 
     const { mutate: login, isPending } = useLogin();
 
@@ -79,7 +80,7 @@ export const LoginPage = () => {
                         <button
                             type="submit"
                             disabled={isPending}
-                            className="bg-primary/75 text-text p-2 w-full rounded-xl hover:bg-opacity-80 "
+                            className="bg-primary/75 text-text p-2 w-full rounded-xl hover:bg-purple-600 "
                         >
                             {isPending ? "Logging in..." : "Login"}
                         </button>
@@ -90,7 +91,15 @@ export const LoginPage = () => {
                     )}
 
                     <div className="mt-4 text-sm">
-                        Don't have an account? <Link to="/register" className="text-text hover:underline">Register</Link>
+                        Don't have an account? <Link
+                        to="/register"
+                        style={{
+                            color: isHovered ? "#a855f7" : "#9333ea", // jaśniejszy fiolet na hover
+                            transition: "color 0.2s ease-in-out"
+                        }}
+                        onMouseEnter={() => setIsHovered(true)}
+                        onMouseLeave={() => setIsHovered(false)}
+                    >Register</Link>
                     </div>
                 </div>
 
