@@ -80,7 +80,7 @@ export const LoginPage = () => {
                         <button
                             type="submit"
                             disabled={isPending}
-                            className="bg-primary/75 text-text p-2 w-full rounded-xl hover:bg-purple-600 "
+                            className="bg-primary/75 text-text p-2 w-full rounded-xl hover:bg-purple-600 duration-300 "
                         >
                             {isPending ? "Logging in..." : "Login"}
                         </button>
