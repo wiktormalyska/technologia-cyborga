@@ -79,18 +79,18 @@ export const LoginPage = () => {
                         <button
                             type="submit"
                             disabled={isPending}
-                            className="bg-primary/75 text-text p-2 w-full rounded-xl hover:bg-opacity-80 "
+                            className="bg-primary/75 text-text p-2 w-full rounded-xl hover:bg-purple-600 transition-colors duration-300 "
                         >
                             {isPending ? "Logging in..." : "Login"}
                         </button>
                     </form>
 
                     {error && (
-                        <div className="text-text text-sm mt-2">{error}</div>
+                        <div className="text-red-500 text-sm mt-2">{error}</div>
                     )}
 
                     <div className="mt-4 text-sm">
-                        Don't have an account? <Link to="/register" className="text-text hover:underline">Register</Link>
+                        Don't have an account? <Link to="/register"><span className="text-purple-600 hover:text-purple-400 hover:underline transition-colors duration-200">Register</span></Link>
                     </div>
                 </div>
 

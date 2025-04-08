@@ -1,53 +1,46 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useRegister } from "../hooks/useAuth";
-import { Link, useNavigate } from "react-router-dom";
 
-export const RegisterForm = () => {
+type RegisterFormProps = {
+    onSuccess?: () => void;
+    initialMessage?: string;
+};
+
+export const RegisterForm = ({ onSuccess, initialMessage }: RegisterFormProps) => {
     const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [email, setEmail] = useState("");
     const [error, setError] = useState("");
-    const navigate = useNavigate();
-
+    const [successMessage, setSuccessMessage] = useState(initialMessage || "");
     const { mutate: register, isPending } = useRegister();
-
-    const validateForm = () => {
-        if (!username || !password || !email || !confirmPassword) {
-            setError("All fields are required");
-            return false;
-        }
-
-        if (password !== confirmPassword) {
-            setError("Passwords do not match");
-            return false;
-        }
-
-        if (password.length < 6) {
-            setError("Password must be at least 6 characters");
-            return false;
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            setError("Please enter a valid email address");
-            return false;
-        }
-
-        return true;
-    };
 
     const handleRegister = (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
 
-        if (!validateForm()) return;
+        if (!username || !email || !password || !confirmPassword) {
+            setError("All fields are required");
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
+
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+            setError("Please enter a valid email address");
+            return;
+        }
 
         register(
-            { username, password, email },
+            { username, email, password },
             {
                 onSuccess: () => {
-                    navigate("/login", { state: { message: "Registration successful, please log in" } });
+                    setSuccessMessage("Registration successful! Please log in.");
+                    onSuccess?.();
                 },
                 onError: (err) => {
                     setError(err.message || "Registration failed, please try again");
@@ -56,19 +49,21 @@ export const RegisterForm = () => {
         );
     };
 
-
     return (
-        <div className="w-[420px]">
-            <form
-                onSubmit={handleRegister}
-                className="flex flex-col w-full gap-4 items-center bg-[#4b4b65] text-white rounded-2xl p-10"
-            >
-                <div className="text-2xl">Register</div>
+        <div className="flex flex-col w-[420px] gap-4 items-center bg-primary/10 text-text rounded-2xl p-10">
+            <div className="text-2xl">Register</div>
 
+            {successMessage && (
+                <div className="bg-green-800 text-text p-3 rounded-xl w-full text-center">
+                    {successMessage}
+                </div>
+            )}
+
+            <form onSubmit={handleRegister} className="w-full flex flex-col gap-4">
                 <input
                     placeholder="Username"
                     value={username}
-                    className="bg-[#e4e4eb] text-black p-2 pl-4 w-full rounded-xl"
+                    className="bg-primary/25 text-text p-2 pl-4 w-full rounded-xl"
                     onChange={(e) => setUsername(e.target.value)}
                 />
 
@@ -76,7 +71,7 @@ export const RegisterForm = () => {
                     placeholder="Email"
                     type="email"
                     value={email}
-                    className="bg-[#e4e4eb] text-black p-2 pl-4 w-full rounded-xl"
+                    className="bg-primary/25 text-text p-2 pl-4 w-full rounded-xl"
                     onChange={(e) => setEmail(e.target.value)}
                 />
 
@@ -84,7 +79,7 @@ export const RegisterForm = () => {
                     placeholder="Password"
                     type="password"
                     value={password}
-                    className="bg-[#e4e4eb] text-black p-2 pl-4 w-full rounded-xl"
+                    className="bg-primary/25 text-text p-2 pl-4 w-full rounded-xl"
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
@@ -92,26 +87,29 @@ export const RegisterForm = () => {
                     placeholder="Confirm Password"
                     type="password"
                     value={confirmPassword}
-                    className="bg-[#e4e4eb] text-black p-2 pl-4 w-full rounded-xl"
+                    className="bg-primary/25 text-text p-2 pl-4 w-full rounded-xl"
                     onChange={(e) => setConfirmPassword(e.target.value)}
                 />
 
                 <button
                     type="submit"
                     disabled={isPending}
-                    className="bg-border text-white p-2 w-full rounded-xl hover:bg-opacity-80"
+                    className="bg-primary/75 text-text p-2 w-full rounded-xl hover:bg-purple-600 transition-colors duration-300"
                 >
                     {isPending ? "Registering..." : "Register"}
                 </button>
-
-                {error && (
-                    <div className="text-white text-sm mt-2">{error}</div>
-                )}
-
-                <div className="mt-4 text-sm">
-                    Already have an account? <Link to="/login" className="text-white hover:underline">Login</Link>
-                </div>
             </form>
+
+            {error && (
+                <div className="text-red-500 text-sm mt-2">{error}</div>
+            )}
+
+            <div className="mt-4 text-sm">
+                Already have an account?{" "}
+                <Link to="/login">
+                    <span className="text-purple-600 hover:text-purple-400 hover:underline transition-colors duration-200">Login</span>
+                </Link>
+            </div>
         </div>
     );
 };
