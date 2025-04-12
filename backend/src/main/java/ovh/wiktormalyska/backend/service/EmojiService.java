@@ -1,10 +1,12 @@
 package ovh.wiktormalyska.backend.service;
 
+import org.springframework.stereotype.Service;
 import ovh.wiktormalyska.backend.model.Emoji;
 import ovh.wiktormalyska.backend.repository.EmojiRepository;
 
 import java.util.List;
 
+@Service
 public class EmojiService {
     private final EmojiRepository emojiRepository;
 
