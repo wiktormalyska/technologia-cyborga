@@ -10,6 +10,8 @@ import ovh.wiktormalyska.backend.repository.UserEmojiRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserEmojiService {
@@ -21,6 +23,14 @@ public class UserEmojiService {
         this.userEmojiRepository = userEmojiRepository;
         this.emojiRepository = emojiRepository;
         this.userRepository = userRepository;
+    }
+
+    public List<UserEmoji> getUserEmojis(Long userId) {
+        return userEmojiRepository.findByUserId(userId);
+    }
+
+    public Optional<UserEmoji> getEmoji(Long userId, Long emojiId) {
+        return userEmojiRepository.findByUserIdAndEmojiId(userId,emojiId);
     }
 
     public UserEmoji unlockEmoji(Long userId, Long emojiId) {
