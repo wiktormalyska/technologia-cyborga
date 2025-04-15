@@ -1,27 +1,28 @@
 package ovh.wiktormalyska.backend.service;
 
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import ovh.wiktormalyska.backend.model.Emoji;
+import ovh.wiktormalyska.backend.model.EmojiPlaceholder;
 import ovh.wiktormalyska.backend.model.User;
 import ovh.wiktormalyska.backend.model.UserEmoji;
-import ovh.wiktormalyska.backend.repository.EmojiRepository;
+import ovh.wiktormalyska.backend.repository.EmojiPlaceholderRepository;
 import ovh.wiktormalyska.backend.repository.UserEmojiRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UserEmojiService {
     private final UserEmojiRepository userEmojiRepository;
-    private final EmojiRepository emojiRepository;
+    private final EmojiPlaceholderRepository emojiPlaceholderRepository;
     private final UserRepository userRepository;
 
-    public UserEmojiService(UserEmojiRepository userEmojiRepository, EmojiRepository emojiRepository, UserRepository userRepository) {
+    public UserEmojiService(UserEmojiRepository userEmojiRepository, EmojiPlaceholderRepository emojiPlaceholderRepository, UserRepository userRepository) {
         this.userEmojiRepository = userEmojiRepository;
-        this.emojiRepository = emojiRepository;
+        this.emojiPlaceholderRepository = emojiPlaceholderRepository;
         this.userRepository = userRepository;
     }
 
@@ -34,7 +35,7 @@ public class UserEmojiService {
     }
 
     public UserEmoji unlockEmoji(Long userId, Long emojiId) {
-        Emoji emoji = emojiRepository.findById(emojiId).orElseThrow(() -> new RuntimeException("Emoji not found"));
+        EmojiPlaceholder emoji = emojiPlaceholderRepository.findById(emojiId).orElseThrow(() -> new RuntimeException("Emoji not found"));
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         LocalDateTime unlockedAt = LocalDateTime.now();
         UserEmoji userEmoji = UserEmoji.builder()
@@ -44,6 +45,51 @@ public class UserEmojiService {
                 .build();
 
 
+        return userEmojiRepository.save(userEmoji);
+    }
+
+    private EmojiPlaceholder getRandomFromList(List<EmojiPlaceholder> emojis) {
+        int index = new Random().nextInt(emojis.size());
+        return emojis.get(index);
+    }
+
+    private EmojiPlaceholder getRandomEmoji() {
+        List<EmojiPlaceholder> common = emojiPlaceholderRepository.findByRarity(EmojiPlaceholder.Rarity.COMMON);
+        List<EmojiPlaceholder> rare = emojiPlaceholderRepository.findByRarity(EmojiPlaceholder.Rarity.RARE);
+        List<EmojiPlaceholder> epic = emojiPlaceholderRepository.findByRarity(EmojiPlaceholder.Rarity.EPIC);
+        List<EmojiPlaceholder> cyberpsychosis = emojiPlaceholderRepository.findByRarity(EmojiPlaceholder.Rarity.CYBERPSYCHOSIS);
+
+        double rand = Math.random();
+
+        if (rand < 0.05 && !epic.isEmpty()) {
+            return getRandomFromList(cyberpsychosis);
+        } else if (rand < 0.20 && !rare.isEmpty()) {
+            return getRandomFromList(epic);
+        } else if (rand < 0.40) {
+            return getRandomFromList(rare);
+        } else if (!common.isEmpty()) {
+            return getRandomFromList(common);
+        }
+        List<EmojiPlaceholder> all = emojiPlaceholderRepository.findAll();
+        return getRandomFromList(all);
+    }
+
+    public UserEmoji claimDailyLootbox(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (user.getLastLootboxClaim() != null && user.getLastLootboxClaim().toLocalDate().isEqual(LocalDate.now())) {
+            throw new RuntimeException("Lootbox already claimed");
+        }
+        EmojiPlaceholder emoji = getRandomEmoji();
+
+        UserEmoji userEmoji = UserEmoji.builder()
+                .user(user)
+                .emoji(emoji)
+                .unlockedAt(LocalDateTime.now())
+                .build();
+
+        user.setLastLootboxClaim(LocalDateTime.now());
+        userRepository.save(user);
         return userEmojiRepository.save(userEmoji);
     }
 }
