@@ -1,4 +1,4 @@
-import {useGetUserById} from "../hooks/useUsers";
+import {useGetUserById, useGetUserPoints} from "../hooks/useUsers";
 // @ts-ignore
 import React, {useEffect, useState} from "react";
 import {useAuth} from "../auth/AuthContext";
@@ -12,8 +12,11 @@ import { Chat } from "../components/Chat";
 export const ProfilePage = () => {
     const badges = ["🏆", "🎖️", "🎯"];
     const emojis = ["😳", "😜", "🤯", "🤤", "😩", "💀"];
-    const {mutate: getUserByID, isPending: isUserPending, data: userData, error: userError} = useGetUserById()
+    const {mutate: getUserByID, isPending: isUserPending, data: userData, error: userError} = useGetUserById();
+    //const { data: points, isPending: isPointsPending, error: pointsError } = useGetUserPoints({ param: "1" });
+
     const {decodedToken} = useAuth()
+    const { mutate: getUserPoints, isPending: isPointsPending, data: pointsData, error: pointsError } = useGetUserPoints();
 
     const [user, setUser] = useState<userDto>()
 
@@ -24,15 +27,19 @@ export const ProfilePage = () => {
     }, [decodedToken, getUserByID]);
 
     useEffect(() => {
+        getUserPoints({param: decodedToken.userID.toString()})
+    }, [decodedToken, getUserPoints]);
+
+    useEffect(() => {
         if (userData) {
             setUser(userData)
         }
     }, [userData]);
 
-    if (isUserPending) return (
+    if (isUserPending || isPointsPending) return (
         <BasePage title={"Loading..."} justifyContent={"flex-start"}></BasePage>
     );
-    if (userError) return (
+    if (userError || pointsError) return (
         <BasePage title={"Error loading user data!"} justifyContent={"flex-start"}></BasePage>
     );
     if (!userData || !user) return (
@@ -96,12 +103,12 @@ export const ProfilePage = () => {
                 </div>
                 <div className="flex justify-center mb-5">
                     <div className="text-text bg-secondary/90 text-sm px-4 py-2 rounded-full font-semibold">
-                        Points: 0
+                        Points: {pointsData.points || 0} {/* Wyświetl punkty użytkownika */}
                     </div>
                 </div>
                 <div className={"flex flex-col gap-5"}>
                     <div className={"bg-secondary/60 border-r-2 box-border rounded-2xl p-5"}>
-                    <div className={"text-2xl text-text mb-1.5 text-center"}>
+                        <div className={"text-2xl text-text mb-1.5 text-center"}>
                             Badges
                         </div>
                         <div className={"flex gap-1 flex-wrap justify-center"}>
