@@ -75,12 +75,13 @@ export const ProfilePage = () => {
                     <div className={"text-3xl text-text text-center font-bold tracking-wide"}>{userData.username}</div>
                 </div>
 
-                <div className={"flex flex-wrap gap-2 justify-between w-full mb-10"}>
+                <div className={"flex flex-wrap gap-2 justify-between w-full mb-4"}>
                     {
                         actions.map(action => {
                             return (
                                 <div key={action.name}
-                                     className={"p-1 cursor-pointer text-text flex flex-col items-center text-center"} onClick={action.onClick}>
+                                     className={"p-1 cursor-pointer text-text flex flex-col items-center text-center"}
+                                     onClick={action.onClick}>
                                     <div
                                         className={"text-lg bg-secondary w-[40px] h-[40px] rounded-full items-center justify-center flex"}>
                                         {React.createElement(action.icon)}
@@ -93,9 +94,14 @@ export const ProfilePage = () => {
                         })
                     }
                 </div>
+                <div className="flex justify-center mb-5">
+                    <div className="text-text bg-secondary/90 text-sm px-4 py-2 rounded-full font-semibold">
+                        Points: 0
+                    </div>
+                </div>
                 <div className={"flex flex-col gap-5"}>
                     <div className={"bg-secondary/60 border-r-2 box-border rounded-2xl p-5"}>
-                        <div className={"text-2xl text-text mb-1.5 text-center"}>
+                    <div className={"text-2xl text-text mb-1.5 text-center"}>
                             Badges
                         </div>
                         <div className={"flex gap-1 flex-wrap justify-center"}>
@@ -127,7 +133,7 @@ export const ProfilePage = () => {
                     </div>
                 </div>
             </div>
-            {isChatOpen && <Chat onClose={() => setIsChatOpen(false)} />}
+            {isChatOpen && <Chat onClose={() => setIsChatOpen(false)}/>}
         </BasePage>
     );
 };
