@@ -47,3 +47,11 @@ export const usePutUserProfileImage = () => {
     const postPathParamUrl = "/profile-image"
     return usePathParams("putProfileImage-users", endpoint, postPathParamUrl)
 }
+
+export const useGetUserPoints = () => {
+    const endpoint = APIEndpoints.users.getPoints;
+    const postPathParamUrl = "/points";
+
+    // Assuming usePathParams returns { data, isLoading, error }
+    return usePathParams("getPoints-users", endpoint, postPathParamUrl);
+};
