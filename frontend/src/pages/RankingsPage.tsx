@@ -12,7 +12,7 @@ import leaderIcon from "../assets/icons/leader-icon.svg"
 export const RankingsPage = () => {
     const [findValue, setFindValue] = useState("");
     const [isSearching, setIsSearching] = useState(false);
-    const { decodedToken } = useAuth();
+    const {decodedToken} = useAuth();
     const currentUserID = decodedToken.userID;
 
     const {
@@ -35,23 +35,31 @@ export const RankingsPage = () => {
     }
 
     const showFoundUsers = () => {
-        if (!foundUsers) return <p className="text-gray-400">No user found.</p>;
         if (findingUsers) return <p className="text-primary/70">Searching...</p>;
         if (findingUsersError) return <p className="text-red-600">Error searching for an user.</p>;
+        if (!foundUsers || foundUsers.length === 0) return <p className="text-gray-400">No user found.</p>;
 
         let users: userDto[] = foundUsers;
+        users = [...users].sort((a, b) => b.points - a.points);
 
-        console.log(users);
-
-        return users.map((user) => (
-            <div key={user.id} className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200 mb-4">
-                <img alt={user.username} src={user.profileImagePath} className="w-12 h-12 rounded-full" />
-                <div className="text-white text-sm">{user.username}</div>
-                <div className="text-white text-sm ml-auto mr-5">{user.points ?? "N/A"}</div>
+        return users.map((user, index) => (
+            <div key={user.id}
+                 className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200">
+                <div className="text-white text-lg flex ml-5 font-bold">{index + 1}.</div>
+                <img alt={user.username} src={user.profileImagePath} className="w-12 h-12 rounded-full"/>
+                <div className="text-white text-sm flex gap-2">
+                    {user.username}
+                    {user.id === currentUserID && (
+                        <span>(You)</span>
+                    )}
+                </div>
+                <div className="flex gap-1 ml-auto mr-5">
+                    <img className={"h-6 w-6"} src={pointsIcon} alt="Points"/>
+                    <div className="text-white text-sm">{user.points}</div>
+                </div>
             </div>
         ));
     };
-
     const showUserList = () => {
         if (isSearching) return null;
 
@@ -64,9 +72,10 @@ export const RankingsPage = () => {
         users = [...users].sort((a, b) => b.points - a.points);
 
         return users.map((user, index) => (
-            <div key={user.id} className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200">
+            <div key={user.id}
+                 className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200">
                 <div className="text-white text-lg flex ml-5 font-bold">{index + 1}.</div>
-                <img alt={user.username} src={user.profileImagePath} className="w-12 h-12 rounded-full" />
+                <img alt={user.username} src={user.profileImagePath} className="w-12 h-12 rounded-full"/>
                 <div className="text-white text-sm flex gap-2">
                     {index === 0 && (
                         <img src={leaderIcon} alt="Leader" className="w-5 h-5"/>
@@ -99,14 +108,15 @@ export const RankingsPage = () => {
                         className="bg-primary/20 text-white hover:bg-primary/30 h-full w-12 flex justify-center items-center rounded-full transition-all duration-200"
                         onClick={onFindUser}
                     >
-                        <FaSearch size={20} />
+                        <FaSearch size={20}/>
                     </button>
                 </div>
 
                 {!isSearching && (
                     <div className="pt-3">
                         <h2 className="text-2xl font-semibold text-white mb-3">Top scores</h2>
-                        <div className="max-h-[520px] overflow-y-auto pr-5 scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full">
+                        <div
+                            className="h-full overflow-y-auto pr-5 scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full">
                             <div className="flex flex-col gap-4">
                                 {showUserList()}
                             </div>
@@ -117,7 +127,9 @@ export const RankingsPage = () => {
                 {isSearching && (
                     <div className="pt-3">
                         <h2 className="text-2xl font-semibold text-white mb-3">Search Results</h2>
-                        {showFoundUsers()}
+                        <div className="flex flex-col gap-4">
+                            {showFoundUsers()}
+                        </div>
                     </div>
                 )}
             </div>

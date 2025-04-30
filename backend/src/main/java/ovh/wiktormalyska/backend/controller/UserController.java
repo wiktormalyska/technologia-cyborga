@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/find/{username}")
-    public ResponseEntity<List<UserDto>> findUserByUsername(@PathVariable("username") String username) {
+    public ResponseEntity<List<User>> findUserByUsername(@PathVariable("username") String username) {
         return userService.findUserByUsername(username)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
