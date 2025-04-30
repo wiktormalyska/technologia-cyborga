@@ -30,6 +30,7 @@ export const APIEndpoints: {
         deleteById: Endpoint
         getProfileImage: Endpoint
         updateProfilePicture: Endpoint
+        getPoints: Endpoint
     }
     chats: {
         getAll: Endpoint
@@ -100,6 +101,10 @@ export const APIEndpoints: {
         updateProfilePicture: {
             url: "api/users",
             method: HttpRequestMethods.PUT
+        },
+        getPoints: {
+            url: "api/users",
+            method: HttpRequestMethods.GET,
         }
     },
     chats: {
