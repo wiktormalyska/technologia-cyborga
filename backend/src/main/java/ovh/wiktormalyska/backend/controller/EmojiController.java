@@ -3,9 +3,10 @@ package ovh.wiktormalyska.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ovh.wiktormalyska.backend.model.EmojiPlaceholder;
+import ovh.wiktormalyska.backend.dto.UnlockEmojiDto;
+import ovh.wiktormalyska.backend.model.Emoji;
 import ovh.wiktormalyska.backend.model.UserEmoji;
-import ovh.wiktormalyska.backend.service.EmojiPlaceholderService;
+import ovh.wiktormalyska.backend.service.EmojiService;
 import ovh.wiktormalyska.backend.service.UserEmojiService;
 
 import java.util.List;
@@ -13,50 +14,42 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/emojis/")
 public class EmojiController {
-    private final EmojiPlaceholderService emojiPlaceholderService;
+    private final EmojiService emojiService;
     private final UserEmojiService userEmojiService;
 
 
     @Autowired
-    public EmojiController(EmojiPlaceholderService emojiPlaceholderService, UserEmojiService userEmojiService) {
-        this.emojiPlaceholderService = emojiPlaceholderService;
+    public EmojiController(EmojiService emojiService, UserEmojiService userEmojiService) {
+        this.emojiService = emojiService;
         this.userEmojiService = userEmojiService;
     }
 
     @GetMapping
-    public List<EmojiPlaceholder> getAllEmojis() {
-        return emojiPlaceholderService.getAll();
+    public List<Emoji> getAllEmojis() {
+        return emojiService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmojiPlaceholder> getEmojiById(@PathVariable Long id) {
-        return emojiPlaceholderService.getById(id)
+    public ResponseEntity<Emoji> getEmojiById(@PathVariable Long id) {
+        return emojiService.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/user_emojis/{userId}")
-    public List<UserEmoji> getUserEmojis(@PathVariable Long userId) {
-        return userEmojiService.getUserEmojis(userId);
+    public ResponseEntity<List<UserEmoji>> getUserEmojis(@PathVariable Long userId) {
+        return ResponseEntity.ok(userEmojiService.getUserEmojis(userId));
     }
 
-    @GetMapping("/rarity")
-    public List<EmojiPlaceholder> getEmojiByRarity(@RequestParam EmojiPlaceholder.Rarity rarity) {
-        return emojiPlaceholderService.getByRarity(rarity);
-    }
-
-    @GetMapping("/user_emojis/{userId}/{emojiId}")
-    public ResponseEntity<UserEmoji> getUserEmojis(@PathVariable Long userId, @PathVariable Long emojiId) {
-        return userEmojiService.getEmoji(userId, emojiId)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/rarity/{rarity}")
+    public List<Emoji> getEmojiByRarity(@PathVariable Emoji.Rarity rarity) {
+        return emojiService.getByRarity(rarity);
     }
 
     @PostMapping("/user_emojis/unlock")
     public ResponseEntity<UserEmoji> unlockEmoji(
-            @RequestParam Long userId,
-            @RequestParam Long emojiId) {
-        UserEmoji userEmoji = userEmojiService.unlockEmoji(userId, emojiId);
+            @RequestBody UnlockEmojiDto unlockEmojiDto) {
+        UserEmoji userEmoji = userEmojiService.unlockEmoji(unlockEmojiDto.getUserId(), unlockEmojiDto.getEmojiId());
         return ResponseEntity.ok(userEmoji);
     }
 

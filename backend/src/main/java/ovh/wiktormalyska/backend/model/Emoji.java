@@ -18,9 +18,10 @@ public class Emoji {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String shortcode;
+    @Column(unique = true)
+    private String placeholder;
 
-    private String unicode;
+    private String emoji;
 
     @Enumerated(EnumType.STRING)
     private Rarity rarity;

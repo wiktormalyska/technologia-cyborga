@@ -1,5 +1,6 @@
 package ovh.wiktormalyska.backend.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ovh.wiktormalyska.backend.model.Emoji;
 import ovh.wiktormalyska.backend.repository.EmojiRepository;
@@ -11,6 +12,7 @@ import java.util.Optional;
 public class EmojiService {
     private final EmojiRepository emojiRepository;
 
+    @Autowired
     public EmojiService(EmojiRepository emojiRepository) {
         this.emojiRepository = emojiRepository;
     }

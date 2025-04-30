@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -56,4 +57,6 @@ public class User {
     private Integer points;
 
     private LocalDateTime lastLootboxClaim;
+
+    private List<Emoji> unlockedEmojis;
 }

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,13 +20,9 @@ public class UserEmoji {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable=false)
-    private User user;
+    private Long user_id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "emoji_id", referencedColumnName = "id")
-    private EmojiPlaceholder emoji;
+    private List<Emoji> emojis;
 
     @Column(nullable = false)
     private LocalDateTime unlockedAt;
