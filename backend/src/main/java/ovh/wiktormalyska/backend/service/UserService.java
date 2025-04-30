@@ -58,23 +58,12 @@ public class UserService {
                 .build();
     }
 
-    public Optional<List<UserDto>> findUserByUsername(String username) {
+    public Optional<List<User>> findUserByUsername(String username) {
         List<User> users = userRepository.findByUsernameContaining(username);
         if (users.isEmpty()) {
             return Optional.empty();
         }
-        List<UserDto> userDtos = users.stream().map(user -> {
-            user.setProfileImagePath(user.getProfileImagePath());
-            return UserDto.builder()
-                    .id(user.getId())
-                    .username(user.getUsername())
-                    .email(user.getEmail())
-                    .roles(user.getRoles())
-                    .profileImagePath(user.getProfileImagePath())
-                    .build();
-        }).toList();
-
-        return Optional.of(userDtos);
+        return Optional.of(users);
     }
 
     public User createUser(@Valid User user) {
