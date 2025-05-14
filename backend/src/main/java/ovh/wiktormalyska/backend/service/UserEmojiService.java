@@ -35,12 +35,10 @@ public class UserEmojiService {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         LocalDateTime unlockedAt = LocalDateTime.now();
         UserEmoji userEmoji = UserEmoji.builder()
-                .user_id(user.getId())
+                .user(user)
                 .emoji(emoji)
                 .unlockedAt(unlockedAt)
                 .build();
-
-
         return userEmojiRepository.save(userEmoji);
     }
 

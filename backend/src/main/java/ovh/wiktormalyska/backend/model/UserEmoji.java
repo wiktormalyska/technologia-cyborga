@@ -1,5 +1,6 @@
 package ovh.wiktormalyska.backend.model;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,9 +21,16 @@ public class UserEmoji {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private Long user_id;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonProperty("user_id")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private User user;
 
-    private List<Emoji> emojis;
+    @ManyToOne
+    @JoinColumn(name = "emoji_id")
+    private Emoji emoji;
 
     @Column(nullable = false)
     private LocalDateTime unlockedAt;

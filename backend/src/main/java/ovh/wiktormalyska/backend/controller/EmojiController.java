@@ -53,6 +53,7 @@ public class EmojiController {
         return ResponseEntity.ok(userEmoji);
     }
 
+    //TODO: przenieś do kontrolera serwisu itd lootbox
     @PostMapping("/user_emojis/{userId}/daily")
     public ResponseEntity<?> claimDailyLootbox(@PathVariable Long userId) {
         try {

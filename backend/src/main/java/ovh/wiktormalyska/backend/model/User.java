@@ -42,7 +42,6 @@ public class User {
     @Size(min = 6, message = "Password must be at least 6 characters long")
     private String password;
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -57,6 +56,4 @@ public class User {
     private Integer points;
 
     private LocalDateTime lastLootboxClaim;
-
-    private List<Emoji> unlockedEmojis;
 }
