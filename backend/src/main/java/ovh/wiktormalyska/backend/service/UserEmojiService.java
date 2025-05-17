@@ -47,7 +47,7 @@ public class UserEmojiService {
         return emojis.get(index);
     }
 
-    private Emoji getRandomEmoji() {
+    public Emoji getRandomEmoji() {
         List<Emoji> common = emojiRepository.findByRarity(Emoji.Rarity.COMMON);
         List<Emoji> rare = emojiRepository.findByRarity(Emoji.Rarity.RARE);
         List<Emoji> epic = emojiRepository.findByRarity(Emoji.Rarity.EPIC);
@@ -68,22 +68,5 @@ public class UserEmojiService {
         return getRandomFromList(all);
     }
 
-    public UserEmoji claimDailyLootbox(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (user.getLastLootboxClaim() != null && user.getLastLootboxClaim().toLocalDate().isEqual(LocalDate.now())) {
-            throw new RuntimeException("Lootbox already claimed");
-        }
-        Emoji emoji = getRandomEmoji();
-
-        UserEmoji userEmoji = UserEmoji.builder()
-                .user(user)
-                .emoji(emoji)
-                .unlockedAt(LocalDateTime.now())
-                .build();
-
-        user.setLastLootboxClaim(LocalDateTime.now());
-        userRepository.save(user);
-        return userEmojiRepository.save(userEmoji);
-    }
 }

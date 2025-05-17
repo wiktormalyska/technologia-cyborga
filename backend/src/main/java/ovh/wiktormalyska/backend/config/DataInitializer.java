@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import ovh.wiktormalyska.backend.repository.EmojiRepository;
 import ovh.wiktormalyska.backend.repository.RoleRepository;
 import ovh.wiktormalyska.backend.repository.UserEmojiRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
+import ovh.wiktormalyska.backend.service.MiscService;
 import ovh.wiktormalyska.backend.service.UserService;
 
 import java.nio.file.Files;
@@ -37,18 +39,25 @@ public class DataInitializer implements ApplicationRunner {
     private final EmojiRepository emojiRepository;
     private final UserService userService;
     private final UserEmojiRepository userEmojiRepository;
+    private final MiscService miscService;
+    private final Environment env;
 
     @Value("${image.upload.directory}")
     private String imagePath;
 
     @Autowired
-    public DataInitializer(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, UserService userService, EmojiRepository emojiRepository, UserEmojiRepository userEmojiRepository) {
+    public DataInitializer(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                           RoleRepository roleRepository, UserService userService,
+                           EmojiRepository emojiRepository, UserEmojiRepository userEmojiRepository,
+                           MiscService miscService, Environment env) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
         this.userService = userService;
         this.emojiRepository = emojiRepository;
         this.userEmojiRepository = userEmojiRepository;
+        this.miscService = miscService;
+        this.env = env;
     }
 
     @Override
@@ -75,7 +84,7 @@ public class DataInitializer implements ApplicationRunner {
                     .password(passwordEncoder.encode("admin"))
                     .email("admin@admin.com")
                     .roles(Set.of(roleRepository.findByName(Roles.ADMIN.name()).orElseThrow()))
-                    .profileImagePath(userService.getBackendUrl() + getDefaultProfileImagePath())
+                    .profileImagePath(MiscService.getBackendUrl(env) + getDefaultProfileImagePath())
                     .points(0)
                     .build();
             userRepository.save(admin);
