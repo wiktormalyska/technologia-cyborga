@@ -55,11 +55,11 @@ public class MarketplaceService {
         Emoji emoji = emojiOpt.get();
 
         int price = getPriceForRarity(emoji.getRarity());
-        if (user.getBalance() < price) {
+        if (user.getPoints() < price) {
             return new PurchaseResponseDto(false, "Insufficient balance");
         }
 
-        user.setBalance(user.getBalance() - price);
+        user.setPoints(user.getPoints() - price);
         userRepository.save(user);
 
         UserEmoji userEmoji = UserEmoji.builder()

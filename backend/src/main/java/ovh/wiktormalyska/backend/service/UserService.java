@@ -112,14 +112,6 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 
-    public String getBackendUrl() {
-        if (Arrays.asList(env.getActiveProfiles()).contains("dev")) {
-            return "http://localhost:8080";
-        }
-        Dotenv dotenv = Dotenv.configure().load();
-        return dotenv.get("DOMAIN_NAME");
-    }
-
     public Integer getUserPoints(Long id) {
         return userRepository.findById(id).map(User::getPoints)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));

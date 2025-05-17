@@ -1,6 +1,7 @@
 package ovh.wiktormalyska.backend.service;
 
 import jakarta.transaction.Transactional;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +25,17 @@ public class AuthServiceImpl implements AuthService {
     private final UserService userService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final Environment env;
     @Autowired
-    public AuthServiceImpl(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthServiceImpl(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider,
+                       UserService userService, UserRepository userRepository, PasswordEncoder passwordEncoder
+                        , Environment env) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.env = env;
     }
 
 
@@ -64,7 +68,7 @@ public class AuthServiceImpl implements AuthService {
         userService.createUser(user);
 
         User user1 = userRepository.findByUsername(registerDto.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
-        user1.setProfileImagePath(userService.getBackendUrl()+"/images"+user1.getProfileImagePath());
+        user1.setProfileImagePath(MiscService.getBackendUrl(env)+"/images"+user1.getProfileImagePath());
         userRepository.save(user1);
 
         Authentication authentication = authenticationManager.authenticate(
