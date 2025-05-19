@@ -1,4 +1,5 @@
 import {useGetUserById, useGetUserPoints} from "../hooks/useUsers";
+import {useGetUserEmojis} from "../hooks/useEmojis";
 // @ts-ignore
 import React, {useEffect, useState} from "react";
 import {useAuth} from "../auth/AuthContext";
@@ -11,7 +12,6 @@ import { Chat } from "../components/Chat";
 
 export const ProfilePage = () => {
     const badges = ["🏆", "🎖️", "🎯"];
-    const emojis = ["😳", "😜", "🤯", "🤤", "😩", "💀"];
     const {mutate: getUserByID, isPending: isUserPending, data: userData, error: userError} = useGetUserById();
     //const { data: points, isPending: isPointsPending, error: pointsError } = useGetUserPoints({ param: "1" });
 
@@ -21,6 +21,26 @@ export const ProfilePage = () => {
     const [user, setUser] = useState<userDto>()
 
     const [isChatOpen, setIsChatOpen] = useState(false);
+
+    const [emojis, setEmojis] = useState<string[]>([]);
+
+    const { mutate: getUserEmojis} = useGetUserEmojis();
+
+    useEffect(() => {
+        getUserEmojis(
+            { param: decodedToken.userID.toString() },
+            {
+                onSuccess: (data) => {
+                    const extractedEmojis = data.map((entry: any) => entry.emoji.emoji);
+                    setEmojis(extractedEmojis);
+                },
+                onError: (err) => {
+                    console.error("Error fetching user emojis", err);
+                }
+            }
+        );
+    }, [decodedToken, getUserEmojis]);
+
 
     useEffect(() => {
         getUserByID({param: decodedToken.userID.toString()})
@@ -103,7 +123,7 @@ export const ProfilePage = () => {
                 </div>
                 <div className="flex justify-center mb-5">
                     <div className="text-text bg-secondary/90 text-sm px-4 py-2 rounded-full font-semibold">
-                        Points: {pointsData.points || 0} {/* Wyświetl punkty użytkownika */}
+                        Points: {pointsData.points || 0}
                     </div>
                 </div>
                 <div className={"flex flex-col gap-5"}>
@@ -127,15 +147,22 @@ export const ProfilePage = () => {
                         <div className={"text-2xl text-text mb-1.5 text-center"}>
                             Unlocked emoji
                         </div>
-                        <div className={"flex gap-1 flex-wrap justify-center"}>
-                            {emojis.map((emoji, index) => (
-                                <div key={index}
-                                     className={"text-2xl bg-secondary/90 rounded-2xl " +
-                                         "text-text flex items-center justify-center w-10 h-10"}
-                                >
-                                    {emoji}
-                                </div>
-                            ))}
+                        <div
+                            className={"max-h-[130px] " + (
+                                emojis.length > 24
+                                    ? "overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full"
+                                    : ""
+                            )}>
+                            <div className={"grid grid-cols-6 gap-1 justify-center"}>
+                                {emojis.map((emoji, index) => (
+                                    <div key={index}
+                                         className={"text-2xl bg-secondary/90 rounded-2xl " +
+                                             "text-text flex items-center justify-center w-10 h-10"}
+                                    >
+                                        {emoji}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

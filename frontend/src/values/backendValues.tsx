@@ -54,6 +54,9 @@ export const APIEndpoints: {
         sendMessage: Endpoint
         deleteById: Endpoint
     }
+    emojis: {
+        getUserEmojis: Endpoint
+    }
 } = {
     auth: {
         login: {
@@ -177,4 +180,10 @@ export const APIEndpoints: {
             method: HttpRequestMethods.DELETE,
         },
     },
+    emojis: {
+        getUserEmojis: {
+            url: "api/emojis/user_emojis",
+            method: HttpRequestMethods.GET
+        }
+    }
 }
