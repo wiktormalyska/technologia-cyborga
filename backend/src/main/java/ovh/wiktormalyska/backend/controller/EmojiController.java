@@ -53,5 +53,11 @@ public class EmojiController {
         return ResponseEntity.ok(userEmoji);
     }
 
+    @PostMapping("/user_emojis/lock")
+    public ResponseEntity<UserEmoji> lockEmoji(
+            @RequestBody UnlockEmojiDto lockEmojiDto) {
+        UserEmoji userEmoji = userEmojiService.lockEmoji(lockEmojiDto.getUserId(), lockEmojiDto.getEmojiId());
+        return ResponseEntity.ok(userEmoji);
+    }
 }
 

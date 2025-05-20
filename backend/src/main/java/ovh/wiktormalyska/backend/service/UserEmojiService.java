@@ -38,7 +38,16 @@ public class UserEmojiService {
                 .user(user)
                 .emoji(emoji)
                 .unlockedAt(unlockedAt)
+                .isLocked(false)
                 .build();
+        return userEmojiRepository.save(userEmoji);
+    }
+
+    public UserEmoji lockEmoji(Long userId, Long emojiId) {
+        UserEmoji userEmoji = userEmojiRepository.findByUser_IdAndEmoji_Id(userId, emojiId)
+                .orElseThrow(() -> new RuntimeException("UserEmoji not found"));
+
+        userEmoji.setLocked(true);
         return userEmojiRepository.save(userEmoji);
     }
 

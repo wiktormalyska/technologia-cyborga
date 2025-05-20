@@ -10,8 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserEmojiRepository extends JpaRepository<UserEmoji, Long> {
+
     List<UserEmoji> findUserEmojiByUser_Id(Long userId);
 
     Collection<Object> findByUserAndEmoji(User admin, Emoji emoji);
+
+    Optional<UserEmoji> findByUser_IdAndEmoji_Id(Long userId, Long emojiId);
 }
 

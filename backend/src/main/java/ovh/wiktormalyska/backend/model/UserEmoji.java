@@ -35,4 +35,7 @@ public class UserEmoji {
     @Column(nullable = false)
     private LocalDateTime unlockedAt;
 
+    @Column(name = "is_locked", nullable = false)
+    private boolean isLocked;
+
 }
