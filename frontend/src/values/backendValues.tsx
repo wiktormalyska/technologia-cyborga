@@ -56,6 +56,7 @@ export const APIEndpoints: {
     }
     emojis: {
         getUserEmojis: Endpoint
+        getAllEmojis: Endpoint
     }
 } = {
     auth: {
@@ -183,6 +184,10 @@ export const APIEndpoints: {
     emojis: {
         getUserEmojis: {
             url: "api/emojis/user_emojis",
+            method: HttpRequestMethods.GET
+        },
+        getAllEmojis: {
+            url: "api/emojis",
             method: HttpRequestMethods.GET
         }
     }
