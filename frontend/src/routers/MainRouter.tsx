@@ -28,7 +28,6 @@ const Logout = () => {
     return null;
 }
 
-
 const MainRouter = createBrowserRouter([
     {
         path: '/',

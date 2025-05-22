@@ -11,7 +11,12 @@ import {IconType} from "react-icons";
 import {FaPlayCircle, FaPlusCircle} from "react-icons/fa";
 import { Chat } from "../components/Chat";
 
-export const ProfilePage = () => {
+interface ProfilePagePropsType {
+    isFriend?: boolean | false;
+    friendID?: string | null;
+}
+
+export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
     const badges = ["🏆", "🎖️", "🎯"];
     const {mutate: getUserByID, isPending: isUserPending, data: userData, error: userError} = useGetUserById();
     //const { data: points, isPending: isPointsPending, error: pointsError } = useGetUserPoints({ param: "1" });
@@ -80,12 +85,20 @@ export const ProfilePage = () => {
 
 
     useEffect(() => {
-        getUserByID({param: decodedToken.userID.toString()})
+        if (!isFriend) getUserByID({param: decodedToken.userID.toString()})
     }, [decodedToken, getUserByID]);
 
     useEffect(() => {
-        getUserPoints({param: decodedToken.userID.toString()})
+        if (!isFriend) getUserPoints({param: decodedToken.userID.toString()})
     }, [decodedToken, getUserPoints]);
+
+    useEffect(() => {
+        if (isFriend && friendID != null) getUserByID({param: friendID})
+    }, [friendID, getUserByID]);
+
+    useEffect(() => {
+        if (isFriend && friendID != null) getUserPoints({param: friendID})
+    }, [friendID, getUserPoints]);
 
     useEffect(() => {
         if (userData) {
@@ -116,9 +129,6 @@ export const ProfilePage = () => {
             onClick: () => setIsChatOpen(true),
         },
         {
-            name: "Invite",
-            icon: FaPlusCircle
-        }, {
             name: "Trade",
             icon: FaArrowsRotate
         }, {
@@ -126,6 +136,15 @@ export const ProfilePage = () => {
             icon: FaPlayCircle
         }
     ]
+
+    if (isFriend) {
+        actions.push(
+        {
+            name: "Invite",
+            icon: FaPlusCircle,
+            onClick: () => console.log("Invite"),
+        })
+    }
     return (
         <BasePage title={"Account Info"} justifyContent={"flex-start"} className={"pl-15 pr-15 pt-5"}>
             <div className={"flex flex-col w-full h-full p-1 box-border " +
