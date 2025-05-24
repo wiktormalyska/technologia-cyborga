@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 import ovh.wiktormalyska.backend.model.Role;
 import ovh.wiktormalyska.backend.model.User;
 import ovh.wiktormalyska.backend.repository.UserRepository;
-
 import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenProvider {
@@ -36,9 +36,15 @@ public class JwtTokenProvider {
         Map<String, Object> info = new HashMap<>();
         info.put("userID", userID);
 
-        User user = userRepository.findByUsername(username).orElseThrow();
-        Set<Role> userRoles = user.getRoles();
-        info.put("userRoles", userRoles);
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new RuntimeException("User not found: " + username)
+        );
+
+        Set<String> roleNames = user.getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
+
+        info.put("userRoles", roleNames);
 
         Date currentDate = new Date();
         long jwtExpirationDate = 3600000;   // 1h
