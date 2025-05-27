@@ -88,7 +88,7 @@ export const FriendsPage = () => {
     }
 
     const openUserPage = (userId: number) => {
-        //TODO: REDEEEM TO
+        navigate(`/account/${userId}`);
     }
 
     const renderUser = (friend: FriendListValueDto) => {

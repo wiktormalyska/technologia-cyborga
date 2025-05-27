@@ -1,6 +1,7 @@
 import {useGetUserById, useGetUserPoints} from "../hooks/useUsers";
 import {useGetUserEmojis} from "../hooks/useEmojis";
 import { useGetAllEmojis } from "../hooks/useEmojis";
+import { useParams } from 'react-router-dom';
 // @ts-ignore
 import React, {useEffect, useState} from "react";
 import {useAuth} from "../auth/AuthContext";
@@ -41,9 +42,11 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
 
     const { mutate: addFriend} = useAddFriend()
 
+    const targetUserId = isFriend && friendID ? friendID.toString() : decodedToken.userID.toString();
+
     useEffect(() => {
         getUserEmojis(
-            { param: decodedToken.userID.toString() },
+            { param: targetUserId },
             {
                 onSuccess: (data) => {
                     //console.log("User emojis:", data);
@@ -88,11 +91,11 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
 
 
     useEffect(() => {
-        if (!isFriend) getUserByID({param: decodedToken.userID.toString()})
+        if (!isFriend) getUserByID({param: targetUserId})
     }, [decodedToken, getUserByID]);
 
     useEffect(() => {
-        if (!isFriend) getUserPoints({param: decodedToken.userID.toString()})
+        if (!isFriend) getUserPoints({param: targetUserId})
     }, [decodedToken, getUserPoints]);
 
     useEffect(() => {
@@ -270,4 +273,11 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
             {isChatOpen && <Chat onClose={() => setIsChatOpen(false)}/>}
         </BasePage>
     );
+};
+
+export const ProfilePageWrapper = () => {
+    const { friendID } = useParams();
+    const isFriend = true;
+
+    return <ProfilePage isFriend={isFriend} friendID={friendID!} />;
 };

@@ -4,6 +4,7 @@ import {useState} from "react";
 import {useAuth} from "../auth/AuthContext";
 import {useFindUserByUsername, useGetAllUsers} from "../hooks/useUsers";
 import {userDto} from "../values/dto/userDto";
+import { useNavigate } from "react-router-dom";
 // @ts-ignore
 import pointsIcon from "../assets/icons/points-icon.svg"
 // @ts-ignore
@@ -14,6 +15,7 @@ export const RankingsPage = () => {
     const [isSearching, setIsSearching] = useState(false);
     const {decodedToken} = useAuth();
     const currentUserID = decodedToken.userID;
+    const navigate = useNavigate();
 
     const {
         mutate: findUsers,
@@ -32,6 +34,11 @@ export const RankingsPage = () => {
         if (!findValue) return;
         setIsSearching(true);
         findUsers({param: findValue});
+    }
+    const openUserPage = (userId: number) => {
+        //TODO: REDEEEM TO
+        console.log("Clicked user ID:", userId);
+        navigate(`/account/${userId}`);
     }
 
     const showFoundUsers = () => {
@@ -73,7 +80,8 @@ export const RankingsPage = () => {
 
         return users.map((user, index) => (
             <div key={user.id}
-                 className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200">
+                 className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200"
+                 onClick={() => openUserPage(user.id)}>
                 <div className="text-white text-lg flex ml-5 font-bold">{index + 1}.</div>
                 <img alt={user.username} src={user.profileImagePath} className="w-12 h-12 rounded-full"/>
                 <div className="text-white text-sm flex gap-2">
