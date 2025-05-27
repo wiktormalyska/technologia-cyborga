@@ -12,11 +12,14 @@ import {FriendListDto} from "../values/dto/friendListDto";
 export const FriendsPage = () => {
     const [findValue, setFindValue] = useState("");
     const [isSearching, setIsSearching] = useState(false);
-    const [addedFriendIds, setAddedFriendIds] = useState<number[]>([]);
+
     const [friendsList, setFriendsList] = useState<FriendListValueDto[]>([])
     const [pendingFriendRequests, setPendingFriendRequests] = useState<FriendListValueDto[]>([])
     const [receivedFriendRequests, setReceivedFriendRequests] = useState<FriendListValueDto[]>([])
-    const { decodedToken } = useAuth();
+
+    const [addedUserIds, setAddedUserIds] = useState<number[]>([]);
+
+    const {decodedToken} = useAuth();
     const currentUserID = decodedToken.userID;
 
     const {
@@ -33,19 +36,19 @@ export const FriendsPage = () => {
         error: friendsError
     } = useGetFriends()
 
-    const { mutate: addFriend } = useAddFriend();
+    const {mutate: addFriend} = useAddFriend();
 
     useEffect(() => {
         getFriends({param: decodedToken.userID.toString()});
     }, [decodedToken, getFriends])
 
     useEffect(() => {
-        let friendListDto:FriendListDto = friends;
+        let friendListDto: FriendListDto = friends;
 
-        let accepted:FriendListValueDto[] = [];
-        let received:FriendListValueDto[] = [];
-        let pending:FriendListValueDto[] = [];
-        if (friendListDto) {
+        let accepted: FriendListValueDto[] = [];
+        let received: FriendListValueDto[] = [];
+        let pending: FriendListValueDto[] = [];
+        if (friendListDto && friendListDto.sentInvites && friendListDto.receivedInvites) {
             friendListDto.sentInvites.forEach(invite => {
                 if (invite.accepted) {
                     accepted.push(invite);
@@ -64,6 +67,9 @@ export const FriendsPage = () => {
         setFriendsList(accepted);
         setPendingFriendRequests(pending);
         setReceivedFriendRequests(received);
+        console.log("Friends List:", friendsList);
+        console.log("Pending Friend Requests:", pendingFriendRequests);
+        console.log("Received Friend Requests:", receivedFriendRequests);
     }, [friends])
 
 
@@ -79,46 +85,66 @@ export const FriendsPage = () => {
                 userId: currentUserID,
                 friendId: friendId
             }
-        }, {
-            onSuccess: () => {
-                setAddedFriendIds(prev => [...prev, friendId]);
-            }
         });
     }
 
+
+    const renderUser = (friend: FriendListValueDto) => {
+        return (
+            <div
+                key={friend.userId}
+                className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200 mb-4"
+            >
+                <img alt={friend.username} src={friend.profileImagePath} className="w-12 h-12 rounded-full"/>
+                <div className="text-white text-sm">{friend.username}</div>
+            </div>
+        )
+    }
 
     const showFoundUsers = () => {
         if (!foundUsers) return <p className="text-gray-400">No user found.</p>;
         if (findingUsers) return <p className="text-primary/70">Searching...</p>;
         if (findingUsersError) return <p className="text-red-600">Error searching for an user.</p>;
 
-        let users: userDto[] = foundUsers;
-        users = users.filter(user => user.id !== currentUserID);
+        // Helper function to check if a user is already a friend or has pending request
+        const isAlreadyFriendOrPending = (userId: number): boolean => {
+            if (!friends) return false;
 
-        console.log(users);
+            // Check in both sent and received invites
+            return [...friendsList, ...pendingFriendRequests, ...receivedFriendRequests]
+                .some(friend => friend.userId === userId);
+        };
+
+        // Handle adding friend and updating local state
+        const handleAddFriendAndTrack = (userId: number) => {
+            handleAddFriend(userId);
+            setAddedUserIds(prev => [...prev, userId]);
+        };
+
+        let users: userDto[] = foundUsers;
+        // Filter out current user and existing friends/requests
+        users = users.filter(user =>
+            user.id !== currentUserID && !isAlreadyFriendOrPending(user.id)
+        );
 
         return users.map(user => (
-            <div key={user.id} className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200 mb-4">
-                <img alt={user.username} src={user.profileImagePath} className="w-12 h-12 rounded-full" />
+            <div key={user.id}
+                 className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200 mb-4">
+                <img alt={user.username} src={user.profileImagePath} className="w-12 h-12 rounded-full"/>
                 <div className="text-white text-sm">{user.username}</div>
-                {!friends.some(friend => friend.friendId === user.id) &&
-                    (addedFriendIds.indexOf(user.id) !== -1 ? (
-                        <button type="button" className={"bg-primary/20 text-text " +
-                            "h-10 w-10 flex ml-auto " +
-                            "justify-center items-center rounded-full"}
-                                disabled>
-                            <FaCheck/>
-                        </button>
-                    ) : (
-                        <button type={"button"} className={"bg-primary/20 hover:bg-primary/30 text-text " +
-                            "h-10 w-10 flex ml-auto hover:cursor-pointer " +
-                            "justify-center items-center rounded-full " +
-                            "transition-all duration-200"}
-                                onClick={() => handleAddFriend(user.id)}>
-                            <FaPlusCircle/>
-                        </button>
-                    ))
-                }
+                {addedUserIds.includes(user.id) ? (
+                    <button type="button"
+                            className="bg-primary/20 text-text h-10 w-10 flex ml-auto justify-center items-center rounded-full"
+                            disabled>
+                        <FaCheck/>
+                    </button>
+                ) : (
+                    <button type="button"
+                            className="bg-primary/20 hover:bg-primary/30 text-text h-10 w-10 flex ml-auto hover:cursor-pointer justify-center items-center rounded-full transition-all duration-200"
+                            onClick={() => handleAddFriendAndTrack(user.id)}>
+                        <FaPlusCircle/>
+                    </button>
+                )}
             </div>
         ));
     };
@@ -128,8 +154,28 @@ export const FriendsPage = () => {
         if (loadingFriends) return <p className="text-primary/70">Loading friends...</p>;
         if (friendsError) return <p className="text-red-600">Error loading friends.</p>;
         if (!friends || friends.length === 0) return <p className="text-gray-400">No friends added.</p>;
+        return (
+            <>
+                <h2 className="text-2xl font-semibold text-white mb-3">Your Friends</h2>
+                {friendsList.map((friend) => (
+                    renderUser(friend)
+                ))}
 
-        console.log("Friends Data:", friends)
+                <h2 className="text-2xl font-semibold text-white mb-3">Received Invites</h2>
+                {
+                    receivedFriendRequests.map((friend) => (
+                        renderUser(friend)
+                    ))
+                }
+
+                <h2 className="text-2xl font-semibold text-white mb-3">Pending Invites</h2>
+                {
+                    pendingFriendRequests.map((friend) => (
+                        renderUser(friend)
+                    ))
+                }
+            </>
+        );
         // return friendsList.map((friend) => (
         //     <div key={friend.userId} className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200 mb-4">
         //         <img alt={friend.username} src={friend.profileImagePath} className="w-12 h-12 rounded-full" />
@@ -140,7 +186,7 @@ export const FriendsPage = () => {
 
     return (
         <BasePage title={"Friends"} justifyContent={"flex-start"}>
-            <div className="flex flex-col space-y-6">
+            <div className="flex flex-col space-y-6 p-5">
 
                 <div className="flex flex-row gap-2 items-center">
                     <input
@@ -154,13 +200,12 @@ export const FriendsPage = () => {
                         className="bg-primary/20 text-white hover:bg-primary/30 h-full w-12 flex justify-center items-center rounded-full transition-all duration-200"
                         onClick={onFindUser}
                     >
-                        <FaSearch size={20} />
+                        <FaSearch size={20}/>
                     </button>
                 </div>
 
                 {!isSearching && (
                     <div className="pt-3">
-                        <h2 className="text-2xl font-semibold text-white mb-3">Your Friends</h2>
                         {showFriendList()}
                     </div>
                 )}
