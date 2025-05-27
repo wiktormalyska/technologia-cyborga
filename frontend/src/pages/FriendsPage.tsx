@@ -8,7 +8,7 @@ import {useAddFriend} from "../hooks/useFriends";
 import {useGetFriends} from "../hooks/useFriends";
 import {FriendListValueDto} from "../values/dto/friendListValueDto";
 import {FriendListDto} from "../values/dto/friendListDto";
-
+import { useNavigate } from "react-router-dom";
 export const FriendsPage = () => {
     const [findValue, setFindValue] = useState("");
     const [isSearching, setIsSearching] = useState(false);
@@ -21,6 +21,8 @@ export const FriendsPage = () => {
 
     const {decodedToken} = useAuth();
     const currentUserID = decodedToken.userID;
+
+    const navigate = useNavigate();
 
     const {
         mutate: findUsers,
@@ -67,9 +69,6 @@ export const FriendsPage = () => {
         setFriendsList(accepted);
         setPendingFriendRequests(pending);
         setReceivedFriendRequests(received);
-        console.log("Friends List:", friendsList);
-        console.log("Pending Friend Requests:", pendingFriendRequests);
-        console.log("Received Friend Requests:", receivedFriendRequests);
     }, [friends])
 
 
@@ -88,12 +87,16 @@ export const FriendsPage = () => {
         });
     }
 
+    const openUserPage = (userId: number) => {
+        //TODO: REDEEEM TO
+    }
 
     const renderUser = (friend: FriendListValueDto) => {
         return (
             <div
                 key={friend.userId}
                 className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200 mb-4"
+                onClick={() => openUserPage(friend.userId)}
             >
                 <img alt={friend.username} src={friend.profileImagePath} className="w-12 h-12 rounded-full"/>
                 <div className="text-white text-sm">{friend.username}</div>
@@ -106,23 +109,19 @@ export const FriendsPage = () => {
         if (findingUsers) return <p className="text-primary/70">Searching...</p>;
         if (findingUsersError) return <p className="text-red-600">Error searching for an user.</p>;
 
-        // Helper function to check if a user is already a friend or has pending request
         const isAlreadyFriendOrPending = (userId: number): boolean => {
             if (!friends) return false;
 
-            // Check in both sent and received invites
             return [...friendsList, ...pendingFriendRequests, ...receivedFriendRequests]
                 .some(friend => friend.userId === userId);
         };
 
-        // Handle adding friend and updating local state
         const handleAddFriendAndTrack = (userId: number) => {
             handleAddFriend(userId);
             setAddedUserIds(prev => [...prev, userId]);
         };
 
         let users: userDto[] = foundUsers;
-        // Filter out current user and existing friends/requests
         users = users.filter(user =>
             user.id !== currentUserID && !isAlreadyFriendOrPending(user.id)
         );
