@@ -47,7 +47,7 @@ public class FriendService {
                 .receivedPendingInvites(
                         receivedPendingInvites.stream()
                                 .map(friend -> FriendListValueDto.builder()
-                                        .userId(friend.getFriend().getId())
+                                        .userId(friend.getUser().getId())
                                         .username(friend.getUser().getUsername())
                                         .accepted(false)
                                         .profileImagePath(friend.getUser().getProfileImagePath())
