@@ -7,11 +7,8 @@ import ovh.wiktormalyska.backend.model.UserEmoji;
 import ovh.wiktormalyska.backend.repository.EmojiRepository;
 import ovh.wiktormalyska.backend.repository.UserEmojiRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -27,7 +24,7 @@ public class UserEmojiService {
     }
 
     public List<UserEmoji> getUserEmojis(Long userId) {
-        return userEmojiRepository.findUserEmojiByUser_Id(userId);
+        return userEmojiRepository.findUserEmojiByUserId(userId);
     }
 
     public UserEmoji unlockEmoji(Long userId, Long emojiId) {
@@ -57,16 +54,18 @@ public class UserEmojiService {
 
         if (rand < 0.05 && !epic.isEmpty()) {
             return getRandomFromList(cyberpsychosis);
-        } else if (rand < 0.20 && !rare.isEmpty()) {
+        }
+        else if (rand < 0.20 && !rare.isEmpty()) {
             return getRandomFromList(epic);
-        } else if (rand < 0.40) {
+        }
+        else if (rand < 0.40) {
             return getRandomFromList(rare);
-        } else if (!common.isEmpty()) {
+        }
+        else if (!common.isEmpty()) {
             return getRandomFromList(common);
         }
+
         List<Emoji> all = emojiRepository.findAll();
         return getRandomFromList(all);
     }
-
-
 }

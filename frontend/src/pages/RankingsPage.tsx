@@ -67,13 +67,14 @@ export const RankingsPage = () => {
             </div>
         ));
     };
+
     const showUserList = () => {
         if (isSearching) return null;
 
         console.log("Users Data:", allUsers)
-        if (loadingUsers) return <p className="text-primary/70">Loading friends...</p>;
-        if (usersError) return <p className="text-red-600">Error loading friends.</p>;
-        if (!allUsers || allUsers.length === 0) return <p className="text-gray-400">No friends added.</p>;
+        if (loadingUsers) return <p className="text-primary/70">Loading users...</p>;
+        if (usersError) return <p className="text-red-600">Error loading users.</p>;
+        if (!allUsers || allUsers.length === 0) return <p className="text-gray-400">No users present.</p>;
 
         let users: userDto[] = allUsers;
         users = [...users].sort((a, b) => b.points - a.points);
@@ -108,38 +109,28 @@ export const RankingsPage = () => {
                     <input
                         type="text"
                         onChange={(e) => setFindValue(e.target.value)}
-                        className="bg-primary/20 text-white p-3 pl-4 pr-4 rounded-full focus:ring-2 focus:ring-primary/50 transition-all duration-200"
+                        className="bg-primary/20 text-white flex-1 p-3 pl-4 pr-4 rounded-full focus:ring-2 focus:ring-primary/50 transition-all duration-200"
                         placeholder="Search for a user"
                     />
                     <button
                         type="button"
-                        className="bg-primary/20 text-white hover:bg-primary/30 h-full w-12 flex justify-center items-center rounded-full transition-all duration-200"
+                        className="bg-primary/20 text-white hover:bg-primary/30 hover:cursor-pointer h-full w-12 flex justify-center items-center rounded-full transition-all duration-200"
                         onClick={onFindUser}
                     >
                         <FaSearch size={20}/>
                     </button>
                 </div>
 
-                {!isSearching && (
-                    <div className="pt-3">
-                        <h2 className="text-2xl font-semibold text-white mb-3">Top scores</h2>
-                        <div
-                            className="h-full overflow-y-auto pr-5 scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full">
-                            <div className="flex flex-col gap-4">
-                                {showUserList()}
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {isSearching && (
-                    <div className="pt-3">
-                        <h2 className="text-2xl font-semibold text-white mb-3">Search Results</h2>
+                <div className="pt-3">
+                    <h2 className="text-2xl font-semibold text-white mb-3">
+                        {isSearching ? "Search Results" : "Top scores"}
+                    </h2>
+                    <div className="max-h-[56vh] overflow-y-auto pr-5 scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full">
                         <div className="flex flex-col gap-4">
-                            {showFoundUsers()}
+                            {isSearching ? showFoundUsers() : showUserList()}
                         </div>
                     </div>
-                )}
+                </div>
             </div>
         </BasePage>
     )
