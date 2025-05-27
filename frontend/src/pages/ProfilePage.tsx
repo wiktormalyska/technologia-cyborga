@@ -1,6 +1,7 @@
 import {useGetUserById, useGetUserPoints} from "../hooks/useUsers";
 import {useGetUserEmojis} from "../hooks/useEmojis";
 import { useGetAllEmojis } from "../hooks/useEmojis";
+import { useParams } from 'react-router-dom';
 // @ts-ignore
 import React, {useEffect, useState} from "react";
 import {useAuth} from "../auth/AuthContext";
@@ -10,8 +11,14 @@ import {FaArrowsRotate, FaMessage} from "react-icons/fa6";
 import {IconType} from "react-icons";
 import {FaPlayCircle, FaPlusCircle} from "react-icons/fa";
 import { Chat } from "../components/Chat";
+import {useAddFriend} from "../hooks/useFriends";
 
-export const ProfilePage = () => {
+interface ProfilePagePropsType {
+    isFriend?: boolean | false;
+    friendID?: string | null;
+}
+
+export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
     const badges = ["🏆", "🎖️", "🎯"];
     const {mutate: getUserByID, isPending: isUserPending, data: userData, error: userError} = useGetUserById();
     //const { data: points, isPending: isPointsPending, error: pointsError } = useGetUserPoints({ param: "1" });
@@ -33,9 +40,13 @@ export const ProfilePage = () => {
 
     const { mutate: getUserEmojis} = useGetUserEmojis();
 
+    const { mutate: addFriend} = useAddFriend()
+
+    const targetUserId = isFriend && friendID ? friendID.toString() : decodedToken.userID.toString();
+
     useEffect(() => {
         getUserEmojis(
-            { param: decodedToken.userID.toString() },
+            { param: targetUserId },
             {
                 onSuccess: (data) => {
                     //console.log("User emojis:", data);
@@ -80,12 +91,20 @@ export const ProfilePage = () => {
 
 
     useEffect(() => {
-        getUserByID({param: decodedToken.userID.toString()})
+        if (!isFriend) getUserByID({param: targetUserId})
     }, [decodedToken, getUserByID]);
 
     useEffect(() => {
-        getUserPoints({param: decodedToken.userID.toString()})
+        if (!isFriend) getUserPoints({param: targetUserId})
     }, [decodedToken, getUserPoints]);
+
+    useEffect(() => {
+        if (isFriend && friendID != null) getUserByID({param: friendID})
+    }, [friendID, getUserByID]);
+
+    useEffect(() => {
+        if (isFriend && friendID != null) getUserPoints({param: friendID})
+    }, [friendID, getUserPoints]);
 
     useEffect(() => {
         if (userData) {
@@ -116,9 +135,6 @@ export const ProfilePage = () => {
             onClick: () => setIsChatOpen(true),
         },
         {
-            name: "Invite",
-            icon: FaPlusCircle
-        }, {
             name: "Trade",
             icon: FaArrowsRotate
         }, {
@@ -126,6 +142,24 @@ export const ProfilePage = () => {
             icon: FaPlayCircle
         }
     ]
+
+    if (isFriend) {
+        actions.push(
+        {
+            name: "Invite",
+            icon: FaPlusCircle,
+            onClick: () => handleAddFriend(friendID),
+        })
+    }
+
+    const handleAddFriend = (friendId: string) => {
+        addFriend({
+            body: {
+                userId: decodedToken.userID,
+                friendId: friendId
+            }
+        });
+    }
     return (
         <BasePage title={"Account Info"} justifyContent={"flex-start"} className={"pl-15 pr-15 pt-5"}>
             <div className={"flex flex-col w-full h-full p-1 box-border " +
@@ -239,4 +273,11 @@ export const ProfilePage = () => {
             {isChatOpen && <Chat onClose={() => setIsChatOpen(false)}/>}
         </BasePage>
     );
+};
+
+export const ProfilePageWrapper = () => {
+    const { friendID } = useParams();
+    const isFriend = true;
+
+    return <ProfilePage isFriend={isFriend} friendID={friendID!} />;
 };

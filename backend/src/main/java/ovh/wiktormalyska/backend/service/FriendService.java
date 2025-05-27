@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.List;
 
+//:)
 @Service
 public class FriendService {
 
@@ -28,23 +29,41 @@ public class FriendService {
 
     public FriendListDto getAllFriends(Long userId) {
         Pageable pageable = PageRequest.of(0, 100);
-        Page<Friend> friendsPage = friendRepository.findAcceptedFriendsByUserId(userId, pageable);
-
+        Page<Friend> acceptedInvites = friendRepository.findAcceptedFriendsByUserId(userId, pageable);
+        List<Friend> receivedPendingInvites = friendRepository.findPendingFriendRequestsForUser(userId);
+        List<Friend> sentPendingInvites = friendRepository.findSentFriendRequestsByUser(userId);
         return FriendListDto.builder()
                 .userId(userId)
-                .friends(friendsPage.stream()
-                        .map(friend -> {
-                            User friendUser = friend.getUser().getId().equals(userId)
-                                    ? friend.getFriend()
-                                    : friend.getUser();
+                .acceptedInvites(
+                        acceptedInvites.stream()
+                                .map(friend -> FriendListValueDto.builder()
+                                        .userId(friend.getFriend().getId())
+                                        .username(friend.getFriend().getUsername())
+                                        .accepted(true)
+                                        .profileImagePath(friend.getFriend().getProfileImagePath())
+                                        .build())
+                                .toList()
+                )
+                .receivedPendingInvites(
+                        receivedPendingInvites.stream()
+                                .map(friend -> FriendListValueDto.builder()
+                                        .userId(friend.getFriend().getId())
+                                        .username(friend.getUser().getUsername())
+                                        .accepted(false)
+                                        .profileImagePath(friend.getUser().getProfileImagePath())
+                                        .build())
+                                .toList()
+                )
+                .sentPendingInvites(
+                        sentPendingInvites.stream()
+                                .map(friend -> FriendListValueDto.builder()
+                                        .userId(friend.getFriend().getId())
+                                        .username(friend.getFriend().getUsername())
+                                        .accepted(false)
+                                        .profileImagePath(friend.getFriend().getProfileImagePath())
+                                        .build())
+                                .toList())
 
-                            return FriendListValueDto.builder()
-                                    .friendId(friendUser.getId())
-                                    .username(friendUser.getUsername())
-                                    .profileImagePath(friendUser.getProfileImagePath())
-                                    .build();
-                        })
-                        .toList())
                 .build();
     }
 
@@ -59,6 +78,7 @@ public class FriendService {
         if (user.isEmpty() || friend.isEmpty()) {
             throw new IllegalArgumentException("User or friend not found");
         }
+
 
         if(friendRepository.findExistingFriendRequest(userId, friendId).isPresent()) {
             throw new IllegalArgumentException("Friend request already exists");

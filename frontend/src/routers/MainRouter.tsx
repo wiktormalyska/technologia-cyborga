@@ -15,6 +15,7 @@ import {SettingsPage} from "../pages/SettingsPage";
 import {RegisterPage} from "../pages/RegisterPage";
 import {AdminPage} from "../pages/AdminPage";
 import AdminRoute from "./AdminRoute";
+import { ProfilePageWrapper } from '../pages/ProfilePage';
 
 
 const Logout = () => {
@@ -27,7 +28,6 @@ const Logout = () => {
     }, [logout, navigate]);
     return null;
 }
-
 
 const MainRouter = createBrowserRouter([
     {
@@ -44,6 +44,10 @@ const MainRouter = createBrowserRouter([
             { path: 'lootboxes', element: <LootboxesPage />},
             { path: 'rankings', element: <RankingsPage />},
             { path: 'account', element: <ProfilePage />},
+            {
+                path: 'account/:friendID',
+                element: <ProfilePageWrapper />
+            },
             { path: 'settings', element: <SettingsPage />},
             { path: 'policy', element: <h1>Privacy Policy</h1>},
             {
