@@ -9,7 +9,9 @@ pipeline {
         stage('Input .env to backend') {
             steps {
                 withCredentials([file(credentialsId: 'technologia-cyborga-backend-.env', variable: 'BACKEND_ENV_FILE')]) {
+                    sh 'chmod 755 backend/src/main/resources'
                     sh 'cp "$BACKEND_ENV_FILE" backend/src/main/resources/.env'
+                    sh 'chmod 644 backend/src/main/resources/.env'
                 }
             }
         }
