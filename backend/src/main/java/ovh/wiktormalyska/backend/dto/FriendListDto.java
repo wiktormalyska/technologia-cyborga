@@ -8,6 +8,7 @@ import java.util.List;
 @Builder
 public class FriendListDto {
     Long userId;
-    List<FriendListValueDto> sentInvites;
-    List<FriendListValueDto> receivedInvites;
+    List<FriendListValueDto> sentPendingInvites;
+    List<FriendListValueDto> receivedPendingInvites;
+    List<FriendListValueDto> acceptedInvites;
 }
