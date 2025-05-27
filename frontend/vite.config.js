@@ -9,5 +9,12 @@ export default defineConfig({
   server: {
     port: 3000,
     allowedHosts: true,
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx']
+  },
+  esbuild: {
+    loader: 'tsx',
+    jsx: 'automatic'
   }
 })
