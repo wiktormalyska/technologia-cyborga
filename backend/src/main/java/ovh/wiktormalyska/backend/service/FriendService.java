@@ -11,8 +11,6 @@ import ovh.wiktormalyska.backend.repository.FriendRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
 
 //:)
@@ -30,14 +28,24 @@ public class FriendService {
 
     public FriendListDto getAllFriends(Long userId) {
         Pageable pageable = PageRequest.of(0, 100);
-        Page<Friend> friendsPage = friendRepository.findByUserId(userId, pageable);
+        Page<Friend> sentInvites = friendRepository.findByUserId(userId, pageable);
+        Page<Friend> receivedInvites = friendRepository.findByFriendId(userId, pageable);
         return FriendListDto.builder()
                 .userId(userId)
-                .friends(friendsPage.stream()
+                .receivedInvites(receivedInvites.stream()
                         .map(friend -> FriendListValueDto.builder()
-                                .friendId(friend.getFriend().getId())
+                                .userId(friend.getUser().getId())
+                                .username(friend.getUser().getUsername())
+                                .profileImagePath(friend.getUser().getProfileImagePath())
+                                .accepted(friend.isAccepted())
+                                .build())
+                        .toList())
+                .sentInvites(sentInvites.stream()
+                        .map(friend -> FriendListValueDto.builder()
+                                .userId(friend.getFriend().getId())
                                 .username(friend.getFriend().getUsername())
                                 .profileImagePath(friend.getFriend().getProfileImagePath())
+                                .accepted(friend.isAccepted())
                                 .build())
                         .toList())
                 .build();

@@ -10,6 +10,7 @@ import {FaArrowsRotate, FaMessage} from "react-icons/fa6";
 import {IconType} from "react-icons";
 import {FaPlayCircle, FaPlusCircle} from "react-icons/fa";
 import { Chat } from "../components/Chat";
+import {useAddFriend} from "../hooks/useFriends";
 
 interface ProfilePagePropsType {
     isFriend?: boolean | false;
@@ -37,6 +38,8 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
     const [allEmojis, setAllEmojis] = useState<{id: number, emoji: string }[]>([]);
 
     const { mutate: getUserEmojis} = useGetUserEmojis();
+
+    const { mutate: addFriend} = useAddFriend()
 
     useEffect(() => {
         getUserEmojis(
@@ -142,8 +145,17 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
         {
             name: "Invite",
             icon: FaPlusCircle,
-            onClick: () => console.log("Invite"),
+            onClick: () => handleAddFriend(friendID),
         })
+    }
+
+    const handleAddFriend = (friendId: string) => {
+        addFriend({
+            body: {
+                userId: decodedToken.userID,
+                friendId: friendId
+            }
+        });
     }
     return (
         <BasePage title={"Account Info"} justifyContent={"flex-start"} className={"pl-15 pr-15 pt-5"}>

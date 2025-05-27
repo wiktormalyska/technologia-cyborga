@@ -19,7 +19,6 @@ import ovh.wiktormalyska.backend.repository.RoleRepository;
 import ovh.wiktormalyska.backend.repository.UserEmojiRepository;
 import ovh.wiktormalyska.backend.repository.UserRepository;
 import ovh.wiktormalyska.backend.service.MiscService;
-import ovh.wiktormalyska.backend.service.UserService;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,9 +36,7 @@ public class DataInitializer implements ApplicationRunner {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final EmojiRepository emojiRepository;
-    private final UserService userService;
     private final UserEmojiRepository userEmojiRepository;
-    private final MiscService miscService;
     private final Environment env;
 
     @Value("${image.upload.directory}")
@@ -47,16 +44,14 @@ public class DataInitializer implements ApplicationRunner {
 
     @Autowired
     public DataInitializer(UserRepository userRepository, PasswordEncoder passwordEncoder,
-                           RoleRepository roleRepository, UserService userService,
+                           RoleRepository roleRepository,
                            EmojiRepository emojiRepository, UserEmojiRepository userEmojiRepository,
-                           MiscService miscService, Environment env) {
+                          Environment env) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
-        this.userService = userService;
         this.emojiRepository = emojiRepository;
         this.userEmojiRepository = userEmojiRepository;
-        this.miscService = miscService;
         this.env = env;
     }
 
@@ -142,11 +137,11 @@ public class DataInitializer implements ApplicationRunner {
                     Emoji.builder().placeholder(":dragon:").emoji("🐉").rarity(Emoji.Rarity.EPIC).build(),
                     Emoji.builder().placeholder(":alien:").emoji("👽").rarity(Emoji.Rarity.EPIC).build(),
 
-                    Emoji.builder().placeholder(":cyborg:").emoji("🤖👁️").rarity(Emoji.Rarity.CYBERPSYCHOSIS).build(),
-                    Emoji.builder().placeholder(":glitch:").emoji("⚡💻⚡").rarity(Emoji.Rarity.CYBERPSYCHOSIS).build(),
-                    Emoji.builder().placeholder(":void:").emoji("⚫🌑⚫").rarity(Emoji.Rarity.CYBERPSYCHOSIS).build(),
-                    Emoji.builder().placeholder(":matrix:").emoji("🟩⚡🟩").rarity(Emoji.Rarity.CYBERPSYCHOSIS).build(),
-                    Emoji.builder().placeholder(":transcend:").emoji("🧠✨").rarity(Emoji.Rarity.CYBERPSYCHOSIS).build()
+                    Emoji.builder().placeholder(":cyborg:").emoji("🤖").rarity(Emoji.Rarity.CYBERPSYCHOSIS).build(),
+                    Emoji.builder().placeholder(":glitch:").emoji("⚡").rarity(Emoji.Rarity.CYBERPSYCHOSIS).build(),
+                    Emoji.builder().placeholder(":void:").emoji("🌑").rarity(Emoji.Rarity.CYBERPSYCHOSIS).build(),
+                    Emoji.builder().placeholder(":matrix:").emoji("⚡").rarity(Emoji.Rarity.CYBERPSYCHOSIS).build(),
+                    Emoji.builder().placeholder(":transcend:").emoji("🧠").rarity(Emoji.Rarity.CYBERPSYCHOSIS).build()
             );
 
             emojiRepository.saveAll(emojis);

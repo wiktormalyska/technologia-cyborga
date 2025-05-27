@@ -1,16 +1,21 @@
 import {BasePage} from "../components/BasePage";
 import {FaCheck, FaPlusCircle, FaSearch} from "react-icons/fa";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {userDto} from "../values/dto/userDto";
 import {useFindUserByUsername} from "../hooks/useUsers";
 import {useAuth} from "../auth/AuthContext";
 import {useAddFriend} from "../hooks/useFriends";
 import {useGetFriends} from "../hooks/useFriends";
+import {FriendListValueDto} from "../values/dto/friendListValueDto";
+import {FriendListDto} from "../values/dto/friendListDto";
 
 export const FriendsPage = () => {
     const [findValue, setFindValue] = useState("");
     const [isSearching, setIsSearching] = useState(false);
     const [addedFriendIds, setAddedFriendIds] = useState<number[]>([]);
+    const [friendsList, setFriendsList] = useState<FriendListValueDto[]>([])
+    const [pendingFriendRequests, setPendingFriendRequests] = useState<FriendListValueDto[]>([])
+    const [receivedFriendRequests, setReceivedFriendRequests] = useState<FriendListValueDto[]>([])
     const { decodedToken } = useAuth();
     const currentUserID = decodedToken.userID;
 
@@ -22,12 +27,45 @@ export const FriendsPage = () => {
     } = useFindUserByUsername()
 
     const {
+        mutate: getFriends,
         data: friends,
-        isLoading: loadingFriends,
+        isPending: loadingFriends,
         error: friendsError
     } = useGetFriends()
 
     const { mutate: addFriend } = useAddFriend();
+
+    useEffect(() => {
+        getFriends({param: decodedToken.userID.toString()});
+    }, [decodedToken, getFriends])
+
+    useEffect(() => {
+        let friendListDto:FriendListDto = friends;
+
+        let accepted:FriendListValueDto[] = [];
+        let received:FriendListValueDto[] = [];
+        let pending:FriendListValueDto[] = [];
+        if (friendListDto) {
+            friendListDto.sentInvites.forEach(invite => {
+                if (invite.accepted) {
+                    accepted.push(invite);
+                } else {
+                    pending.push(invite);
+                }
+            });
+            friendListDto.receivedInvites.forEach(invite => {
+                if (invite.accepted) {
+                    accepted.push(invite);
+                } else {
+                    received.push(invite);
+                }
+            })
+        }
+        setFriendsList(accepted);
+        setPendingFriendRequests(pending);
+        setReceivedFriendRequests(received);
+    }, [friends])
+
 
     const onFindUser = () => {
         if (!findValue) return;
@@ -86,21 +124,18 @@ export const FriendsPage = () => {
     };
 
     const showFriendList = () => {
-        if (isSearching) return null;
 
-
-        console.log("Friends Data:", friends)
         if (loadingFriends) return <p className="text-primary/70">Loading friends...</p>;
         if (friendsError) return <p className="text-red-600">Error loading friends.</p>;
         if (!friends || friends.length === 0) return <p className="text-gray-400">No friends added.</p>;
 
-
-        return friends.map((friend) => (
-            <div key={friend.id} className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200 mb-4">
-                <img alt={friend.username} src={friend.profileImagePath} className="w-12 h-12 rounded-full" />
-                <div className="text-white text-sm">{friend.username}</div>
-            </div>
-        ));
+        console.log("Friends Data:", friends)
+        // return friendsList.map((friend) => (
+        //     <div key={friend.userId} className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200 mb-4">
+        //         <img alt={friend.username} src={friend.profileImagePath} className="w-12 h-12 rounded-full" />
+        //         <div className="text-white text-sm">{friend.username}</div>
+        //     </div>
+        // ));
     };
 
     return (

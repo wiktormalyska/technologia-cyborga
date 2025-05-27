@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             try {
                 const decoded = jwtDecode<DecodedTokenType>(existingToken);
 
-                // check if token is expired
+                // check if the token is expired
                 const currentTime = Date.now() / 1000;
                 if (decoded.exp < currentTime) {
                     logout();

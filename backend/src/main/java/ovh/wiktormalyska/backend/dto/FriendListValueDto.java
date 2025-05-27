@@ -6,7 +6,8 @@ import lombok.Data;
 @Data
 @Builder
 public class FriendListValueDto {
-    Long friendId;
+    Long userId;
     String username;
     String profileImagePath;
+    boolean accepted;
 }
