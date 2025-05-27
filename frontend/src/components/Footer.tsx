@@ -11,11 +11,10 @@ const Footer = () => {
     return (
         <div className={"bg-background  text-text text-center"}>
             <div className={"flex bg-primary/5 flex-row justify-center gap-5 pt-4 pb-4"}>
-                <div className={"flex flex-col"}
-                     onClick={() => {
-                         isOpen ? setIsOpen(false) : setIsOpen(true)
-                     }}>
-                    <div className={"text-xl font-bold text-text"}>
+                <div className={"flex flex-col"}>
+                    <div className={"text-xl font-bold text-text hover:underline hover:cursor-pointer"}
+                         onClick={() => setIsOpen(!isOpen)}
+                    >
                         Contact Information
                     </div>
                     <div className={`text-xl text-left text-text overflow-hidden ` +
@@ -30,21 +29,23 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className={"flex flex-col"}>
-                    <div className={"text-xl font-bold text-text"}>
+                    <div className={"text-xl font-bold text-text hover:underline hover:cursor-pointer"}>
                         <Link to={"/policy"}>Privacy Policy</Link>
                     </div>
                 </div>
                 <div className={"flex flex-col"}>
-                    <div className={"text-xl font-bold text-text"}>
+                    <div className={"text-xl font-bold text-text hover:underline hover:cursor-pointer"}>
                         <Link to={authorLink} target={"_blank"} rel={"noopener noreferrer"}>Authors</Link>
                     </div>
                 </div>
                 <div className={"flex flex-col"}>
-                    <div className={"text-xl font-bold text-text"}>
+                    <div className={"text-xl font-bold text-text hover:underline hover:cursor-pointer"}>
                         <Link to={docsLink} target={"_blank"} rel={"noopener noreferrer"}>Documentation</Link>
                     </div>
                 </div>
-                <div className={"flex flex-col"}><p>&copy; Cyborg 2024 | All rights reserved</p></div>
+                <div className={"flex flex-col"}>
+                    <p>&copy; Cyborg 2025 | All rights reserved</p>
+                </div>
             </div>
         </div>
     )
