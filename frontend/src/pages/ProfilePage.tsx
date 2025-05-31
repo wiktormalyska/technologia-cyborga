@@ -270,7 +270,7 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
 
                 </div>
             </div>
-            {isChatOpen && <Chat onClose={() => setIsChatOpen(false)}/>}
+            {isChatOpen && <Chat onClose={() => setIsChatOpen(false)} otherUserId={targetUserId.toString()}/>}
         </BasePage>
     );
 };
