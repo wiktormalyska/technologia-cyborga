@@ -2,29 +2,63 @@ import {useEffect, useState} from "react";
 import { FaArrowLeft, FaEllipsisV, FaPaperclip, FaSmile, FaEye, FaBan, FaPalette, FaVolumeUp } from "react-icons/fa";
 import { useAuth } from "../auth/AuthContext";
 import {useGetUserById} from "../hooks/useUsers";
+import {useGetChatBetweenUsers} from "../hooks/useChats";
 
 export const Chat = ({ onClose, otherUserId }: { onClose: () => void; otherUserId: string}) => {
     const [messages, setMessages] = useState<string[]>([]);
     const [input, setInput] = useState("");
     const [isOptionsOpen, setIsOptionsOpen] = useState(false);
     const [isEmojiOpen, setIsEmojiOpen] = useState(false);
-    const { decodedToken } = useAuth();
 
-    const {mutate: getUserByID, isPending: isUserPending, data: userData} = useGetUserById();
+    const {decodedToken} = useAuth();
+    const currentUserID = decodedToken.userID;
 
-    const [username, setUsername] = useState<string | null>(null);
+    const {mutate: getUserByID, data: userData, isPending: isUserPending} = useGetUserById();
+
+    const {mutate: getChatBetweenUsers, data: chatData} = useGetChatBetweenUsers();
+
+    const [recipientUsername, setRecipientUsername] = useState<string | null>(null);
 
     useEffect(() => {
-        if (otherUserId) {
-            getUserByID({param: otherUserId});
+        if (currentUserID && otherUserId) {
+            getChatBetweenUsers({
+                body: {
+                    user1Id: currentUserID,
+                    user2Id: Number(otherUserId),
+                }
+            })
         }
-    }, [otherUserId, getUserByID]);
+    }, [currentUserID, otherUserId, getChatBetweenUsers]);
 
     useEffect(() => {
-        if (userData?.username) {
-            setUsername(userData.username);
+        if (chatData) {
+            console.log("AAAAAAAAAAA" + chatData);
+            const recipientUserId =
+                chatData.user1Id === currentUserID
+                    ? chatData.user2Id
+                    : chatData.user1Id;
+
+            getUserByID({param: recipientUserId.toString()});
+        }
+    }, [chatData, currentUserID, getUserByID]);
+
+    useEffect(() => {
+        if (userData) {
+            setRecipientUsername(userData.username);
         }
     }, [userData]);
+
+    // useEffect(() => {
+    //     if (otherUserId) {
+    //         getUserByID({param: otherUserId});
+    //     }
+    // }, [otherUserId, getUserByID]);
+    //
+    // useEffect(() => {
+    //     if (userData?.username) {
+    //         setRecipientUsername(userData.username);
+    //     }
+    // }, [userData]);
 
     const sendMessage = () => {
         if (input.trim() !== "") {
@@ -102,7 +136,7 @@ export const Chat = ({ onClose, otherUserId }: { onClose: () => void; otherUserI
                     </button>
                     <div className="text-center">
                         <h2 className="text-lg font-bold text-text">
-                            {isUserPending ? "Loading..." : username || "User1"}
+                            {isUserPending ? "Loading..." : recipientUsername || "User1"}
                         </h2>
                         <p className="text-xs text-text/70">Online</p>
                     </div>

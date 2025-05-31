@@ -10,6 +10,7 @@ import {FriendListValueDto} from "../values/dto/friendListValueDto";
 import {useGetFriends} from "../hooks/useFriends";
 import {FriendListDto} from "../values/dto/friendListDto";
 import {Chat} from "../components/Chat";
+import {useCreateChat} from "../hooks/useChats";
 
 export const AllChatsPage = () => {
     const [findValue, setFindValue] = useState("");
@@ -21,7 +22,6 @@ export const AllChatsPage = () => {
 
     const [isChatOpen, setIsChatOpen] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
-
 
     const {decodedToken} = useAuth();
     const currentUserID = decodedToken.userID;
@@ -41,6 +41,24 @@ export const AllChatsPage = () => {
         isPending: loadingFriends,
         error: friendsError
     } = useGetFriends()
+
+    const {
+        mutate: createChat,
+        data: createdChat,
+        isPending: creatingChat,
+        error: createChatError
+    } = useCreateChat()
+
+    const handleCreateChat = (otherUserId: number) => {
+        if (!currentUserID) return;
+
+        createChat({
+            body: {
+                user1Id: currentUserID,
+                user2Id: otherUserId
+            }
+        });
+    }
 
     useEffect(() => {
         getFriends({param: decodedToken.userID.toString()});
@@ -85,6 +103,7 @@ export const AllChatsPage = () => {
                     className="bg-primary/20 hover:bg-primary/30 text-text h-10 w-10 flex ml-auto hover:cursor-pointer justify-center items-center rounded-full transition-all duration-200"
                     onClick={(e) => {
                         e.stopPropagation();
+                        handleCreateChat(friend.userId);
                         setSelectedUserId(friend.userId);
                         setIsChatOpen(true);
                     }}
