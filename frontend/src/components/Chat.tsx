@@ -18,7 +18,7 @@ export const Chat = ({ onClose, otherUserId }: { onClose: () => void; otherUserI
     const {mutate: getChatBetweenUsers, data: chatData} = useGetChatBetweenUsers();
 
     const [recipientUsername, setRecipientUsername] = useState<string | null>(null);
-
+    //getChatBetweenUsers({})
     useEffect(() => {
         if (currentUserID && otherUserId) {
             getChatBetweenUsers({
