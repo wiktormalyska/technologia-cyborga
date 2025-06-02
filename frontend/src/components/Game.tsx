@@ -1,6 +1,5 @@
 import { Unity, useUnityContext } from "react-unity-webgl";
 import {useEffect, useState} from "react";
-import {useAuth} from "../auth/AuthContext";
 import {useCurrentUser} from "../hooks/useAuth";
 
 declare global {
@@ -33,6 +32,7 @@ function GameComponent() {
         };
     }, []);
 
+
     useEffect(() => {
         if (score != null && user?.id != null) {
             fetch(`http://localhost:8080/api/users/${user.id}/points?points=${score}`, {
@@ -51,9 +51,8 @@ function GameComponent() {
     }, [score, user]);
 
     return (
-        <div style={{ width: "100%", height: "750px" }}>
-            <p>Aktualny wynik: {score}</p>
-            <Unity unityProvider={unityProvider} style={{ width: "100%", height: "100%" }} />
+        <div style={{ width: "560px", height: "760px", margin: "0 auto" }}>
+            <Unity unityProvider={unityProvider}  style={{ width: "560px", height: "760px" }}  />
         </div>
     );
 }
