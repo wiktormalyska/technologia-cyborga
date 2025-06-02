@@ -21,7 +21,6 @@ export const AllChatsPage = () => {
     const [receivedFriendRequests, setReceivedFriendRequests] = useState<FriendListValueDto[]>([])
 
     const [isChatOpen, setIsChatOpen] = useState(false);
-    const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
     const {decodedToken} = useAuth();
     const currentUserID = decodedToken.userID;
@@ -44,9 +43,7 @@ export const AllChatsPage = () => {
 
     const {
         mutate: createChat,
-        data: createdChat,
-        isPending: creatingChat,
-        error: createChatError
+        data: chatData
     } = useCreateChat()
 
     const handleCreateChat = (otherUserId: number) => {
@@ -56,6 +53,13 @@ export const AllChatsPage = () => {
             body: {
                 user1Id: currentUserID,
                 user2Id: otherUserId
+            }
+        }, {
+            onSuccess: () => {
+                console.log("Created chat:", chatData);
+            },
+            onError: (err) => {
+                console.error("Error creating chat:", err);
             }
         });
     }
@@ -104,7 +108,6 @@ export const AllChatsPage = () => {
                     onClick={(e) => {
                         e.stopPropagation();
                         handleCreateChat(friend.userId);
-                        setSelectedUserId(friend.userId);
                         setIsChatOpen(true);
                     }}
                 >
@@ -189,12 +192,11 @@ export const AllChatsPage = () => {
                     </div>
                 </div>
             </div>
-            {isChatOpen && selectedUserId !== null && (
+            {isChatOpen && chatData !== null && (
                 <Chat onClose={() => {
                     setIsChatOpen(false);
-                    setSelectedUserId(null);
                 }}
-                otherUserId={selectedUserId.toString()}
+                chatData={chatData}
                 />
             )}
         </BasePage>

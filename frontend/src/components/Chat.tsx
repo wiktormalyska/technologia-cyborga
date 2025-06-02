@@ -2,10 +2,10 @@ import {useEffect, useState} from "react";
 import { FaArrowLeft, FaEllipsisV, FaPaperclip, FaSmile, FaEye, FaBan, FaPalette, FaVolumeUp } from "react-icons/fa";
 import { useAuth } from "../auth/AuthContext";
 import {useGetUserById} from "../hooks/useUsers";
-import {useGetChatBetweenUsers} from "../hooks/useChats";
+import {useSendMessage} from "../hooks/useChats";
 
-export const Chat = ({ onClose, otherUserId }: { onClose: () => void; otherUserId: string}) => {
-    const [messages, setMessages] = useState<string[]>([]);
+export const Chat = ({ onClose, chatData }: { onClose: () => void; chatData: any}) => {
+    const [messages, setMessages] = useState<any[]>([]);
     const [input, setInput] = useState("");
     const [isOptionsOpen, setIsOptionsOpen] = useState(false);
     const [isEmojiOpen, setIsEmojiOpen] = useState(false);
@@ -13,57 +13,57 @@ export const Chat = ({ onClose, otherUserId }: { onClose: () => void; otherUserI
     const {decodedToken} = useAuth();
     const currentUserID = decodedToken.userID;
 
-    const {mutate: getUserByID, data: userData, isPending: isUserPending} = useGetUserById();
+    const {mutate: getUserByID, data: recipientData, isPending: isRecipientPending} = useGetUserById();
 
-    const {mutate: getChatBetweenUsers, data: chatData} = useGetChatBetweenUsers();
+    const {mutate: sendChatMessage} = useSendMessage();
 
     const [recipientUsername, setRecipientUsername] = useState<string | null>(null);
-    //getChatBetweenUsers({})
-    useEffect(() => {
-        if (currentUserID && otherUserId) {
-            getChatBetweenUsers({
-                body: {
-                    user1Id: currentUserID,
-                    user2Id: Number(otherUserId),
-                }
-            })
-        }
-    }, [currentUserID, otherUserId, getChatBetweenUsers]);
 
     useEffect(() => {
         if (chatData) {
             console.log("AAAAAAAAAAA" + chatData);
             const recipientUserId =
-                chatData.user1Id === currentUserID
-                    ? chatData.user2Id
-                    : chatData.user1Id;
+                chatData.user1 === currentUserID
+                    ? chatData.user2
+                    : chatData.user1;
 
             getUserByID({param: recipientUserId.toString()});
+
+            console.log("user1", chatData.user1);
+            console.log("user2", chatData.user2);
+            console.log("messages", chatData.messages);
+            setMessages(chatData.messages);
         }
     }, [chatData, currentUserID, getUserByID]);
 
     useEffect(() => {
-        if (userData) {
-            setRecipientUsername(userData.username);
+        if (recipientData) {
+            setRecipientUsername(recipientData.username);
         }
-    }, [userData]);
+    }, [recipientData]);
 
-    // useEffect(() => {
-    //     if (otherUserId) {
-    //         getUserByID({param: otherUserId});
-    //     }
-    // }, [otherUserId, getUserByID]);
-    //
-    // useEffect(() => {
-    //     if (userData?.username) {
-    //         setRecipientUsername(userData.username);
-    //     }
-    // }, [userData]);
 
     const sendMessage = () => {
         if (input.trim() !== "") {
-            setMessages([...messages, input]);
-            setInput("");
+            // setInput("");
+
+            sendChatMessage(
+                {
+                    param: chatData.id,
+                    body: {
+                        content: input.trim(),
+                        sender: currentUserID
+                    }
+                },
+                {
+                    onSuccess: () => {
+                        setInput("");
+                    },
+                    onError: (error) => {
+                        console.error("Failed to send message:", error);
+                    }
+                }
+            )
         }
     };
     const emojis = ["😳", "😜", "🤯", "🤤", "😩", "💀"];
@@ -136,7 +136,7 @@ export const Chat = ({ onClose, otherUserId }: { onClose: () => void; otherUserI
                     </button>
                     <div className="text-center">
                         <h2 className="text-lg font-bold text-text">
-                            {isUserPending ? "Loading..." : recipientUsername || "User1"}
+                            {isRecipientPending ? "Loading..." : recipientUsername || "User"}
                         </h2>
                         <p className="text-xs text-text/70">Online</p>
                     </div>
@@ -148,21 +148,21 @@ export const Chat = ({ onClose, otherUserId }: { onClose: () => void; otherUserI
                     </button>
                 </div>
 
-                {/* Messages Area */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-background">
-                    {/* Example received message */}
-                    <div className="p-3 bg-gray-300 text-gray-800 rounded-lg max-w-[80%] border-4 border-secondary">
-                        <p className="text-sm">
-                            Albion Online to sandbox MMORPG, w którym to Ty piszesz własną historię, zamiast podążać wytyczoną ścieżką. Odkrywaj ogromny otwarty świat.
-                        </p>
-                    </div>
+                    {messages.map((message) => {
+                        const sentByCurrentUser = message.sender === currentUserID;
 
-                    {/* User's sent messages */}
-                    {messages.map((msg, index) => (
-                        <div key={index} className="p-3 bg-white text-gray-800 rounded-lg max-w-[80%] ml-auto border-4 border-secondary">
-                            {msg}
-                        </div>
-                    ))}
+                        return (
+                            <div
+                                key={message.id}
+                                className={`p-3 text-gray-800 rounded-lg max-w-[80%] border-4 border-secondary ${
+                                    sentByCurrentUser ? `bg-white ml-auto` : 'bg-gray-300'
+                                }`}
+                            >
+                                <p className="text-sm">{message.content}</p>
+                            </div>
+                        );
+                    })}
                 </div>
 
                 {/* Input Area */}

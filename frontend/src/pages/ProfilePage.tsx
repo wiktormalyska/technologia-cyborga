@@ -12,6 +12,7 @@ import {IconType} from "react-icons";
 import {FaPlayCircle, FaPlusCircle} from "react-icons/fa";
 import { Chat } from "../components/Chat";
 import {useAddFriend} from "../hooks/useFriends";
+import {useCreateChat} from "../hooks/useChats";
 
 interface ProfilePagePropsType {
     isFriend?: boolean | false;
@@ -24,6 +25,8 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
     //const { data: points, isPending: isPointsPending, error: pointsError } = useGetUserPoints({ param: "1" });
 
     const {decodedToken} = useAuth()
+    const currentUserID = decodedToken.userID;
+
     const { mutate: getUserPoints, isPending: isPointsPending, data: pointsData, error: pointsError } = useGetUserPoints();
 
     const [lockedEmojis, setLockedEmojis] = useState<string[]>([]);
@@ -31,8 +34,6 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
     const { mutate: getAllEmojis } = useGetAllEmojis();
 
     const [user, setUser] = useState<userDto>()
-
-    const [isChatOpen, setIsChatOpen] = useState(false);
 
     const [emojis, setEmojis] = useState<{id: number, emoji: string }[]>([]);
 
@@ -43,6 +44,26 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
     const { mutate: addFriend} = useAddFriend()
 
     const targetUserId = isFriend && friendID ? friendID.toString() : decodedToken.userID.toString();
+
+    const [isChatOpen, setIsChatOpen] = useState(false);
+
+    const {
+        mutate: createChat,
+        data: chatData
+    } = useCreateChat()
+
+    const handleCreateChat = (otherUserId: string) => {
+        if (!currentUserID) return;
+
+        createChat({
+            body: {
+                user1Id: currentUserID,
+                user2Id: otherUserId
+            }
+        });
+
+        setIsChatOpen(true);
+    }
 
     useEffect(() => {
         getUserEmojis(
@@ -132,7 +153,7 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
         {
             name: "Message",
             icon: FaMessage,
-            onClick: () => setIsChatOpen(true),
+            onClick: () => handleCreateChat(targetUserId),
         },
         {
             name: "Trade",
@@ -270,7 +291,7 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
 
                 </div>
             </div>
-            {isChatOpen && <Chat onClose={() => setIsChatOpen(false)} otherUserId={targetUserId.toString()}/>}
+            {isChatOpen && <Chat onClose={() => setIsChatOpen(false)} chatData={chatData}/>}
         </BasePage>
     );
 };
