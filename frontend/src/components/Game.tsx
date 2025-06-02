@@ -1,6 +1,7 @@
 import { Unity, useUnityContext } from "react-unity-webgl";
 import {useEffect, useState} from "react";
 import {useCurrentUser} from "../hooks/useAuth";
+import {useAddUserPoints} from "../hooks/useUsers";
 
 declare global {
     interface Window {
@@ -16,9 +17,8 @@ function GameComponent() {
     });
 
     const [score, setScore] = useState(0);
-
-
     const { user, isAuthenticated } = useCurrentUser();
+    const { mutate: addPoints } = useAddUserPoints();
 
     useEffect(() => {
         window.dispatchReactUnityEvent = function (eventName, data) {
@@ -26,7 +26,6 @@ function GameComponent() {
                 setScore(data);
             }
         };
-
         return () => {
             delete window.dispatchReactUnityEvent;
         };
@@ -34,21 +33,13 @@ function GameComponent() {
 
 
     useEffect(() => {
-        if (score != null && user?.id != null) {
-            fetch(`http://localhost:8080/api/users/${user.id}/points?points=${score}`, {
-                method: "POST",
-                headers: {
-                    //"Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                }
-            })
-                .then(res => {
-                    if (!res.ok) throw new Error("Failed to update user points");
-                    console.log("User points updated successfully");
-                })
-                .catch(console.error);
+        if (score && user?.id) {
+            addPoints({
+                param: `${user.id}/points?points=${score}`,
+                body: undefined
+            });
         }
-    }, [score, user]);
+    }, [score, user, addPoints]);
 
     return (
         <div style={{ width: "560px", height: "760px", margin: "0 auto" }}>

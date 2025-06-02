@@ -31,6 +31,7 @@ export const APIEndpoints: {
         getProfileImage: Endpoint
         updateProfilePicture: Endpoint
         getPoints: Endpoint
+        addPoints: Endpoint
     }
     chats: {
         getAll: Endpoint
@@ -109,6 +110,10 @@ export const APIEndpoints: {
         getPoints: {
             url: "api/users",
             method: HttpRequestMethods.GET,
+        },
+        addPoints: {
+            url: "api/users",
+            method: HttpRequestMethods.POST,
         }
     },
     chats: {
@@ -190,5 +195,5 @@ export const APIEndpoints: {
             url: "api/emojis",
             method: HttpRequestMethods.GET
         }
-    }
+    },
 }
