@@ -56,7 +56,8 @@ export const AllChatsPage = () => {
             }
         }, {
             onSuccess: () => {
-                console.log("Created chat:", chatData);
+                console.log("Created chat");
+                setIsChatOpen(true);
             },
             onError: (err) => {
                 console.error("Error creating chat:", err);
@@ -108,7 +109,6 @@ export const AllChatsPage = () => {
                     onClick={(e) => {
                         e.stopPropagation();
                         handleCreateChat(friend.userId);
-                        setIsChatOpen(true);
                     }}
                 >
                     <FaMessage/>

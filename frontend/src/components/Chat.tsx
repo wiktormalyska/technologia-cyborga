@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import { FaArrowLeft, FaEllipsisV, FaPaperclip, FaSmile, FaEye, FaBan, FaPalette, FaVolumeUp } from "react-icons/fa";
 import { useAuth } from "../auth/AuthContext";
 import {useGetUserById} from "../hooks/useUsers";
-import {useSendMessage} from "../hooks/useChats";
+import {useSendMessage, useGetMessagesByChatId} from "../hooks/useChats";
 
 export const Chat = ({ onClose, chatData }: { onClose: () => void; chatData: any}) => {
     const [messages, setMessages] = useState<any[]>([]);
@@ -15,23 +15,20 @@ export const Chat = ({ onClose, chatData }: { onClose: () => void; chatData: any
 
     const {mutate: getUserByID, data: recipientData, isPending: isRecipientPending} = useGetUserById();
 
+    const {mutate: getMessagesByChatId, data: messageData} = useGetMessagesByChatId();
+
     const {mutate: sendChatMessage} = useSendMessage();
 
     const [recipientUsername, setRecipientUsername] = useState<string | null>(null);
 
     useEffect(() => {
         if (chatData) {
-            console.log("AAAAAAAAAAA" + chatData);
             const recipientUserId =
                 chatData.user1 === currentUserID
                     ? chatData.user2
                     : chatData.user1;
 
             getUserByID({param: recipientUserId.toString()});
-
-            console.log("user1", chatData.user1);
-            console.log("user2", chatData.user2);
-            console.log("messages", chatData.messages);
             setMessages(chatData.messages);
         }
     }, [chatData, currentUserID, getUserByID]);
@@ -42,22 +39,34 @@ export const Chat = ({ onClose, chatData }: { onClose: () => void; chatData: any
         }
     }, [recipientData]);
 
+    useEffect(() => {
+        if (messageData) {
+            setMessages(messageData);
+        }
+    })
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            getMessagesByChatId({ param: chatData.id });
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, [chatData.id, getMessagesByChatId]);
 
     const sendMessage = () => {
         if (input.trim() !== "") {
-            // setInput("");
-
             sendChatMessage(
                 {
                     param: chatData.id,
                     body: {
                         content: input.trim(),
-                        sender: currentUserID
+                        senderId: currentUserID
                     }
                 },
                 {
                     onSuccess: () => {
                         setInput("");
+                        getMessagesByChatId({param: chatData.id})
                     },
                     onError: (error) => {
                         console.error("Failed to send message:", error);

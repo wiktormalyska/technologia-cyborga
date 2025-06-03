@@ -60,9 +60,15 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
                 user1Id: currentUserID,
                 user2Id: otherUserId
             }
+        }, {
+            onSuccess: () => {
+                console.log("Created chat");
+                setIsChatOpen(true);
+            },
+            onError: (err) => {
+                console.error("Error creating chat:", err);
+            }
         });
-
-        setIsChatOpen(true);
     }
 
     useEffect(() => {
