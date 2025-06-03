@@ -34,22 +34,30 @@ public class ChatService {
     }
 
     public Optional<Chat> getChatById(Long id) {
-        return chatRepository.findById(id);
-    }
-
-    public Optional<List<Chat>> getChatsByUserId(long userId) {
-            return chatRepository.findByUserId(userId);
+        Optional<Chat> existingChat = chatRepository.findById(id);
+        if (existingChat.isEmpty()) {
+            return Optional.empty();
+        }
+        existingChat.get().setMessages(messageRepository.findByChatId(existingChat.get().getId()));
+        return existingChat;
     }
 
     public Optional<Chat> getChatBetweenUsers(Long user1Id, Long user2Id) {
-        return chatRepository.findChatBetweenUsers(user1Id, user2Id);
+        Optional<Chat> existingChat = chatRepository.findChatBetweenUsers(user1Id, user2Id);
+        if (existingChat.isPresent()) {
+            existingChat.get().setMessages(messageRepository.findByChatId(existingChat.get().getId()));
+            return existingChat;
+        }
+        return Optional.empty();
     }
 
     public Chat createChat(Long user1Id, Long user2Id) {
 
         Optional<Chat> existingChat = chatRepository.findChatBetweenUsers(user1Id, user2Id);
 
+
         if (existingChat.isPresent()) {
+            existingChat.get().setMessages(messageRepository.findByChatId(existingChat.get().getId()));
             return existingChat.get();
         }
 
