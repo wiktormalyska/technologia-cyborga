@@ -17,8 +17,6 @@ export const AllChatsPage = () => {
     const [isSearching, setIsSearching] = useState(false);
 
     const [friendsList, setFriendsList] = useState<FriendListValueDto[]>([])
-    const [pendingFriendRequests, setPendingFriendRequests] = useState<FriendListValueDto[]>([])
-    const [receivedFriendRequests, setReceivedFriendRequests] = useState<FriendListValueDto[]>([])
 
     const [isChatOpen, setIsChatOpen] = useState(false);
 
@@ -73,11 +71,9 @@ export const AllChatsPage = () => {
         let friendListDto: FriendListDto = friends;
 
         if (!friendListDto) return;
-        if (friendListDto.acceptedInvites !== undefined && friendListDto.sentPendingInvites !== undefined && friendListDto.receivedPendingInvites !== undefined) {
+        if (friendListDto.acceptedInvites !== undefined) {
             console.log(friendListDto);
             setFriendsList(friendListDto.acceptedInvites);
-            setPendingFriendRequests(friendListDto.sentPendingInvites);
-            setReceivedFriendRequests(friendListDto.receivedPendingInvites);
         }
     }, [friends])
 
@@ -120,27 +116,21 @@ export const AllChatsPage = () => {
     const showFoundUsers = () => {
         if (!foundUsers) return <p className="text-gray-400">No user found.</p>;
         if (findingUsers) return <p className="text-primary/70">Searching...</p>;
-        if (findingUsersError) return <p className="text-red-600">Error searching for an user.</p>;
+        if (findingUsersError) return <p className="text-red-600">Error searching for a user.</p>;
 
-        const isAlreadyFriendOrPending = (userId: number): boolean => {
-            if (!friends) return false;
+        const users: userDto[] = foundUsers;
 
-            return [...friendsList, ...pendingFriendRequests, ...receivedFriendRequests]
-                .some(friend => friend.userId === userId);
-        };
-
-        let users: userDto[] = foundUsers;
-        users = users.filter(user =>
-            user.id !== currentUserID && !isAlreadyFriendOrPending(user.id)
+        const foundFriends = friendsList.filter(friend =>
+            users.some(user => user.id === friend.userId)
         );
 
-        return users.map(user => (
-            <div key={user.id}
-                 className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200">
-                <img alt={user.username} src={user.profileImagePath} className="w-12 h-12 rounded-full"/>
-                <div className="text-white text-sm">{user.username}</div>
-            </div>
-        ));
+        return (
+            <>
+                {foundFriends.map((friend) => (
+                    renderUser(friend)
+                ))}
+            </>
+        );
     };
 
     const showFriendList = () => {
