@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import { FaArrowLeft, FaEllipsisV, FaPaperclip, FaSmile, FaEye, FaBan, FaPalette, FaVolumeUp } from "react-icons/fa";
+import { FaArrowLeft, FaEllipsisV, FaPaperclip, FaSmile, FaEye, FaBan, FaPalette, FaVolumeUp, FaPaperPlane } from "react-icons/fa";
 import { useAuth } from "../auth/AuthContext";
 import {useGetUserById} from "../hooks/useUsers";
 import {useSendMessage, useGetMessagesByChatId} from "../hooks/useChats";
@@ -81,7 +81,7 @@ export const Chat = ({ onClose, chatData }: { onClose: () => void; chatData: any
         setIsEmojiOpen(false);
     };
     const EmojiPanel = () => (
-        <div className="fixed bottom-4 left-0 w-full bg-secondary rounded-lg p-2 shadow-lg mx-2">
+        <div className="fixed bottom-4 left-2 right-2 bg-secondary rounded-lg p-2 shadow-lg">
             <div className="flex flex-wrap gap-2 justify-center">
                 {emojis.map((emoji, index) => (
                     <div
@@ -99,7 +99,7 @@ export const Chat = ({ onClose, chatData }: { onClose: () => void; chatData: any
 
     const ChatOptionsMenu = () => {
         const menuItems = [
-            {icon: FaEye, text: "View profile" },
+            { icon: FaEye, text: "View profile" },
             { icon: FaVolumeUp, text: "Mute" },
             { icon: FaPalette, text: "Change theme" },
             { icon: FaBan, text: "Block", className: "text-red-500" }
@@ -107,8 +107,8 @@ export const Chat = ({ onClose, chatData }: { onClose: () => void; chatData: any
 
         return (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                <div className="bg-background w-64 rounded-lg shadow-xl">
-                    <div className="text-center py-3 border-b-4 border-secondary/30">
+                <div className="bg-secondary/20 ring-4 ring-secondary w-64 rounded-lg shadow-xl">
+                    <div className="text-center py-3 border-b-4 border-secondary/50">
                         <span className="text-text font-bold">OPTIONS</span>
                     </div>
                     <div className="py-2">
@@ -140,24 +140,29 @@ export const Chat = ({ onClose, chatData }: { onClose: () => void; chatData: any
             <div className="w-full max-w-md h-[70vh] flex flex-col bg-background rounded-lg shadow-xl overflow-hidden">
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 bg-secondary border-b border-secondary">
-                    <button onClick={onClose} className="text-xl text-text">
+                    <button className="text-xl text-text bg-background/30 hover:cursor-pointer hover:bg-background/50 transition-all duration-150 p-2 rounded-full"
+                            onClick={onClose}
+                    >
                         <FaArrowLeft />
                     </button>
                     <div className="text-center">
                         <h2 className="text-lg font-bold text-text">
                             {isRecipientPending ? "Loading..." : recipientUsername || "User"}
                         </h2>
-                        <p className="text-xs text-text/70">Online</p>
+                        <p className="text-xs text-text/70 flex items-center justify-center gap-1">
+                            <span className="w-2 h-2 rounded-full bg-green-500 inline-block"/>
+                            Online
+                        </p>
                     </div>
                     <button
-                        className="text-xl text-text"
+                        className="text-xl text-text bg-background/30 hover:cursor-pointer hover:bg-background/50 transition-all duration-150 p-2 rounded-full"
                         onClick={() => setIsOptionsOpen(true)}
                     >
                         <FaEllipsisV />
                     </button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-background">
+                <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-background scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full">
                     {messages.map((message) => {
                         const sentByCurrentUser = message.sender === currentUserID;
 
@@ -178,7 +183,7 @@ export const Chat = ({ onClose, chatData }: { onClose: () => void; chatData: any
                 <div className="p-3 bg-secondary border-t">
                     <div className="flex items-center gap-2">
                         <button
-                            className="text-xl text-text"
+                            className="text-xl text-text bg-background/30 hover:cursor-pointer hover:bg-background/50 transition-all duration-150 p-2 rounded-full"
                             onClick={() => setIsEmojiOpen(!isEmojiOpen)}
                         >
                             <FaSmile/>
@@ -189,13 +194,25 @@ export const Chat = ({ onClose, chatData }: { onClose: () => void; chatData: any
                             onChange={(e) => setInput(e.target.value)}
                             placeholder="Type a message..."
                             className="flex-1 p-2 rounded-full bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-accent"
-                            onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+                            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                         />
-                        <button className="text-xl text-text">
+                        <button
+                            className="text-xl text-text bg-background/30 hover:cursor-pointer hover:bg-background/50 transition-all duration-150 p-2 rounded-full"
+                            onClick={() => sendMessage()}
+                        >
+                            <FaPaperPlane />
+                        </button>
+                        <button className="text-xl text-text bg-background/30 hover:cursor-pointer hover:bg-background/50 transition-all duration-150 p-2 rounded-full">
                             <FaPaperclip />
                         </button>
                     </div>
-                    {isEmojiOpen && <EmojiPanel />}
+                    <div
+                        className={`fixed bottom-0 left-0 w-full px-2 transition-all duration-300 ${
+                            isEmojiOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8 pointer-events-none"
+                        }`}
+                    >
+                        <EmojiPanel />
+                    </div>
                 </div>
             </div>
 
