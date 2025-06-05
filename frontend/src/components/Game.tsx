@@ -1,5 +1,5 @@
 import { Unity, useUnityContext } from "react-unity-webgl";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useCurrentUser} from "../hooks/useAuth";
 import {useAddUserPoints} from "../hooks/useUsers";
 
@@ -23,6 +23,7 @@ function GameComponent() {
     useEffect(() => {
         window.dispatchReactUnityEvent = function (eventName, data) {
             if (eventName === "SetScore") {
+                console.log("Received score:", data);
                 setScore(data);
             }
         };
@@ -31,14 +32,22 @@ function GameComponent() {
         };
     }, []);
 
+    const lastSubmittedScore = useRef<number | null>(null);
 
     useEffect(() => {
-        if (score && user?.id) {
-            addPoints({
-                param: `${user.id}/points?points=${score}`,
-                body: undefined
-            });
-        }
+        if (!score || !user?.id) return;
+
+        // Nie rób nic, jeśli punktacja jest taka sama jak poprzednia przesłana
+        if (lastSubmittedScore.current === score) return;
+
+        lastSubmittedScore.current = score;
+
+        // Wysyłka punktów tylko raz na unikalny score
+        addPoints({
+            param: `${user.id}/points?points=${score}`,
+            body: undefined
+        });
+
     }, [score, user, addPoints]);
 
     return (
