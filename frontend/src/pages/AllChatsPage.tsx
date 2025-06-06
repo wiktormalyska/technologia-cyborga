@@ -6,17 +6,15 @@ import {useFindUserByUsername} from "../hooks/useUsers";
 import {useEffect, useState} from "react";
 import {useAuth} from "../auth/AuthContext";
 import {useNavigate} from "react-router-dom";
-import {FriendListValueDto} from "../values/dto/friendListValueDto";
-import {useGetFriends} from "../hooks/useFriends";
-import {FriendListDto} from "../values/dto/friendListDto";
 import {Chat} from "../components/Chat";
-import {useCreateChat} from "../hooks/useChats";
+import {useCreateChat, useGetRecipientsByUserId} from "../hooks/useChats";
 
 export const AllChatsPage = () => {
     const [findValue, setFindValue] = useState("");
     const [isSearching, setIsSearching] = useState(false);
 
-    const [friendsList, setFriendsList] = useState<FriendListValueDto[]>([])
+    const [foundRecipients, setFoundRecipients] = useState<userDto[]>([]);
+    const [userCount, setUserCount] = useState(0);
 
     const [isChatOpen, setIsChatOpen] = useState(false);
 
@@ -33,11 +31,11 @@ export const AllChatsPage = () => {
     } = useFindUserByUsername()
 
     const {
-        mutate: getFriends,
-        data: friends,
-        isPending: loadingFriends,
-        error: friendsError
-    } = useGetFriends()
+        mutate: getRecipients,
+        data: recipients,
+        isPending: loadingRecipients,
+        error: recipientsError
+    } = useGetRecipientsByUserId()
 
     const {
         mutate: createChat,
@@ -64,19 +62,38 @@ export const AllChatsPage = () => {
     }
 
     useEffect(() => {
-        getFriends({param: decodedToken.userID.toString()});
-    }, [decodedToken, getFriends])
+        getRecipients({param: decodedToken.userID.toString()})
+    }, [decodedToken, getRecipients]);
 
     useEffect(() => {
-        let friendListDto: FriendListDto = friends;
-
-        if (!friendListDto) return;
-        if (friendListDto.acceptedInvites !== undefined) {
-            console.log(friendListDto);
-            setFriendsList(friendListDto.acceptedInvites);
+        if (recipients) {
+            console.log("Recipients:", recipients);
+            setUserCount(recipients.length);
         }
-    }, [friends])
+    }, [recipients])
 
+    useEffect(() => {
+        if (foundRecipients) {
+            setUserCount(foundRecipients.length);
+        }
+    }, [foundRecipients]);
+
+    useEffect(() => {
+        if (isSearching && foundUsers && recipients) {
+            const users: userDto[] = foundUsers;
+            let recipientList: userDto[] = recipients;
+
+            recipientList = recipientList.filter((recipient) => (
+                !(recipient.id === currentUserID))
+            );
+
+            const foundRecipients = recipientList.filter(recipient =>
+                users.some(user => recipient.id === user.id)
+            );
+
+            setFoundRecipients(foundRecipients);
+        }
+    }, [isSearching, foundUsers, recipients, currentUserID]);
 
     const onFindUser = () => {
         if (!findValue) return;
@@ -89,22 +106,22 @@ export const AllChatsPage = () => {
         navigate(`/account/${userId}`);
     }
 
-    const renderUser = (friend: FriendListValueDto) => {
-        console.log(friend)
+    const renderUser = (user: userDto) => {
+        console.log(user)
         return (
             <div
-                key={friend.userId}
+                key={user.id}
                 className="flex items-center gap-4 bg-primary/10 rounded-full p-3 hover:bg-primary/20 transition-all duration-200"
-                onClick={() => openUserPage(friend.userId)}
+                onClick={() => openUserPage(user.id)}
             >
-                <img alt={friend.username} src={friend.profileImagePath} className="w-12 h-12 rounded-full"/>
-                <div className="text-white text-sm">{friend.username}</div>
+                <img alt={user.username} src={user.profileImagePath} className="w-12 h-12 rounded-full"/>
+                <div className="text-white text-sm">{user.username}</div>
 
                 <button type="button"
                     className="bg-primary/20 hover:bg-primary/30 text-text h-10 w-10 flex ml-auto hover:cursor-pointer justify-center items-center rounded-full transition-all duration-200"
                     onClick={(e) => {
                         e.stopPropagation();
-                        handleCreateChat(friend.userId);
+                        handleCreateChat(user.id);
                     }}
                 >
                     <FaMessage/>
@@ -118,30 +135,30 @@ export const AllChatsPage = () => {
         if (findingUsers) return <p className="text-primary/70">Searching...</p>;
         if (findingUsersError) return <p className="text-red-600">Error searching for a user.</p>;
 
-        const users: userDto[] = foundUsers;
-
-        const foundFriends = friendsList.filter(friend =>
-            users.some(user => user.id === friend.userId)
-        );
-
         return (
             <>
-                {foundFriends.map((friend) => (
-                    renderUser(friend)
+                {foundRecipients.map((recipient) => (
+                    renderUser(recipient)
                 ))}
             </>
         );
     };
 
-    const showFriendList = () => {
-        if (loadingFriends) return <p className="text-primary/70">Loading friends...</p>;
-        if (friendsError) return <p className="text-red-600">Error loading friends.</p>;
-        if (!friends || friends.length === 0) return <p className="text-gray-400">No friends added.</p>;
+    const showChatList = () => {
+        if (loadingRecipients) return <p className="text-primary/70">Loading chats...</p>;
+        if (recipientsError) return <p className="text-red-600">Error loading chats.</p>;
+        if (!recipients || recipients.length === 0) return <p className="text-gray-400">No chats started.</p>;
+
+        let recipientList: userDto[] = recipients;
+
+        recipientList = recipientList.filter((recipient) => (
+            !(recipient.id === currentUserID))
+        );
 
         return (
             <>
-                {friendsList.map((friend) => (
-                    renderUser(friend)
+                {recipientList.map((recipient) => (
+                    renderUser(recipient)
                 ))}
             </>
         );
@@ -170,14 +187,14 @@ export const AllChatsPage = () => {
                     <h2 className="text-2xl font-semibold text-white mb-3">
                         {isSearching ? "Search Results" : "Active Chats"}
                     </h2>
-                    <div className={"max-h-[56vh]" + (
-                        friendsList.length > 6
+                    <div className={`max-h-[56vh] ${
+                        userCount > 6
                             ? "overflow-y-auto pr-5 scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full"
                             : ""
-                        )}
+                        }`}
                     >
                         <div className="flex flex-col gap-4">
-                            {isSearching ? showFoundUsers() : showFriendList()}
+                            {isSearching ? showFoundUsers() : showChatList()}
                         </div>
                     </div>
                 </div>

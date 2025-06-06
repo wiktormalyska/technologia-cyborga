@@ -36,6 +36,7 @@ export const APIEndpoints: {
     chats: {
         getAll: Endpoint
         getByUserId: Endpoint
+        getRecipientsByUserId: Endpoint
         getMessagesByChatId: Endpoint
         getChatBetweenUsers: Endpoint
         createChat: Endpoint
@@ -124,8 +125,12 @@ export const APIEndpoints: {
             method: HttpRequestMethods.GET,
         },
         getByUserId: {
-            url: "api/chats",
+            url: "api/chats/userChats",
             method: HttpRequestMethods.GET,
+        },
+        getRecipientsByUserId: {
+            url: "api/chats/recipients",
+            method: HttpRequestMethods.GET
         },
         getMessagesByChatId: {
             url: "api/chats",

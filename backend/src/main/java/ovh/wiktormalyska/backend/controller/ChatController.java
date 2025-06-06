@@ -10,6 +10,7 @@ import ovh.wiktormalyska.backend.dto.ChatDto;
 import ovh.wiktormalyska.backend.dto.MessageDto;
 import ovh.wiktormalyska.backend.model.Chat;
 import ovh.wiktormalyska.backend.model.Message;
+import ovh.wiktormalyska.backend.model.User;
 import ovh.wiktormalyska.backend.service.ChatService;
 import ovh.wiktormalyska.backend.service.MessageService;
 
@@ -37,6 +38,20 @@ public class ChatController {
     @GetMapping("/{chatId}")
     public ResponseEntity<Chat> getChatById(@PathVariable("chatId") Long chatId) {
         return chatService.getChatById(chatId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/userChats/{userId}")
+    public ResponseEntity<List<Chat>> getChatsByUserId(@PathVariable("userId") Long userId) {
+        return chatService.getChatsByUserId(userId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/recipients/{userId}")
+    public ResponseEntity<List<User>> getRecipientsByUserId(@PathVariable("userId") Long userId) {
+        return chatService.getRecipientsByUserId(userId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
