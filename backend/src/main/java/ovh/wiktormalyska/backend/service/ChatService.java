@@ -42,6 +42,19 @@ public class ChatService {
         return existingChat;
     }
 
+    public Optional<List<Chat>> getChatsByUserId(Long userId) {
+        Optional<List<Chat>> existingChats = chatRepository.findByUserId(userId);
+        if (existingChats.isPresent()) {
+            existingChats.get().forEach(chat -> chat.setMessages(messageRepository.findByChatId(chat.getId())));
+            return existingChats;
+        }
+        return Optional.empty();
+    }
+
+    public Optional<List<User>> getRecipientsByUserId(Long userId) {
+        return chatRepository.getRecipientsByUserId(userId);
+    }
+
     public Optional<Chat> getChatBetweenUsers(Long user1Id, Long user2Id) {
         Optional<Chat> existingChat = chatRepository.findChatBetweenUsers(user1Id, user2Id);
         if (existingChat.isPresent()) {

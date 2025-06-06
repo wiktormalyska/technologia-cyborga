@@ -6,6 +6,16 @@ export const useCreateChat = () => {
     return useMutate("create-chat", endpoint)
 }
 
+export const useGetChatsByUserId = () => {
+    const endpoint = APIEndpoints.chats.getByUserId;
+    return usePathParams("getChatsByUserId", endpoint)
+}
+
+export const useGetRecipientsByUserId = () => {
+    const endpoint = APIEndpoints.chats.getRecipientsByUserId;
+    return usePathParams("getRecipientsByUserId", endpoint)
+}
+
 export const useGetChatBetweenUsers = () => {
     const endpoint = APIEndpoints.chats.getChatBetweenUsers;
     return useMutate("getChatBetweenUsers", endpoint)
