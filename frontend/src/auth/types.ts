@@ -18,5 +18,6 @@ export interface DecodedTokenType {
     iat: number;
     exp: number;
     authorities: string[];
+    userRoles: string[];
     userID: number;
 }

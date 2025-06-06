@@ -34,7 +34,7 @@ const Navbar = () => {
         {name: 'Admin Panel', icon: adminIcon, path: '/admin'},
     ];
 
-    const showAdmin = useCurrentUser().isAdmin  // TODO: poprawić role w tokenie
+    const showAdmin = useCurrentUser().isAdmin
 
     return (
         <div className={"flex flex-col justify-start items-center bg-primary/5 p-5" +
