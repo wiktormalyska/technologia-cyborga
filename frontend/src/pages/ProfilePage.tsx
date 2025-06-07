@@ -205,8 +205,11 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
                         actions.map(action => {
                             return (
                                 <div key={action.name}
-                                     className={"p-1 cursor-pointer text-text flex flex-col items-center text-center"}
-                                     onClick={action.onClick}>
+                                     className={"p-2 w-[80px] h-[80px] hover:bg-secondary/50 hover:cursor-pointer " +
+                                         "text-text flex flex-col items-center text-center rounded-xl " +
+                                         "transition-all duration-150"}
+                                     onClick={action.onClick}
+                                >
                                     <div
                                         className={"text-lg bg-secondary w-[40px] h-[40px] rounded-full items-center justify-center flex"}>
                                         {React.createElement(action.icon)}
@@ -226,7 +229,7 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
                 </div>
                 <div className={"flex flex-col gap-5"}>
                     <div className={"bg-secondary/60 border-r-2 box-border rounded-2xl p-5"}>
-                        <div className={"text-2xl text-text mb-1.5 text-center"}>
+                        <div className={"text-xl text-text mb-2.5 text-center"}>
                             Badges
                         </div>
                         <div className={"flex gap-1 flex-wrap justify-center"}>
@@ -242,10 +245,10 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
                     </div>
 
                     <div className="bg-secondary/60 border-r-2 box-border rounded-2xl p-5">
-                        <div className="text-2xl text-text mb-1.5 text-center">Unlocked emoji</div>
+                        <div className="text-xl text-text mb-2.5 text-center">Unlocked emoji</div>
                         <div
                             className={
-                                "max-h-[130px] mb-4 " + (
+                                "max-h-[130px] " + (
                                     allEmojis.length > 24
                                         ? "overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full"
                                         : ""
@@ -266,7 +269,7 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
 
                         {lockedEmojis.length > 0 && (
                             <>
-                                <div className="text-2xl text-text/60 mb-1.5 text-center">Locked emoji</div>
+                                <div className="text-xl text-text/60 mb-2.5 text-center">Locked emoji</div>
                                 <div
                                     className={
                                         "max-h-[130px] " + (

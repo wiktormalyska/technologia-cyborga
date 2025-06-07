@@ -177,7 +177,7 @@ export const FriendsPage = () => {
                     />
                     <button
                         type="button"
-                        className="bg-primary/20 text-white hover:bg-primary/30 h-full w-12 flex justify-center items-center rounded-full transition-all duration-200"
+                        className="bg-primary/20 text-white hover:bg-primary/30 hover:cursor-pointer h-full w-12 flex justify-center items-center rounded-full transition-all duration-200"
                         onClick={onFindUser}
                     >
                         <FaSearch size={20}/>
