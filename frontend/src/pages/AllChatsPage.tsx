@@ -166,7 +166,7 @@ export const AllChatsPage = () => {
 
     return (
         <BasePage title={"Chats"} justifyContent={"flex-start"} className={"pl-5 pr-5 pt-5"}>
-            <div className="flex flex-col space-y-6">
+            <div className="flex flex-col h-full w-full space-y-6">
                 <div className="flex flex-row gap-2 items-center">
                     <input
                         type="text"
@@ -189,7 +189,7 @@ export const AllChatsPage = () => {
                     </h2>
                     <div className={`max-h-[56vh] ${
                         userCount > 6
-                            ? "overflow-y-auto pr-5 scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full"
+                            ? "overflow-y-auto pr-5 custom-scrollbar"
                             : ""
                         }`}
                     >
