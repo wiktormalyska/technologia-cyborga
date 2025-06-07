@@ -166,7 +166,7 @@ export const FriendsPage = () => {
 
     return (
         <BasePage title={"Friends"} justifyContent={"flex-start"}>
-            <div className="flex flex-col space-y-6 p-5">
+            <div className="flex flex-col h-full w-full space-y-6 p-5">
 
                 <div className="flex flex-row gap-2 items-center">
                     <input

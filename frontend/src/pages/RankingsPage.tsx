@@ -104,7 +104,7 @@ export const RankingsPage = () => {
 
     return (
         <BasePage title={"Rankings"} justifyContent={"flex-start"} className={"pl-5 pr-5 pt-5"}>
-            <div className="flex flex-col space-y-6">
+            <div className="flex flex-col h-full w-full space-y-6">
                 <div className="flex flex-row gap-2 items-center">
                     <input
                         type="text"
