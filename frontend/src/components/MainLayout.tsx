@@ -9,8 +9,7 @@ const MainLayout = () => (
         <div className={"flex flex-1 overflow-y-auto bg-background"}>
                 <Navbar />
             <div className={"p-4 mb-4 flex-1 overflow-y-auto bg-background w-full flex justify-center " +
-                "scrollbar scrollbar-thumb-primary scrollbar-thumb-rounded-full " +
-                "scrollbar-track-primary/10 scrollbar-track-rounded-full"
+                "custom-scrollbar-wide"
             }>
                 <Outlet />
             </div>

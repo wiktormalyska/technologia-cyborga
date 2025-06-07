@@ -162,7 +162,7 @@ export const Chat = ({ onClose, chatData }: { onClose: () => void; chatData: any
                     </button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-background scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full">
+                <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-background custom-scrollbar">
                     {messages !== null && messages.map((message) => {
                         const sentByCurrentUser = message.sender === currentUserID;
 

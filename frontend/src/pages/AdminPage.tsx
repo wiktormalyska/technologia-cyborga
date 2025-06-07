@@ -123,7 +123,7 @@ export const AdminPage = () => {
 
                     <div className={`max-h-[56vh] ${
                         userCount > 6
-                            ? "overflow-y-auto pr-5 scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full"
+                            ? "overflow-y-auto pr-5 custom-scrollbar"
                             : ""
                         }`}
                     >

@@ -116,7 +116,7 @@ export const RankingsPage = () => {
                     <h2 className="text-2xl font-semibold text-white mb-3">
                         {isSearching ? "Search Results" : "Top scores"}
                     </h2>
-                    <div className="max-h-[56vh] overflow-y-auto pr-5 scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full">
+                    <div className="max-h-[56vh] overflow-y-auto pr-5 custom-scrollbar">
                         <div className="flex flex-col gap-4">
                             {isSearching ? showFoundUsers() : showUserList()}
                         </div>

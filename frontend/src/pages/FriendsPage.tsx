@@ -195,7 +195,7 @@ export const FriendsPage = () => {
                         </h2>
                     )}
 
-                    <div className="max-h-[56vh] overflow-y-auto pr-5 scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full">
+                    <div className="max-h-[56vh] overflow-y-auto pr-5 custom-scrollbar">
                         <div className="flex flex-col gap-4">
                             {isSearching ? showFoundUsers() : showFriendList()}
                         </div>

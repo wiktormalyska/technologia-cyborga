@@ -46,10 +46,7 @@ const Navbar = () => {
                     <p className={"pl-2 text-text text-xl tracking-wide"}>Cyborg App</p>
                 </div>
             </div>
-            <div className={"w-full flex flex-col gap-5 p-5 overflow-y-auto " +
-                "scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full " +
-                "scrollbar-track-primary/10 scrollbar-track-rounded-full"
-            }>
+            <div className={"w-full flex flex-col gap-5 p-5 overflow-y-auto custom-scrollbar"}>
                 {menuOptions.filter(option => {
                     return option.name !== 'Admin Panel' || showAdmin}
                 ).map((option, index) => (

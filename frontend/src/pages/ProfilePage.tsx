@@ -250,7 +250,7 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
                             className={
                                 "max-h-[130px] " + (
                                     allEmojis.length > 24
-                                        ? "overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full"
+                                        ? "overflow-y-auto pr-2 custom-scrollbar"
                                         : ""
                                 )
                             }
@@ -274,7 +274,7 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
                                     className={
                                         "max-h-[130px] " + (
                                             allEmojis.length > 24
-                                                ? "overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full"
+                                                ? "overflow-y-auto pr-2 custom-scrollbar"
                                                 : ""
                                         )
                                     }
