@@ -46,7 +46,10 @@ const Navbar = () => {
                     <p className={"pl-2 text-text text-xl tracking-wide"}>Cyborg App</p>
                 </div>
             </div>
-            <div className={"w-full flex flex-col gap-5 p-5 justify-center "}>
+            <div className={"w-full flex flex-col gap-5 p-5 overflow-y-auto " +
+                "scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full " +
+                "scrollbar-track-primary/10 scrollbar-track-rounded-full"
+            }>
                 {menuOptions.filter(option => {
                     return option.name !== 'Admin Panel' || showAdmin}
                 ).map((option, index) => (
@@ -65,9 +68,7 @@ const Navbar = () => {
                     </Link>
                 ))}
             </div>
-            <div className={"flex items-center flex-col content-center " +
-                "justify-end flex-nowrap font-bold h-full w-full " +
-                "p-5"}>
+            <div className={"mt-auto w-full p-5"}>
                 <Link className={"w-full flex flex-col justify-center items-center " +
                     "bg-primary/10 hover:bg-primary/20 duration-200 transition-all " +
                     "rounded-lg " +

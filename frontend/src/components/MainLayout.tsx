@@ -6,9 +6,12 @@ import {Outlet} from "react-router-dom";
 
 const MainLayout = () => (
     <div className={"flex flex-col h-full"}>
-        <div className={"flex h-full bg-background"}>
+        <div className={"flex flex-1 overflow-y-auto bg-background"}>
                 <Navbar />
-            <div className={"p-4 bg-background w-full flex justify-center"}>
+            <div className={"p-4 flex-1 overflow-y-auto bg-background w-full flex justify-center " +
+                "scrollbar scrollbar-thumb-primary scrollbar-thumb-rounded-full " +
+                "scrollbar-track-primary/10 scrollbar-track-rounded-full"
+            }>
                 <Outlet />
             </div>
         </div>
