@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -120,10 +121,11 @@ public class UserController {
     }
 
     @GetMapping("{id}/points")
-    public ResponseEntity<Integer> getUserPoints(@PathVariable("id") Long id) {
+    public ResponseEntity<Map<String, Integer>> getUserPoints(@PathVariable("id") Long id) {
         try {
             int points = userService.getUserPoints(id);
-            return ResponseEntity.ok(points);
+            Map<String, Integer> pointsMap = Map.of("points", points);
+            return ResponseEntity.ok(pointsMap);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
