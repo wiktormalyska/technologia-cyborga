@@ -31,13 +31,17 @@ export const APIEndpoints: {
         getProfileImage: Endpoint
         updateProfilePicture: Endpoint
         getPoints: Endpoint
+        addPoints: Endpoint
     }
     chats: {
         getAll: Endpoint
         getByUserId: Endpoint
+        getRecipientsByUserId: Endpoint
+        getMessagesByChatId: Endpoint
         getChatBetweenUsers: Endpoint
         createChat: Endpoint
         deleteChat: Endpoint
+        sendMessage: Endpoint
     }
     friends: {
         acceptRequest: Endpoint
@@ -109,6 +113,10 @@ export const APIEndpoints: {
         getPoints: {
             url: "api/users",
             method: HttpRequestMethods.GET,
+        },
+        addPoints: {
+            url: "api/users",
+            method: HttpRequestMethods.POST,
         }
     },
     chats: {
@@ -117,12 +125,20 @@ export const APIEndpoints: {
             method: HttpRequestMethods.GET,
         },
         getByUserId: {
-            url: "api/chats",
+            url: "api/chats/userChats",
             method: HttpRequestMethods.GET,
+        },
+        getRecipientsByUserId: {
+            url: "api/chats/recipients",
+            method: HttpRequestMethods.GET
+        },
+        getMessagesByChatId: {
+            url: "api/chats",
+            method: HttpRequestMethods.GET
         },
         getChatBetweenUsers: {
             url: "api/chats/getChat",
-            method: HttpRequestMethods.GET,
+            method: HttpRequestMethods.POST,
         },
         createChat: {
             url: "api/chats/createChat",
@@ -131,6 +147,10 @@ export const APIEndpoints: {
         deleteChat: {
             url: "api/chats",
             method: HttpRequestMethods.DELETE,
+        },
+        sendMessage: {
+            url: "api/chats",
+            method: HttpRequestMethods.POST,
         },
     },
     friends: {
@@ -190,5 +210,5 @@ export const APIEndpoints: {
             url: "api/emojis",
             method: HttpRequestMethods.GET
         }
-    }
+    },
 }

@@ -94,7 +94,7 @@ export const RegisterForm = ({ onSuccess, initialMessage }: RegisterFormProps) =
                 <button
                     type="submit"
                     disabled={isPending}
-                    className="bg-primary/75 text-text p-2 w-full rounded-xl hover:bg-purple-600 transition-colors duration-300"
+                    className="bg-primary/75 text-text p-2 w-full rounded-xl hover:bg-purple-600 hover:cursor-pointer transition-colors duration-300"
                 >
                     {isPending ? "Registering..." : "Register"}
                 </button>

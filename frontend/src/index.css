@@ -12,6 +12,14 @@ a {
     color: var(--color-text);
 }
 
+.custom-scrollbar {
+    @apply scrollbar-thin scrollbar-thumb-primary scrollbar-track-primary/10;
+}
+
+.custom-scrollbar-wide {
+    @apply scrollbar scrollbar-thumb-primary scrollbar-track-primary/10
+}
+
 @theme {
     --color-text: #e7e7f9;
     --color-background: #040411;

@@ -54,4 +54,9 @@ export const useGetUserPoints = () => {
 
     // Assuming usePathParams returns { data, isLoading, error }
     return usePathParams("getPoints-users", endpoint, postPathParamUrl);
+}
+
+export const useAddUserPoints = () => {
+    const endpoint = APIEndpoints.users.addPoints;
+    return usePathParams("addUserPoints", endpoint, "/points");
 };

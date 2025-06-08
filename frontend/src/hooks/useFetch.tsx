@@ -45,7 +45,13 @@ export const usePathParams = (key: string, apiEndpoint: Endpoint, postParamUrl?:
 
     return useMutation({
         mutationKey: [key, apiEndpoint.url+postParamUrl, apiEndpoint.method],
-        mutationFn: ({param, body}: mutationParams) => fetchData(apiEndpoint.url+"/"+param, apiEndpoint.method, token || "", body),
+        mutationFn: ({param = "", body}: mutationParams) =>
+            fetchData(
+                apiEndpoint.url + "/" + param + (postParamUrl ?? ""),
+                apiEndpoint.method,
+                token || "",
+                body
+            ),
     });
 };
 

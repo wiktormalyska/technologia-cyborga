@@ -12,6 +12,7 @@ import {IconType} from "react-icons";
 import {FaPlayCircle, FaPlusCircle} from "react-icons/fa";
 import { Chat } from "../components/Chat";
 import {useAddFriend} from "../hooks/useFriends";
+import {useCreateChat} from "../hooks/useChats";
 
 interface ProfilePagePropsType {
     isFriend?: boolean | false;
@@ -24,6 +25,8 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
     //const { data: points, isPending: isPointsPending, error: pointsError } = useGetUserPoints({ param: "1" });
 
     const {decodedToken} = useAuth()
+    const currentUserID = decodedToken.userID;
+
     const { mutate: getUserPoints, isPending: isPointsPending, data: pointsData, error: pointsError } = useGetUserPoints();
 
     const [lockedEmojis, setLockedEmojis] = useState<string[]>([]);
@@ -31,8 +34,6 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
     const { mutate: getAllEmojis } = useGetAllEmojis();
 
     const [user, setUser] = useState<userDto>()
-
-    const [isChatOpen, setIsChatOpen] = useState(false);
 
     const [emojis, setEmojis] = useState<{id: number, emoji: string }[]>([]);
 
@@ -43,6 +44,32 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
     const { mutate: addFriend} = useAddFriend()
 
     const targetUserId = isFriend && friendID ? friendID.toString() : decodedToken.userID.toString();
+
+    const [isChatOpen, setIsChatOpen] = useState(false);
+
+    const {
+        mutate: createChat,
+        data: chatData
+    } = useCreateChat()
+
+    const handleCreateChat = (otherUserId: string) => {
+        if (!currentUserID) return;
+
+        createChat({
+            body: {
+                user1Id: currentUserID,
+                user2Id: otherUserId
+            }
+        }, {
+            onSuccess: () => {
+                console.log("Created chat");
+                setIsChatOpen(true);
+            },
+            onError: (err) => {
+                console.error("Error creating chat:", err);
+            }
+        });
+    }
 
     useEffect(() => {
         getUserEmojis(
@@ -132,7 +159,7 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
         {
             name: "Message",
             icon: FaMessage,
-            onClick: () => setIsChatOpen(true),
+            onClick: () => handleCreateChat(targetUserId),
         },
         {
             name: "Trade",
@@ -178,8 +205,11 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
                         actions.map(action => {
                             return (
                                 <div key={action.name}
-                                     className={"p-1 cursor-pointer text-text flex flex-col items-center text-center"}
-                                     onClick={action.onClick}>
+                                     className={"p-2 w-[80px] h-[80px] hover:bg-secondary/50 hover:cursor-pointer " +
+                                         "text-text flex flex-col items-center text-center rounded-xl " +
+                                         "transition-all duration-150"}
+                                     onClick={action.onClick}
+                                >
                                     <div
                                         className={"text-lg bg-secondary w-[40px] h-[40px] rounded-full items-center justify-center flex"}>
                                         {React.createElement(action.icon)}
@@ -199,7 +229,7 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
                 </div>
                 <div className={"flex flex-col gap-5"}>
                     <div className={"bg-secondary/60 border-r-2 box-border rounded-2xl p-5"}>
-                        <div className={"text-2xl text-text mb-1.5 text-center"}>
+                        <div className={"text-xl text-text mb-2.5 text-center"}>
                             Badges
                         </div>
                         <div className={"flex gap-1 flex-wrap justify-center"}>
@@ -215,12 +245,12 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
                     </div>
 
                     <div className="bg-secondary/60 border-r-2 box-border rounded-2xl p-5">
-                        <div className="text-2xl text-text mb-1.5 text-center">Unlocked emoji</div>
+                        <div className="text-xl text-text mb-2.5 text-center">Unlocked emoji</div>
                         <div
                             className={
-                                "max-h-[130px] mb-4 " + (
+                                "max-h-[130px] " + (
                                     allEmojis.length > 24
-                                        ? "overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full"
+                                        ? "overflow-y-auto pr-2 custom-scrollbar"
                                         : ""
                                 )
                             }
@@ -239,12 +269,12 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
 
                         {lockedEmojis.length > 0 && (
                             <>
-                                <div className="text-2xl text-text/60 mb-1.5 text-center">Locked emoji</div>
+                                <div className="text-xl text-text/60 mb-2.5 text-center">Locked emoji</div>
                                 <div
                                     className={
                                         "max-h-[130px] " + (
                                             allEmojis.length > 24
-                                                ? "overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-primary/10 scrollbar-track-rounded-full"
+                                                ? "overflow-y-auto pr-2 custom-scrollbar"
                                                 : ""
                                         )
                                     }
@@ -270,7 +300,7 @@ export const ProfilePage = ({isFriend, friendID}: ProfilePagePropsType) => {
 
                 </div>
             </div>
-            {isChatOpen && <Chat onClose={() => setIsChatOpen(false)}/>}
+            {isChatOpen && <Chat onClose={() => setIsChatOpen(false)} chatData={chatData}/>}
         </BasePage>
     );
 };

@@ -65,7 +65,7 @@ export const useCurrentUser = () => {
             username: decodedToken?.sub,
             roles: decodedToken?.authorities
         } : null,
-        isAdmin: decodedToken?.authorities && decodedToken.authorities.indexOf("ADMIN") !== -1 || false,
+        isAdmin: decodedToken?.userRoles && decodedToken.userRoles.indexOf("ADMIN") !== -1 || false,
         isLoading: false,
         isAuthenticated
     };

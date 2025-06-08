@@ -1,5 +1,6 @@
 package ovh.wiktormalyska.backend.controller;
 
+import ovh.wiktormalyska.backend.dto.MessageDto;
 import ovh.wiktormalyska.backend.model.Message;
 import ovh.wiktormalyska.backend.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,13 @@ public class MessageController {
     }
 
     @PostMapping
-    public ResponseEntity<Message> createMessage(@RequestParam String content, @RequestParam Long senderId, @RequestParam Long chatId) {
+    public ResponseEntity<Message> createMessage(@RequestBody MessageDto messageDto) {
         try {
-            Message message = messageService.createMessage(content, senderId, chatId);
+            Message message = messageService.createMessage(
+                    messageDto.getContent(),
+                    messageDto.getSenderId(),
+                    messageDto.getChatId()
+            );
             return ResponseEntity.ok(message);
         }
         catch (IllegalArgumentException e) {
